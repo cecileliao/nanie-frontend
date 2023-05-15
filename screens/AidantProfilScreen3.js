@@ -20,7 +20,7 @@ import React, { useState } from 'react';
       {
         image: require('../assets/music-solid.png'),
         title: 'Divertissement',
-        description: 'Accompagner la personne dans la lecture, les jeux de cartes ou de société, ...',
+        description: 'Accompagner la personne dans la lecture, les jeux de cartes, les activités artistiques ...',
       },
     ];
     
@@ -43,7 +43,13 @@ import React, { useState } from 'react';
             <View style={styles.block} key={index}>
               <View style={styles.blockContent}>
                 <View style={styles.image}>
-                  <Image source={block.image} style={styles.image} />
+                  <Image
+                    source={block.image}
+                    style={[
+                      styles.image,
+                      { tintColor: switchesState[index] ? '#5ABAB6' : '#868686' },
+                    ]}
+                  />
                 </View>
                 <View style={styles.textContainer}>
                   <View style={styles.titleContainer}>
@@ -51,7 +57,7 @@ import React, { useState } from 'react';
                     <Switch
                       style={styles.toggle}
                       trackColor={{ false: '#D9D9D9', true: '#5ABAB6' }}
-                      thumbColor={switchesState[index] ? '#fffff' : '#f4f3f4'}
+                      thumbColor={switchesState[index] ? '#FFFFF' : '#F4F3F4'}
                       onValueChange={() => toggleSwitch(index)}
                       value={switchesState[index]}
                     />
