@@ -11,8 +11,8 @@ import AidantMissionScreen from "./screens/AidantMissionScreen";
 import AidantRechercheScreen from "./screens/AidantRechercheScreen";
 import AidantProfilScreen1 from "./screens/AidantProfilScreen1";
 
-//ajout font Recoleta
-import { useCallback, useEffect, useState } from "react";
+//ajout des modules pour importer les fonts
+import { useEffect } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
