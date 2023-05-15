@@ -1,7 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 
+
+
 export default function HomeScreen({ navigation }) {
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Nanie</Text>
@@ -23,6 +26,7 @@ const styles = StyleSheet.create({
         width: '80%',
         fontSize: 38,
         fontWeight: '600',
+        fontFamily:'Recoleta'
       },
 
     });

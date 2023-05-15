@@ -1,4 +1,4 @@
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, View,Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -9,9 +9,12 @@ import AidantMissionScreen from './screens/AidantMissionScreen';
 import AidantRechercheScreen from './screens/AidantRechercheScreen';
 import AidantProfilScreen1 from './screens/AidantProfilScreen1'
 
+//ajout font Recoleta
+import { useCallback, useEffect,useState } from 'react';
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
 const TabNavigator = () => {
   return (
     <Tab.Navigator
@@ -54,6 +57,28 @@ const TabNavigator = () => {
 };
 
 export default function App() {
+  
+const [loading,setLoading] = useState(false);
+
+  const [isLoaded] = Font.loadAsync({
+    'Recoleta':require('./assets/fonts/Recoleta.ttf')
+  });
+  
+
+  // useEffect(async()=>{
+  //   await Font.loadAsync({
+  //   'Recoleta':require('./assets/fonts/Recoleta.ttf')
+  //   })
+
+  //   setLoading(true)
+
+  // },[isLoaded])
+ 
+
+
+  if (!isLoaded) {
+    return null;
+  }
   return (
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
