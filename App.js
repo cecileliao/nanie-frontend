@@ -6,6 +6,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import HomeScreen from "./screens/HomeScreen";
+import ConnexionScreen from "./screens/ConnexionScreen";
+import InscriptionScreen from "./screens/InscriptionScreen";
 import AidantMessageScreen from "./screens/AidantMessageScreen";
 import AidantMissionScreen from "./screens/AidantMissionScreen";
 import AidantRechercheScreen from "./screens/AidantRechercheScreen";
@@ -80,6 +82,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Connexion" component={ConnexionScreen} />
+        <Stack.Screen name="Inscription" component={InscriptionScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
