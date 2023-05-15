@@ -1,36 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from './screens/HomeScreen';
+import AidantMessageScreen from './screens/AidantMessageScreen';
+import AidantMissionScreen from './screens/AidantMissionScreen';
+import AidantRechercheScreen from './screens/AidantRechercheScreen';
+import AidantProfilScreen1 from './screens/AidantProfilScreen1'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator screenOptions={({ route }) => ({
-      tabBarIcon: ({ color, size }) => {
-        let iconName = '';
+    <Tab.Navigator
+  screenOptions={({ route }) => ({
+    tabBarIcon: ({ color, size }) => {
+      if (route.name === 'Mission') {
+        return (
+          <Image
+            source={require('./assets/iconMissionGrey.png')}
+            style={{ width: size*0.8, height: size, tintColor: color }}
+          />
+        );
+      }
 
-        if (route.name === 'AidantRecherche') {
-          iconName = 'magnifying-glass';
-        } else if (route.name === 'AidantMessage') {
-          iconName = 'map-pin';
-        }
+      let iconName = '';
 
-        return <FontAwesome name={iconName} size={size} color={color} />;
-      },
-      tabBarActiveTintColor: '#5ABAB6',
-      tabBarInactiveTintColor: '#B4B4B4',
-      headerShown: false,
-    })}>
-      <Tab.Screen name="recherche" component={AidantRechercheScreen} />
-      <Tab.Screen name="message" component={AidantMessageScreen} />
-      <Tab.Screen name="mission" component={AidantMissionScreen} />
-      <Tab.Screen name="profil" component={AidantProfilScreen} />
+      if (route.name === 'Recherche') {
+        iconName = 'search';
+      } else if (route.name === 'Message') {
+        iconName = 'envelope';
+      } else if (route.name === 'Profil') {
+        iconName = 'user';
+      }
+
+      return (
+        <FontAwesome name={iconName} size={size} color={color} />
+      );
+    },
+    tabBarActiveTintColor: '#5ABAB6',
+    tabBarInactiveTintColor: '#B4B4B4',
+    headerShown: false,
+  })}>
+
+      <Tab.Screen name="Recherche" component={AidantRechercheScreen} />
+      <Tab.Screen name="Message" component={AidantMessageScreen} />
+      <Tab.Screen name="Mission" component={AidantMissionScreen} />
+      <Tab.Screen name="Profil" component={AidantProfilScreen1} />
     </Tab.Navigator>
   );
 };
