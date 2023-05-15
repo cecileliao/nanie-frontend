@@ -1,53 +1,54 @@
-import { StyleSheet, Image, View,Text } from 'react-native';
+import { StyleSheet } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import HomeScreen from './screens/HomeScreen';
-import AidantMessageScreen from './screens/AidantMessageScreen';
-import AidantMissionScreen from './screens/AidantMissionScreen';
-import AidantRechercheScreen from './screens/AidantRechercheScreen';
-import AidantProfilScreen1 from './screens/AidantProfilScreen1'
+import { Image } from 'react-native';
+
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import HomeScreen from "./screens/HomeScreen";
+import AidantMessageScreen from "./screens/AidantMessageScreen";
+import AidantMissionScreen from "./screens/AidantMissionScreen";
+import AidantRechercheScreen from "./screens/AidantRechercheScreen";
+import AidantProfilScreen1 from "./screens/AidantProfilScreen1";
 
 //ajout font Recoleta
-import { useCallback, useEffect,useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
+import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-  screenOptions={({ route }) => ({
-    tabBarIcon: ({ color, size }) => {
-      if (route.name === 'Mission') {
-        return (
-          <Image
-            source={require('./assets/iconMissionGrey.png')}
-            style={{ width: size*0.8, height: size, tintColor: color }}
-          />
-        );
-      }
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          if (route.name === "Mission") {
+            return (
+              <Image
+                source={require("./assets/iconMissionGrey.png")}
+                style={{ width: size * 0.8, height: size, tintColor: color }}
+              />
+            );
+          }
 
-      let iconName = '';
+          let iconName = "";
 
-      if (route.name === 'Recherche') {
-        iconName = 'search';
-      } else if (route.name === 'Message') {
-        iconName = 'envelope';
-      } else if (route.name === 'Profil') {
-        iconName = 'user';
-      }
+          if (route.name === "Recherche") {
+            iconName = "search";
+          } else if (route.name === "Message") {
+            iconName = "envelope";
+          } else if (route.name === "Profil") {
+            iconName = "user";
+          }
 
-      return (
-        <FontAwesome name={iconName} size={size} color={color} />
-      );
-    },
-    tabBarActiveTintColor: '#5ABAB6',
-    tabBarInactiveTintColor: '#B4B4B4',
-    headerShown: false,
-  })}>
-
+          return <FontAwesome name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: "#5ABAB6",
+        tabBarInactiveTintColor: "#B4B4B4",
+        headerShown: false,
+      })}
+    >
       <Tab.Screen name="Recherche" component={AidantRechercheScreen} />
       <Tab.Screen name="Message" component={AidantMessageScreen} />
       <Tab.Screen name="Mission" component={AidantMissionScreen} />
@@ -57,43 +58,39 @@ const TabNavigator = () => {
 };
 
 export default function App() {
-  
-const [loading,setLoading] = useState(false);
-
-  const [isLoaded] = Font.loadAsync({
-    'Recoleta':require('./assets/fonts/Recoleta.ttf')
+  const [fontsLoaded] = useFonts({
+    Recoleta: require("./assets/fonts/Recoleta.ttf"),
+    RecoletaBold: require("./assets/fonts/RecoletaAlt-Bold.ttf"),
   });
-  
 
-  // useEffect(async()=>{
-  //   await Font.loadAsync({
-  //   'Recoleta':require('./assets/fonts/Recoleta.ttf')
-  //   })
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
 
-  //   setLoading(true)
-
-  // },[isLoaded])
- 
-
-
-  if (!isLoaded) {
-    return null;
+  if (!fontsLoaded) {
+    return undefined;
+  } else {
+    SplashScreen.hideAsync();
   }
+
   return (
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="TabNavigator" component={TabNavigator} />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="TabNavigator" component={TabNavigator} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
