@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Dimensions,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -9,42 +10,47 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateEmail } from '../reducers/user';
+// import BouncyCheckbox from "react-native-bouncy-checkbox";
+
+// import { useDispatch, useSelector } from 'react-redux';
+// import { updateEmail } from '../reducers/user';
 
 // Grabbed from emailregex.com
-const EMAIL_REGEX: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
-export default function HomeScreen({ navigation }) {
-  const dispatch = useDispatch();
-  const user = useSelector((state: { user }) => state.user.value);
+export default function InscriptionScreen({ navigation }) {
+  // const dispatch = useDispatch();
+  // const user = useSelector((state) => state.user.value);
 
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState(false);
-
-  useEffect(() => {
-    if(user.email){
-      navigation.navigate('TabNavigator', { screen: 'Gallery' });
-    }
-  }, []);
+  const [password, setPassword] = useState('');
+  // useEffect(() => {
+  //   if(user.email){
+  //     navigation.navigate('TabNavigator', { screen: 'Message' });
+  //   }
+  // }, []);
 
   const handleSubmit = () => {
     if (EMAIL_REGEX.test(email)) {
       dispatch(updateEmail(email));
-      navigation.navigate('TabNavigator', { screen: 'Gallery' });
+      navigation.navigate('TabNavigator', { screen: 'Profil' });
     } else {
       setEmailError(true);
     }
   };
 
-  return (
-    <ImageBackground source={require('../assets/background.jpg')} style={styles.background}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-        <Image style={styles.image} source={require('../assets/camera.png')} />
-        <Text style={styles.title}>FaceUp</Text>
+  const [checked, setChecked] = useState(false);
 
-        <View style={styles.inputContainer}>
+  const handleToggle = () => {
+    setChecked(!checked);
+  };
+
+  return (
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+      <View style={styles.container}>
+        <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
           <TextInput
             placeholder="Email"
             autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
@@ -55,42 +61,66 @@ export default function HomeScreen({ navigation }) {
             value={email}
             style={styles.input}
           />
-
           {emailError && <Text style={styles.error}>Invalid email address</Text>}
-
-          <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-            <Text style={styles.textButton}>Go to gallery</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </ImageBackground>
+          <TextInput
+            placeholder="Mot de passe"
+            onChangeText={(value) => setPassword(value)}
+            value={password}
+            style={styles.input}
+          />
+          {/* <CheckBox
+            title='Parent'
+            checked={checked}
+            onPress={handleToggle}
+            checkedColor='#5ABAB6' // Couleur lorsque la case est cochée
+            uncheckedColor='white' // Couleur lorsque la case n'est pas cochée
+          />
+          <CheckBox
+            title='Aidant'
+            checked={checked}
+            onPress={handleToggle}
+            checkedColor='#5ABAB6' // Couleur lorsque la case est cochée
+            uncheckedColor='white' // Couleur lorsque la case n'est pas cochée
+          />
+          <BouncyCheckbox onPress={(isChecked: boolean) => {}} /> */}
+        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+          <Text style={styles.textButton}>Connexion</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
-  background: {
-    width: '100%',
-    height: '100%',
-  },
   container: {
     flex: 1,
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(	255, 190, 11, 0.4)'
   },
   image: {
-    width: '100%',
-    height: '50%',
+    width: windowWidth * 0.7,
+    resizeMode: 'contain',
   },
-  title: {
-    fontSize: 40,
-    fontWeight: '600',
-    fontFamily: 'Futura',
-    marginBottom: 20
+  button: {
+    backgroundColor: '#785C83',
+    width: windowWidth * 0.4,
+    margin: 20,
+    borderRadius: '5%',
+    padding: 10,
+    alignItems: 'center',
+  },
+  textButton: {
+    // fontFamily: 'Manrope',
+    fontSize: 15,
+    color: 'white',
   },
   inputContainer: {
-    width: '85%',
-    backgroundColor: "#ffffff",
+    width: windowWidth * 0.4,
+    backgroundColor: "white",
     padding: 30,
     borderRadius: 1,
   },
@@ -98,20 +128,6 @@ const styles = StyleSheet.create({
     width: '100%',
     borderBottomColor: '#000000',
     borderBottomWidth: 1,
-    fontSize: 16,
-  },
-  button: {
-    alignItems: 'center',
-    paddingTop: 8,
-    width: '100%',
-    marginTop: 30,
-    backgroundColor: '#fbe29c',
-    borderRadius: 1,
-  },
-  textButton: {
-    fontFamily: 'Futura',
-    height: 30,
-    fontWeight: '600',
     fontSize: 16,
   },
   error: {
