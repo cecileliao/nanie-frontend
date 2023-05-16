@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
-import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image, Button } from 'react-native'
-import DropDownPicker from 'react-native-dropdown-picker';
-import * as ImagePicker from "expo-image-picker";
+import { View, Text } from 'react-native'
+import React from 'react'
 
 export default function AidantMissionScreen() {
   //photo de profil
@@ -160,99 +158,8 @@ export default function AidantMissionScreen() {
       {/* Bouton suivant */}
       <View style={styles.buttoncontainer}>
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Suivant</Text>
-      </TouchableOpacity>
-      </View>
-
+            <Text style={styles.buttonText}>Suivant</Text>
+          </TouchableOpacity>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
-    },
-    imageProfil: {
-      flexDirection: "row",
-      alignItems:"center",
-    },
-    input: {
-      width: 250,
-      height:26,
-      borderBottomColor: '#5ABAB6',
-      borderBottomWidth: 1,
-    },
-    smallinput: {
-      width: 70,
-      height:26,
-      borderBottomColor: '#5ABAB6',
-      borderBottomWidth: 1,
-      marginLeft: 25,
-      marginRight: 15
-    },
-    codePostal:  {
-      width: 50,
-      height:26,
-      borderBottomColor: '#5ABAB6',
-      borderBottomWidth: 1,
-      marginLeft: 25,
-      marginRight: 25
-    },
-    city:  {
-      width: 120,
-      height:26,
-      borderBottomColor: '#5ABAB6',
-      borderBottomWidth: 1,
-      marginLeft: 15,
-      marginRight: 15
-    },
-    containerInput: {
-      fontSize: 13,
-      flexDirection: "row",
-      alignItems:"center",
-      justifyContent: "space-between",
-      marginLeft:20,
-      marginRight:25,
-      marginBottom:25,
-    },
-    tarifcontainerInput: {
-      fontSize: 13,
-      flexDirection: "row",
-      alignItems:"center",
-      marginLeft:20,
-      marginRight:25,
-      marginBottom:25,
-    },
-    doubleInput: {
-      flexDirection: "row",
-      marginLeft:20,
-      marginRight:25,
-      marginBottom:25,
-    },
-    smallcontainerInput: {
-      flexDirection: "row",
-      alignItems:"center", 
-    },
-    title: {
-      fontFamily: "Recoleta",
-      fontSize: 20,
-      color: "#785C83",
-      marginLeft: 20,
-      marginBottom: 20
-    },
-    buttoncontainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    button: {
-      backgroundColor: '#5ABAB6',
-      padding: 10,
-      borderRadius: 8,
-      width: 120,
-    },
-    buttonText: {
-      color: 'white',
-      textAlign: "center",
-  },
-    })
