@@ -160,6 +160,7 @@ export default function AidantMissionScreen() {
         />
       </View>
 
+      {/* Bouton suivant */}
       <View style={styles.buttoncontainer}>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Suivant</Text>
@@ -174,11 +175,9 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#ffffff',
-      justifyContent: 'center',
     },
     imageProfil: {
       flexDirection: "row",
-      justifyContent: 'center',
       alignItems:"center",
     },
     input: {
@@ -242,7 +241,8 @@ const styles = StyleSheet.create({
       fontFamily: "Recoleta",
       fontSize: 20,
       color: "#785C83",
-      marginLeft: 20
+      marginLeft: 20,
+      marginBottom: 20
     },
     buttoncontainer: {
       alignItems: 'center',
