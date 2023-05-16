@@ -13,8 +13,8 @@ import AidantMessageScreen from "./screens/AidantMessageScreen";
 import AidantMissionScreen from "./screens/AidantMissionScreen";
 import AidantMissionScreen2 from "./screens/AidantMissionScreen2";
 import AidantRechercheScreen from "./screens/AidantRechercheScreen";
-import AidantProfilScreen1 from "./screens/AidantProfilScreen3";
-import AidantProfilScreen2 from "./screens/AidantProfilScreen3";
+import AidantProfilScreen1 from "./screens/AidantProfilScreen1";
+import AidantProfilScreen2 from "./screens/AidantProfilScreen2";
 import AidantProfilScreen3 from "./screens/AidantProfilScreen3";
 //ajout des modules pour importer les fonts
 import { useEffect } from "react";

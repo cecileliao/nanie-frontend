@@ -4,7 +4,7 @@ const initialState = {
     value: { 
       token: null, 
       email: null, 
-      selectedImageAidant: null,
+      photoAidant: null,
       nameAidant: null,
       firstNameAidant: null,
       phoneAidant: null,
@@ -13,8 +13,8 @@ const initialState = {
       addressAidant: null,
       zipAidant: null,
       cityAidant: null,
-      ratebyHourAidant: null,
-      carAidant: null,
+      ratebyHour: null,
+      car: false,
       introBioAidant: null,
       longBioAidant: null,
       abilitiesAidant: null,
@@ -33,8 +33,8 @@ reducers: {
     state.value.token = null;
     state.value.email = null;
     },
-    updateAidant: (state) => {
-      state.value.selectedImageAidant = action.payload.selectedImageAidant;
+    updateAidant: (state, action) => {
+      state.value.photoAidant = action.payload.photoAidant;
       state.value.nameAidant = action.payload.nameAidant;
       state.value.firstNameAidant = action.payload.firstNameAidant;
       state.value.phoneAidant = action.payload.phoneAidant;

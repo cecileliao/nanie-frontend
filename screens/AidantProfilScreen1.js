@@ -5,11 +5,12 @@ import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image, But
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from "expo-image-picker";
 
-export default function AidantProfilScreen1() {
+export default function AidantProfilScreen1({ navigation }) {
 
 
   //photo de profil
-  const [selectedImageAidant, setSelectedImageAidant] = useState(null);
+  const [photoAidant, setphotoAidant] = useState("");
+  //console.log(photoAidant)
 
   //text rempli
   //nom de l'aidant
@@ -51,10 +52,10 @@ export default function AidantProfilScreen1() {
       aspect: [4, 3],
       quality: 1,
     });
+    //console.log(result.assets[0].uri)
     // check if user canceled the image selection // selectedImage state updated with uri
     if (!result.canceled) {
-      setSelectedImageAidant(result.assets[0].uri);
-      getUserPictures(result.assets[0].uri);
+      setphotoAidant(result.uri);
     }
   };
 
@@ -65,7 +66,7 @@ export default function AidantProfilScreen1() {
 
     const handleNext = () => {
       dispatch(updateAidant(
-        selectedImageAidant,
+        photoAidant,
         nameAidant,
         firstNameAidant,
         phoneAidant,
@@ -74,13 +75,9 @@ export default function AidantProfilScreen1() {
         addressAidant,
         zipAidant,
         cityAidant,
-        ratebyHourAidant,
-        carAidant,
-        introBioAidant,
-        longBioAidant,
-        abilitiesAidant,
-       ));
-      console.log(dispatch(updateAidant))
+        ratebyHour,
+        car,
+      ));
       navigation.navigate('AidantProfilScreen2');
     };
 
@@ -93,7 +90,7 @@ export default function AidantProfilScreen1() {
 
       <View style={styles.imageProfil}>
         <TouchableOpacity onPress={handleImageUpload}>
-      <Image source={selectedImageAidant ? { uri: selectedImageAidant } : require("../assets/userPicture.png")}
+      <Image source={photoAidant ? { uri: photoAidant } : require("../assets/userPicture.png")}
             style={{ width: 96, height: 96, margin: 20 }} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImageUpload}>

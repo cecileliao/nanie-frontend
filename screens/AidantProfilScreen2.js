@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native'
+import { useDispatch } from 'react-redux';
+import { updateAidant } from '../reducers/users';
+import { Dimensions, TouchableOpacity, View, Text, TextInput, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
 
-export default function AidantProfilScreen2() {
+export default function AidantProfilScreen2({ navigation }) {
 
   //text rempli
   //phrase intro de l'aidant
@@ -39,9 +41,28 @@ useEffect(() => {
 }, [abilitiesAidant]);
 
 
+//récupération info user au moment d'appuyer sur le bouton suivant
+const dispatch = useDispatch();
+
+const handleNext = () => {
+  dispatch(updateAidant(
+    introBioAidant,
+    longBioAidant,
+    abilitiesAidant,
+  ));
+  console.log(dispatch(updateAidant(
+    introBioAidant,
+    longBioAidant,
+    abilitiesAidant,
+  )));
+  navigation.navigate('AidantProfilScreen3');
+};
+
+
+
   return (
-<View style={styles.container} >
- <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+
+ <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
 
     {/* Phrase intro */}
    
@@ -98,15 +119,19 @@ useEffect(() => {
        
         {/* Bouton suivant */}
       <View style={styles.buttoncontainer}>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Suivant</Text>
       </TouchableOpacity>
       </View>
 
  </KeyboardAvoidingView>
-</View>
+
   )
 }
+    //mise en place méthode Dimension pour mettre en % pour faire fonctionner le KeyboardAvoidingView
+    const windowHeight = Dimensions.get('window').height;
+    const windowWidth = Dimensions.get('window').width;
+
 
 const styles = StyleSheet.create({
     container: {
@@ -114,8 +139,8 @@ const styles = StyleSheet.create({
       backgroundColor: '#ffffff',
     },
     input: {
-      width: 338,
-      height:77,
+      width: windowWidth * 0.88,
+      height:windowWidth * 0.20,
       borderColor: '#5ABAB6',
       borderWidth: 1,
       borderRadius: 5,
@@ -126,8 +151,8 @@ const styles = StyleSheet.create({
       marginBottom:25,
     },
     longinput: {
-        width: 338,
-        height:180,
+        width: windowWidth * 0.88,
+        height: windowHeight * 0.21,
         borderColor: '#5ABAB6',
         borderWidth: 1,
         borderRadius: 5,
@@ -171,7 +196,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#5ABAB6',
       padding: 10,
       borderRadius: 8,
-      width: 120,
+      width: windowWidth * 0.25,
     },
     buttonText: {
       color: 'white',
