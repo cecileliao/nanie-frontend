@@ -76,7 +76,6 @@ export default function InscriptionScreen({ navigation }) {
             uncheckedColor='white' // Couleur lorsque la case n'est pas cochée
           />
           <CheckBox
-            title='Aidant'
             checked={checked}
             onPress={handleToggle}
             checkedColor='#5ABAB6' // Couleur lorsque la case est cochée
