@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image } from 'react-native'
+import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image, Button } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
+import * as ImagePicker from "expo-image-picker";
 
 export default function AidantMissionScreen() {
+  //photo de profil
+  const [selectedImage, setSelectedImage] = useState(null);
 
   //text rempli
   //nom de l'aidant
@@ -36,17 +39,36 @@ export default function AidantMissionScreen() {
   //toggle pour le permis
   const [car, setcar] = useState(false);
 
+  //Image upload
+  const handleImageUpload = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+      getUserPictures(result.assets[0].uri);
+    }
+  };
+
   return (
     <View style={styles.container}>
 
       {/* image de profil */}
 
       <View style={styles.imageProfil}>
-        <Image
+        {/* <Image
                   source={require("../assets/userPicture.png")}
-                  style={{ width: 96, height: 96, margin:25}}
-                />
+                  style={{ width: 96, height: 96, margin:20}}
+                /> */}
+        <Image source={selectedImage ? { uri: selectedImage } : require("../assets/userPicture.png")}
+            style={{ width: 96, height: 96, margin: 20 }} />
+        <TouchableOpacity onPress={handleImageUpload}>
         <Text>Ajouter/Modifier photo</Text>
+        </TouchableOpacity>
       </View>
 
       <Text style={styles.title}>Mon profil</Text>
