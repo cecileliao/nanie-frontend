@@ -1,5 +1,6 @@
 import { View, Text, Image, StyleSheet, Switch, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
     
 const blocks = [
   {

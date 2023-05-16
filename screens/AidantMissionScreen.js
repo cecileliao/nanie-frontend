@@ -50,7 +50,6 @@ export default function AidantMissionScreen() {
     // check if user canceled the image selection // selectedImage state updated with uri
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
-      getUserPictures(result.assets[0].uri);
     }
   };
 
@@ -133,7 +132,7 @@ export default function AidantMissionScreen() {
           setItems={setItems}
           dropDownContainerStyle={{ width: 120, marginLeft: 15, marginBottom: 15, borderColor: '#5ABAB6' }}
           onSelectItem={(item) => {
-            setsexeAidant(item)
+            setsexeAidant(item.label)
           }}
           />
       </View>
