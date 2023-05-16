@@ -12,6 +12,7 @@ import AidantMessageScreen from "./screens/AidantMessageScreen";
 import AidantMissionScreen from "./screens/AidantMissionScreen";
 import AidantRechercheScreen from "./screens/AidantRechercheScreen";
 import AidantProfilScreen1 from "./screens/AidantProfilScreen1";
+import AidantProfilScreen3 from "./screens/AidantProfilScreen3";
 
 //ajout des modules pour importer les fonts
 import { useEffect } from "react";
@@ -54,7 +55,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Recherche" component={AidantRechercheScreen} />
       <Tab.Screen name="Message" component={AidantMessageScreen} />
       <Tab.Screen name="Mission" component={AidantMissionScreen} />
-      <Tab.Screen name="Profil" component={AidantProfilScreen1} />
+      <Tab.Screen name="Profil" component={AidantProfilScreen3} />
     </Tab.Navigator>
   );
 };
@@ -84,6 +85,8 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Connexion" component={ConnexionScreen} />
         <Stack.Screen name="Inscription" component={InscriptionScreen} />
+        <Stack.Screen name="AidantMissionScreen" component={AidantMissionScreen} />
+        <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
