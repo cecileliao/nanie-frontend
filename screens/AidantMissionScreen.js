@@ -1,11 +1,16 @@
 import React, { useState } from 'react'
-import {  Modal,View, Text, TextInput, StyleSheet, Image } from 'react-native'
-import DatePicker from 'react-native-datepicker';
+import {  View, Text, TextInput, StyleSheet, Image } from 'react-native'
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function AidantMissionScreen() {
 
-  const [date, setDate] = useState(new Date())
-
+  //menu dropdown pour le sexe
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Apple', value: 'apple'},
+    {label: 'Banana', value: 'banana'}
+  ]);
 
 
   return (
@@ -14,48 +19,52 @@ export default function AidantMissionScreen() {
       {/* image de profil */}
 
       <View style={styles.imageProfil}>
-      <Image
-                source={require("../assets/userPicture.png")}
-                style={{ width: 96, height: 96, margin:20}}
-              />
-      <Text>Ajouter/Modifier photo</Text>
+        <Image
+                  source={require("../assets/userPicture.png")}
+                  style={{ width: 96, height: 96, margin:20}}
+                />
+        <Text>Ajouter/Modifier photo</Text>
       </View>
 
       {/* nom de l'aidant */}
 
-      <View style={styles.containerInput}>
+    <View style={styles.containerInput}>
       <Text>Nom</Text>
       <TextInput style={styles.input} onChangeText={text => setTextInputValue(text)} placeholder="Nom" />
-      </View>
+    </View>
 
     {/* prénom de l'aidant */}
-      <View style={styles.containerInput}>
+    <View style={styles.containerInput}>
       <Text>Prénom</Text>
       <TextInput style={styles.input} onChangeText={text => setTextInputValue(text)} placeholder="Prénom" />
-      </View>
+    </View>
 
     {/* téléphone de l'aidant */}
     <View style={styles.containerInput}>
       <Text>Téléphone</Text>
       <TextInput style={styles.input} onChangeText={text => setTextInputValue(text)} placeholder="Téléphone" />
-      </View>
+    </View>
 
     {/* âge de l'aidant */}
     <View style={styles.containerInput}>
-      <Text>Age</Text>
-      <DatePicker
-      style={{ width: 200 }} 
-      date={date} 
-      mode="date"
-      format="YYYY-MM-DD"
-      minDate="1900-12-01"
-      maxDate="2025-12-01"
-      confirmBtnText="Confirmer"
-      cancelBtnText="Annuler"
-      onDateChange={setDate} />
+      <TextInput style={styles.input} onChangeText={text => setTextInputValue(text)} placeholder="YYYY" />
+      <Text>Année de naissance</Text>
+    </View>
+
+     {/* sexe de l'aidant */}
+    <View style={styles.containerInput}>
+      <View>
+        <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        />
       </View>
-
-
+      <Text>Sexe</Text>
+    </View>
 
     </View>
   )
