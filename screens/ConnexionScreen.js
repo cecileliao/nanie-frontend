@@ -10,41 +10,79 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { updateEmail } from '../reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../reducers/users';
 
 // Grabbed from emailregex.com
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
 export default function ConnexionScreen({ navigation }) {
-  // const dispatch = useDispatch();
-  // const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(null);
   const [emailError, setEmailError] = useState(false);
-  const [password, setPassword] = useState('');
-  // useEffect(() => {
-  //   if(user.email){
-  //     navigation.navigate('TabNavigator', { screen: 'Message' });
-  //   }
-  // }, []);
+  const [password, setPassword] = useState(null);
 
+  const [isParent, setParent] = useState(false);
+  const [isAidant, setAidant] = useState(false);
+
+  // pour ne pas avoir à se reconnecter au rechargement de l'app
+  useEffect(() => {
+    if(user.email){
+      navigation.navigate('TabNavigator', { screen: 'Message' });
+    }
+  }, []);
+
+  //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleSubmit = () => {
     if (EMAIL_REGEX.test(email)) {
-      dispatch(updateEmail(email));
+      if (isParent){
+        fetch('http:/192.168.10.150:3000/parentUsers/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.result) {
+            dispatch(login({ email, token: data.token }));
+            setEmail('');
+            setPassword('');
+          }
+        });
+      } else {
+        fetch('http://192.168.10.150:3000/aidantUsers/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.result) {
+            dispatch(login({ email, token: data.token }));
+            setEmail('');
+            setPassword('');
+          }
+        });
+      }
       navigation.navigate('TabNavigator', { screen: 'Message' });
     } else {
       setEmailError(true);
     }
   };
 
+  
+
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
       <View style={styles.container}>
+
         <View style={styles.topContainer}>
           <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
         </View>
+
         <View style={styles.centerContainer}>
           <View style={styles.emailLabelContainer}>
             <Text style={styles.label}>Email</Text>
@@ -74,11 +112,13 @@ export default function ConnexionScreen({ navigation }) {
             />
           </View>
         </View>
+
         <View style={styles.bottomContainer}>
           <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
             <Text style={styles.textButton}>Connexion</Text>
           </TouchableOpacity>
         </View>
+
       </View>
     </KeyboardAvoidingView>
   );
@@ -107,12 +147,14 @@ const styles = StyleSheet.create({
   bottomContainer: {
     height: windowHeight * 0.25
   },
+  //logo
   image: {
     width: windowWidth * 0.7,
     resizeMode: 'contain',
     position: "relative",
     top: '-45%',
   },
+  // bouton connexion
   button: {
     backgroundColor: '#785C83',
     width: windowWidth * 0.4,
@@ -126,6 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'white',
   },
+  //input
   emailLabelContainer: {
     width: windowWidth * 0.12, // white background color width, depends on label name length
     backgroundColor: "white", // Same color as background
