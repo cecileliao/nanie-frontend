@@ -13,6 +13,8 @@ import AidantMessageScreen from "./screens/AidantMessageScreen";
 import AidantMissionScreen from "./screens/AidantMissionScreen";
 import AidantMissionScreen2 from "./screens/AidantMissionScreen2";
 import AidantRechercheScreen from "./screens/AidantRechercheScreen";
+import AidantProfilScreen1 from "./screens/AidantProfilScreen3";
+import AidantProfilScreen2 from "./screens/AidantProfilScreen3";
 import AidantProfilScreen3 from "./screens/AidantProfilScreen3";
 //ajout des modules pour importer les fonts
 import { useEffect } from "react";
@@ -147,9 +149,13 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Connexion" component={ConnexionScreen} options={{ title: 'Connexion' }}/>
         <Stack.Screen name="Inscription" component={InscriptionScreen} />
+        <Stack.Screen name="AidantMessageScreen" component={AidantMessageScreen} />
         <Stack.Screen name="AidantMissionScreen" component={AidantMissionScreen} />
         <Stack.Screen name="AidantMissionScreen2" component={AidantMissionScreen2} />
+        <Stack.Screen name="AidantProfilScreen1" component={AidantProfilScreen1} />
+        <Stack.Screen name="AidantProfilScreen2" component={AidantProfilScreen2} />
         <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} />
+        <Stack.Screen name="AidantRechercheScreen" component={AidantRechercheScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
     );
