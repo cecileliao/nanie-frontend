@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image, KeyboardAvoidingView } from 'react-native'
+import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function AidantMissionScreen2() {
@@ -40,8 +40,7 @@ useEffect(() => {
 
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
-    <View >
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
 
     {/* Phrase intro */}
     <Text style={styles.firsttitle}>Ma présentation en quelques mots</Text>
@@ -100,7 +99,6 @@ useEffect(() => {
       </TouchableOpacity>
       </View>
 
-    </View>
     </KeyboardAvoidingView>
   )
 }
