@@ -11,6 +11,7 @@ import ConnexionScreen from "./screens/ConnexionScreen";
 import InscriptionScreen from "./screens/InscriptionScreen";
 import AidantMessageScreen from "./screens/AidantMessageScreen";
 import AidantMissionScreen from "./screens/AidantMissionScreen";
+import AidantMissionScreen2 from "./screens/AidantMissionScreen2";
 import AidantRechercheScreen from "./screens/AidantRechercheScreen";
 import AidantProfilScreen1 from "./screens/AidantProfilScreen1";
 import AidantProfilScreen3 from "./screens/AidantProfilScreen3";
@@ -115,6 +116,7 @@ export default function App() {
         <Stack.Screen name="Connexion" component={ConnexionScreen} options={{ title: 'Connexion' }}/>
         <Stack.Screen name="Inscription" component={InscriptionScreen} />
         <Stack.Screen name="AidantMissionScreen" component={AidantMissionScreen} />
+        <Stack.Screen name="AidantMissionScreen2" component={AidantMissionScreen2} />
         <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>

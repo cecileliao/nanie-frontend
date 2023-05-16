@@ -44,7 +44,7 @@ export default function AidantMissionScreen() {
       <View style={styles.imageProfil}>
         <Image
                   source={require("../assets/userPicture.png")}
-                  style={{ width: 96, height: 96, margin:20}}
+                  style={{ width: 96, height: 96, margin:25}}
                 />
         <Text>Ajouter/Modifier photo</Text>
       </View>
@@ -138,6 +138,7 @@ export default function AidantMissionScreen() {
         />
       </View>
 
+      {/* Bouton suivant */}
       <View style={styles.buttoncontainer}>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Suivant</Text>
@@ -152,11 +153,9 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#ffffff',
-      justifyContent: 'center',
     },
     imageProfil: {
       flexDirection: "row",
-      justifyContent: 'center',
       alignItems:"center",
     },
     input: {
@@ -220,7 +219,8 @@ const styles = StyleSheet.create({
       fontFamily: "Recoleta",
       fontSize: 20,
       color: "#785C83",
-      marginLeft: 20
+      marginLeft: 20,
+      marginBottom: 20
     },
     buttoncontainer: {
       alignItems: 'center',
