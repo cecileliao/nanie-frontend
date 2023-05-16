@@ -14,6 +14,12 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('Inscription')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>Inscription</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('AidantProfilScreen3')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>AidantProfilScreen3</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('AidantMissionScreen')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>AidantMissionScreen</Text>
+      </TouchableOpacity>
     </View>
   )
 }
