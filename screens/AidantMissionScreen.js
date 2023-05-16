@@ -39,7 +39,7 @@ export default function AidantMissionScreen() {
   //toggle pour le permis
   const [car, setcar] = useState(false);
 
-  //Image upload
+  //Image upload w ImagePickerExpo
   const handleImageUpload = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
