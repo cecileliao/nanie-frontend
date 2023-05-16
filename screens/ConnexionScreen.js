@@ -43,6 +43,10 @@ export default function ConnexionScreen({ navigation }) {
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
       <View style={styles.container}>
         <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
+        <View style={styles.emailLabelContainer}>
+          <Text style={styles.label}>Email</Text>
+        </View>
+        <View style={styles.inputContainer}>
           <TextInput
             placeholder="Email"
             autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
@@ -53,13 +57,19 @@ export default function ConnexionScreen({ navigation }) {
             value={email}
             style={styles.input}
           />
+        </View>
           {emailError && <Text style={styles.error}>Invalid email address</Text>}
+        <View style={styles.mdpLabelContainer}>
+          <Text style={styles.label}>Mot de passe</Text>
+        </View>
+        <View style={styles.inputContainer}>
           <TextInput
             placeholder="Mot de passe"
             onChangeText={(value) => setPassword(value)}
             value={password}
             style={styles.input}
           />
+        </View>
         <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
           <Text style={styles.textButton}>Connexion</Text>
         </TouchableOpacity>
@@ -95,16 +105,50 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'white',
   },
+  emailLabelContainer: {
+    width: windowWidth * 0.12, // white background color width, depends on label name length
+    backgroundColor: "white", // Same color as background
+    alignSelf: "flex-start", // Have View be same width as Text inside
+    paddingHorizontal: 1, // Amount of spacing between border and first/last letter
+    marginStart: 10, // How far right do you want the label to start
+    zIndex: 1, // Label must overlap border
+    elevation: 1, // Needed for android
+    shadowColor: "white", // Same as background color because elevation: 1 creates a shadow that we don't want
+    position: "relative", // Needed to be able to precisely overlap label with border
+    top: '3.8%', // Vertical position of label. Eyeball it to see where label intersects border.
+    left: '5%',
+  },
+  mdpLabelContainer: {
+    width: windowWidth * 0.28, // white background color width, depends on label name length
+    backgroundColor: "white", // Same color as background
+    alignSelf: "flex-start", // Have View be same width as Text inside
+    paddingHorizontal: 1, // Amount of spacing between border and first/last letter
+    marginStart: 10, // How far right do you want the label to start
+    zIndex: 1, // Label must overlap border
+    elevation: 1, // Needed for android
+    shadowColor: "white", // Same as background color because elevation: 1 creates a shadow that we don't want
+    position: "relative", // Needed to be able to precisely overlap label with border
+    top: '3.8%', // Vertical position of label. Eyeball it to see where label intersects border.
+    left: '5%',
+  },
+  label: {
+    width: windowWidth * 0.3,
+    textAlign: 'left',
+    color: '#5ABAB6',
+    margin: 2,
+    fontSize: 16,
+    },
   inputContainer: {
-    width: windowWidth * 0.4,
-    backgroundColor: "white",
-    padding: 30,
-    borderRadius: 1,
+    width: windowWidth * 0.6,
+    borderWidth: 1, // Create border
+    borderRadius: 8, // Not needed. Just make it look nicer.
+    borderColor: '#5ABAB6',
+    padding: 20, // Also used to make it look nicer
+    margin: 20,
+    zIndex: 0, // Ensure border has z-index of 0
   },
   input: {
-    width: '100%',
-    borderBottomColor: '#000000',
-    borderBottomWidth: 1,
+    width: windowWidth * 0.6,
     fontSize: 16,
   },
   error: {

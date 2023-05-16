@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-// import BouncyCheckbox from "react-native-bouncy-checkbox";
+import Checkbox from 'expo-checkbox';
 
 // import { useDispatch, useSelector } from 'react-redux';
 // import { updateEmail } from '../reducers/user';
@@ -41,50 +41,73 @@ export default function InscriptionScreen({ navigation }) {
     }
   };
 
-  const [checked, setChecked] = useState(false);
+  const [isChecked, setChecked] = useState(false);
 
   const handleToggle = () => {
-    setChecked(!checked);
+    setChecked(!isChecked);
   };
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
       <View style={styles.container}>
-        <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
-          <TextInput
-            placeholder="Email"
-            autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
-            keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
-            textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
-            autoComplete="email" // https://reactnative.dev/docs/textinput#autocomplete-android
-            onChangeText={(value) => setEmail(value)}
-            value={email}
-            style={styles.input}
-          />
-          {emailError && <Text style={styles.error}>Invalid email address</Text>}
-          <TextInput
-            placeholder="Mot de passe"
-            onChangeText={(value) => setPassword(value)}
-            value={password}
-            style={styles.input}
-          />
-          {/* <CheckBox
-            title='Parent'
-            checked={checked}
-            onPress={handleToggle}
-            checkedColor='#5ABAB6' // Couleur lorsque la case est cochée
-            uncheckedColor='white' // Couleur lorsque la case n'est pas cochée
-          />
-          <CheckBox
-            checked={checked}
-            onPress={handleToggle}
-            checkedColor='#5ABAB6' // Couleur lorsque la case est cochée
-            uncheckedColor='white' // Couleur lorsque la case n'est pas cochée
-          />
-          <BouncyCheckbox onPress={(isChecked: boolean) => {}} /> */}
-        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Connexion</Text>
-        </TouchableOpacity>
+        <View style={styles.topContainer}>
+          <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
+        </View>
+        <View style={styles.centerContainer}>
+          <View style={styles.emailLabelContainer}>
+            <Text style={styles.label}>Email</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Email"
+              autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
+              keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
+              textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
+              autoComplete="email" // https://reactnative.dev/docs/textinput#autocomplete-android
+              onChangeText={(value) => setEmail(value)}
+              value={email}
+              style={styles.input}
+            />
+          </View>
+            {emailError && <Text style={styles.error}>Invalid email address</Text>}
+          <View style={styles.mdpLabelContainer}>
+            <Text style={styles.label}>Mot de passe</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Mot de passe"
+              onChangeText={(value) => setPassword(value)}
+              value={password}
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.checkboxContainer}>
+            <Checkbox
+              title='Parent' 
+              style={styles.checkbox} 
+              value={isChecked} 
+              onValueChange={setChecked}
+              color={isChecked ? '#5ABAB6' : undefined}
+              onPress={()=> handleToggle}
+            />
+            <Text style={styles.label}>Parent</Text>
+          </View>
+          <View style={styles.checkboxContainer}>
+            <Checkbox
+              title='Aidant' 
+              style={styles.checkbox} 
+              value={isChecked} 
+              onValueChange={setChecked}
+              color={isChecked ? '#5ABAB6' : undefined}
+            />
+            <Text style={styles.label}>Aidant</Text>
+          </View>
+        </View>
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+            <Text style={styles.textButton}>Inscription</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -98,11 +121,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+  },
+  topContainer: {
+    height: windowHeight * 0.30
   },
   image: {
     width: windowWidth * 0.7,
     resizeMode: 'contain',
+  },
+  centerContainer: {
+    height: windowHeight * 0.30,
+    flexDirection: 'column',
+    justifyContent: 'center'
+  },
+  bottomContainer: {
+    height: windowHeight * 0.15
   },
   button: {
     backgroundColor: '#785C83',
@@ -117,20 +151,61 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'white',
   },
+  emailLabelContainer: {
+    width: windowWidth * 0.12, // white background color width, depends on label name length
+    backgroundColor: "white", // Same color as background
+    alignSelf: "flex-start", // Have View be same width as Text inside
+    paddingHorizontal: 1, // Amount of spacing between border and first/last letter
+    marginStart: 10, // How far right do you want the label to start
+    zIndex: 1, // Label must overlap border
+    elevation: 1, // Needed for android
+    shadowColor: "white", // Same as background color because elevation: 1 creates a shadow that we don't want
+    position: "relative", // Needed to be able to precisely overlap label with border
+    top: '3.8%', // Vertical position of label. Eyeball it to see where label intersects border.
+    left: '5%',
+  },
+  mdpLabelContainer: {
+    width: windowWidth * 0.28, // white background color width, depends on label name length
+    backgroundColor: "white", // Same color as background
+    alignSelf: "flex-start", // Have View be same width as Text inside
+    paddingHorizontal: 1, // Amount of spacing between border and first/last letter
+    marginStart: 10, // How far right do you want the label to start
+    zIndex: 1, // Label must overlap border
+    elevation: 1, // Needed for android
+    shadowColor: "white", // Same as background color because elevation: 1 creates a shadow that we don't want
+    position: "relative", // Needed to be able to precisely overlap label with border
+    top: '3.8%', // Vertical position of label. Eyeball it to see where label intersects border.
+    left: '5%',
+  },
+  label: {
+    width: windowWidth * 0.3,
+    textAlign: 'left',
+    color: '#5ABAB6',
+    margin: 2,
+    fontSize: 16,
+    },
   inputContainer: {
-    width: windowWidth * 0.4,
-    backgroundColor: "white",
-    padding: 30,
-    borderRadius: 1,
+    width: windowWidth * 0.6,
+    borderWidth: 1, // Create border
+    borderRadius: 8, // Not needed. Just make it look nicer.
+    borderColor: '#5ABAB6',
+    padding: 20, // Also used to make it look nicer
+    margin: 20,
+    zIndex: 0, // Ensure border has z-index of 0
   },
   input: {
-    width: '100%',
-    borderBottomColor: '#000000',
-    borderBottomWidth: 1,
+    width: windowWidth * 0.6,
     fontSize: 16,
   },
   error: {
     marginTop: 10,
     color: 'red',
   },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  checkbox: {
+    margin: 8,
+  }
 });
