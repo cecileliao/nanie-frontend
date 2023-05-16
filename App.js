@@ -1,6 +1,7 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -15,9 +16,15 @@ import AidantProfilScreen1 from "./screens/AidantProfilScreen1";
 import AidantProfilScreen3 from "./screens/AidantProfilScreen3";
 
 const CustomBackButton = ({ onPress }) => {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.goBack();
+  };
+
   return (
-    <TouchableOpacity onPress={onPress}>
-      <Image source={require('./assets/backArrow.png')} />
+    <TouchableOpacity onPress={handlePress}>
+      <Image source={require('./assets/backArrow.png')} style={styles.backIcon}/>
     </TouchableOpacity>
   );
 };
@@ -129,4 +136,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  backIcon: {
+    width: 30,
+    height: 30,
+  }
 });
