@@ -34,6 +34,7 @@ export default function AidantScreen() {
     });
   };
     
+    
   return (
     <View style={styles.container}>
       <Text style={styles.pagetitle}>Mes Talents</Text>
@@ -125,9 +126,14 @@ const styles = StyleSheet.create({
     color: 'white',
   },
     button: {
-    backgroundColor: 'red',
+    backgroundColor: '#5ABAB6',
     padding: 10,
     borderRadius: 8,
     marginTop: 8,
+    width: 120,
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });    

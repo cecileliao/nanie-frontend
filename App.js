@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { Image } from 'react-native';
 
@@ -13,6 +13,14 @@ import AidantMissionScreen from "./screens/AidantMissionScreen";
 import AidantRechercheScreen from "./screens/AidantRechercheScreen";
 import AidantProfilScreen1 from "./screens/AidantProfilScreen1";
 import AidantProfilScreen3 from "./screens/AidantProfilScreen3";
+
+const CustomBackButton = ({ onPress }) => {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <Image source={require('./assets/backArrow.png')} />
+    </TouchableOpacity>
+  );
+};
 
 //ajout des modules pour importer les fonts
 import { useEffect } from "react";
@@ -79,17 +87,38 @@ export default function App() {
     SplashScreen.hideAsync();
   }
 
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Connexion" component={ConnexionScreen} />
+  const HomeStackNavigator = () => {
+    return (
+      <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: 'white',
+        },
+        headerTintColor: 'black',
+        headerTitleStyle: {
+          fontFamily: 'Recoleta',
+          fontSize: 18,
+        },
+        headerLeft: ({ onPress }) => (
+          <CustomBackButton onPress={onPress} />
+        ),
+      }}
+    >
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Connexion" component={ConnexionScreen} options={{ title: 'Connexion' }}/>
         <Stack.Screen name="Inscription" component={InscriptionScreen} />
         <Stack.Screen name="AidantMissionScreen" component={AidantMissionScreen} />
         <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
+    );
+  };
+
+  return (
+    <NavigationContainer>
+      <HomeStackNavigator />
     </NavigationContainer>
+    
   );
 }
 
