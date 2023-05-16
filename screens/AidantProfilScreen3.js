@@ -34,6 +34,7 @@ export default function AidantScreen() {
     });
   };
     
+    
   return (
     <View style={styles.container}>
       <Text style={styles.pagetitle}>Mes Talents</Text>
