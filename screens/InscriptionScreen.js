@@ -41,10 +41,14 @@ export default function InscriptionScreen({ navigation }) {
     }
   };
 
-  const [isChecked, setChecked] = useState(false);
+  const [isParent, setParent] = useState(false);
+  const [isAidant, setAidant] = useState(false);
 
-  const handleToggle = () => {
-    setChecked(!isChecked);
+  const handleParent = () => {
+    setParent(!isParent);
+  };
+  const handleAidant = () => {
+    setAidant(!isAidant);
   };
 
   return (
@@ -85,22 +89,23 @@ export default function InscriptionScreen({ navigation }) {
             <Checkbox
               title='Parent' 
               style={styles.checkbox} 
-              value={isChecked} 
-              onValueChange={setChecked}
-              color={isChecked ? '#5ABAB6' : undefined}
-              onPress={()=> handleToggle}
+              value={isParent} 
+              onValueChange={setParent}
+              color={isParent ? '#5ABAB6' : undefined}
+              onPress={()=> handleParent}
             />
-            <Text style={styles.label}>Parent</Text>
+            <Text style={styles.checkboxLabel}>Parent</Text>
           </View>
           <View style={styles.checkboxContainer}>
             <Checkbox
               title='Aidant' 
               style={styles.checkbox} 
-              value={isChecked} 
-              onValueChange={setChecked}
-              color={isChecked ? '#5ABAB6' : undefined}
+              value={isAidant} 
+              onValueChange={setAidant}
+              color={isAidant ? '#5ABAB6' : undefined}
+              onPress={()=> handleAidant}
             />
-            <Text style={styles.label}>Aidant</Text>
+            <Text style={styles.checkboxLabel}>Aidant</Text>
           </View>
         </View>
         <View style={styles.bottomContainer}>
@@ -123,21 +128,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+
   topContainer: {
-    height: windowHeight * 0.30
+    height: windowHeight * 0.20,
+    flexDirection:'row',
+    alignItems: "flex-start",
   },
+  centerContainer: {
+    height: windowHeight * 0.40,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  bottomContainer: {
+    height: windowHeight * 0.25
+  },
+
+  //logo
   image: {
     width: windowWidth * 0.7,
     resizeMode: 'contain',
+    position: "relative",
+    top: '-45%',
   },
-  centerContainer: {
-    height: windowHeight * 0.30,
-    flexDirection: 'column',
-    justifyContent: 'center'
-  },
-  bottomContainer: {
-    height: windowHeight * 0.15
-  },
+
+  // bouton inscription
   button: {
     backgroundColor: '#785C83',
     width: windowWidth * 0.4,
@@ -151,6 +166,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'white',
   },
+
+  //input email et mot de passe
   emailLabelContainer: {
     width: windowWidth * 0.12, // white background color width, depends on label name length
     backgroundColor: "white", // Same color as background
@@ -187,9 +204,9 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: windowWidth * 0.6,
     borderWidth: 1, // Create border
-    borderRadius: 8, // Not needed. Just make it look nicer.
+    borderRadius: 8, 
     borderColor: '#5ABAB6',
-    padding: 20, // Also used to make it look nicer
+    padding: 20, 
     margin: 20,
     zIndex: 0, // Ensure border has z-index of 0
   },
@@ -201,11 +218,21 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: 'red',
   },
+
+  // checkbox
   checkboxContainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkboxLabel: {
+    textAlign: 'center',
+    color: '#5ABAB6',
+    fontSize: 16,
+    padding: 3,
   },
   checkbox: {
     margin: 8,
+    borderColor: '#5ABAB6',
   }
 });

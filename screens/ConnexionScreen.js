@@ -42,37 +42,43 @@ export default function ConnexionScreen({ navigation }) {
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
       <View style={styles.container}>
-        <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
-        <View style={styles.emailLabelContainer}>
-          <Text style={styles.label}>Email</Text>
+        <View style={styles.topContainer}>
+          <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
         </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Email"
-            autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
-            keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
-            textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
-            autoComplete="email" // https://reactnative.dev/docs/textinput#autocomplete-android
-            onChangeText={(value) => setEmail(value)}
-            value={email}
-            style={styles.input}
-          />
+        <View style={styles.centerContainer}>
+          <View style={styles.emailLabelContainer}>
+            <Text style={styles.label}>Email</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Email"
+              autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
+              keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
+              textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
+              autoComplete="email" // https://reactnative.dev/docs/textinput#autocomplete-android
+              onChangeText={(value) => setEmail(value)}
+              value={email}
+              style={styles.input}
+            />
+          </View>
+            {emailError && <Text style={styles.error}>Invalid email address</Text>}
+          <View style={styles.mdpLabelContainer}>
+            <Text style={styles.label}>Mot de passe</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Mot de passe"
+              onChangeText={(value) => setPassword(value)}
+              value={password}
+              style={styles.input}
+            />
+          </View>
         </View>
-          {emailError && <Text style={styles.error}>Invalid email address</Text>}
-        <View style={styles.mdpLabelContainer}>
-          <Text style={styles.label}>Mot de passe</Text>
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+            <Text style={styles.textButton}>Connexion</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Mot de passe"
-            onChangeText={(value) => setPassword(value)}
-            value={password}
-            style={styles.input}
-          />
-        </View>
-        <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-          <Text style={styles.textButton}>Connexion</Text>
-        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   );
@@ -86,11 +92,26 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  topContainer: {
+    height: windowHeight * 0.20,
+    flexDirection:'row',
+    alignItems: "flex-start",
+  },
+  centerContainer: {
+    height: windowHeight * 0.30,
+    flexDirection: 'column',
     justifyContent: 'center',
+  },
+  bottomContainer: {
+    height: windowHeight * 0.25
   },
   image: {
     width: windowWidth * 0.7,
     resizeMode: 'contain',
+    position: "relative",
+    top: '-45%',
   },
   button: {
     backgroundColor: '#785C83',
