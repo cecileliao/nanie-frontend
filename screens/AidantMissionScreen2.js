@@ -42,9 +42,9 @@ useEffect(() => {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
 
-    {/* Phrase intro */}
-    <Text style={styles.firsttitle}>Ma présentation en quelques mots</Text>
-    <View>
+      {/* Phrase intro */}
+      <Text style={styles.firsttitle}>Ma présentation en quelques mots</Text>
+      <View>
         <TextInput
             style={styles.input}
             onChangeText={text => setintroBioAidant(text)}

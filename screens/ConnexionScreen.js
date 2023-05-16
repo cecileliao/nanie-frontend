@@ -9,6 +9,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../reducers/users';
@@ -36,7 +38,7 @@ export default function ConnexionScreen({ navigation }) {
   }, []);
 
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
-  const handleSubmit = () => {
+  const handleConnexion = () => {
     if (EMAIL_REGEX.test(email)) {
       if (isParent){
         fetch('http:/192.168.10.150:3000/parentUsers/signup', {
@@ -76,51 +78,54 @@ export default function ConnexionScreen({ navigation }) {
   
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-      <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+        <View style={styles.container}>
 
-        <View style={styles.topContainer}>
-          <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
+          <View style={styles.topContainer}>
+            <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
+          </View>
+
+          <View style={styles.centerContainer}>
+            <View style={styles.emailLabelContainer}>
+              <Text style={styles.label}>Email</Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                placeholder="Email"
+                autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
+                keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
+                textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
+                autoComplete="email" // https://reactnative.dev/docs/textinput#autocomplete-android
+                onChangeText={(value) => setEmail(value)}
+                value={email}
+                style={styles.input}
+              />
+            </View>
+              {emailError && <Text style={styles.error}>Invalid email address</Text>}
+            <View style={styles.mdpLabelContainer}>
+              <Text style={styles.label}>Mot de passe</Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                placeholder="Mot de passe"
+                secureTextEntry={true}
+                onChangeText={(value) => setPassword(value)}
+                value={password}
+                style={styles.input}
+              />
+            </View>
+          </View>
+
+          <View style={styles.bottomContainer}>
+            <TouchableOpacity onPress={() => handleConnexion()} style={styles.button} activeOpacity={0.8}>
+              <Text style={styles.textButton}>Connexion</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
-
-        <View style={styles.centerContainer}>
-          <View style={styles.emailLabelContainer}>
-            <Text style={styles.label}>Email</Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Email"
-              autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
-              keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
-              textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
-              autoComplete="email" // https://reactnative.dev/docs/textinput#autocomplete-android
-              onChangeText={(value) => setEmail(value)}
-              value={email}
-              style={styles.input}
-            />
-          </View>
-            {emailError && <Text style={styles.error}>Invalid email address</Text>}
-          <View style={styles.mdpLabelContainer}>
-            <Text style={styles.label}>Mot de passe</Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Mot de passe"
-              onChangeText={(value) => setPassword(value)}
-              value={password}
-              style={styles.input}
-            />
-          </View>
-        </View>
-
-        <View style={styles.bottomContainer}>
-          <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-            <Text style={styles.textButton}>Connexion</Text>
-          </TouchableOpacity>
-        </View>
-
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -164,8 +169,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textButton: {
-    // fontFamily: 'Manrope',
-    fontSize: 15,
+    fontFamily: 'Manrope',
+    fontSize: 16,
     color: 'white',
   },
   //input
@@ -179,7 +184,7 @@ const styles = StyleSheet.create({
     elevation: 1, // Needed for android
     shadowColor: "white", // Same as background color because elevation: 1 creates a shadow that we don't want
     position: "relative", // Needed to be able to precisely overlap label with border
-    top: '3.8%', // Vertical position of label. Eyeball it to see where label intersects border.
+    top: '12%', // Vertical position of label. Eyeball it to see where label intersects border.
     left: '5%',
   },
   mdpLabelContainer: {
@@ -192,7 +197,7 @@ const styles = StyleSheet.create({
     elevation: 1, // Needed for android
     shadowColor: "white", // Same as background color because elevation: 1 creates a shadow that we don't want
     position: "relative", // Needed to be able to precisely overlap label with border
-    top: '3.8%', // Vertical position of label. Eyeball it to see where label intersects border.
+    top: '12%', // Vertical position of label. Eyeball it to see where label intersects border.
     left: '5%',
   },
   label: {
@@ -201,6 +206,7 @@ const styles = StyleSheet.create({
     color: '#5ABAB6',
     margin: 2,
     fontSize: 16,
+    fontFamily: 'Manrope',
     },
   inputContainer: {
     width: windowWidth * 0.6,
@@ -214,9 +220,11 @@ const styles = StyleSheet.create({
   input: {
     width: windowWidth * 0.6,
     fontSize: 16,
+    fontFamily: 'Manrope',
   },
   error: {
     marginTop: 10,
     color: 'red',
+    fontFamily: 'Manrope',
   },
 });
