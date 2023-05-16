@@ -39,7 +39,7 @@ export default function AidantMissionScreen() {
   //toggle pour le permis
   const [car, setcar] = useState(false);
 
-  //Image upload w ImagePickerExpo
+  //Image upload from device library w/ ImagePickerExpo
   const handleImageUpload = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -47,7 +47,7 @@ export default function AidantMissionScreen() {
       aspect: [4, 3],
       quality: 1,
     });
-
+    // check if user canceled the image selection // selectedImage state updated with uri
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
       getUserPictures(result.assets[0].uri);
@@ -60,12 +60,10 @@ export default function AidantMissionScreen() {
       {/* image de profil */}
 
       <View style={styles.imageProfil}>
-        {/* <Image
-                  source={require("../assets/userPicture.png")}
-                  style={{ width: 96, height: 96, margin:20}}
-                /> */}
+        <TouchableOpacity onPress={handleImageUpload}>
         <Image source={selectedImage ? { uri: selectedImage } : require("../assets/userPicture.png")}
             style={{ width: 96, height: 96, margin: 20 }} />
+        </TouchableOpacity>
         <TouchableOpacity onPress={handleImageUpload}>
         <Text>Ajouter/Modifier photo</Text>
         </TouchableOpacity>
