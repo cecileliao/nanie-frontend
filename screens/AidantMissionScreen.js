@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Switch, View, Text, TextInput, StyleSheet, Image } from 'react-native'
+import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function AidantMissionScreen() {
@@ -48,6 +48,8 @@ export default function AidantMissionScreen() {
                 />
         <Text>Ajouter/Modifier photo</Text>
       </View>
+
+      <Text style={styles.title}>Mon profil</Text>
 
       {/* nom de l'aidant */}
 
@@ -136,6 +138,12 @@ export default function AidantMissionScreen() {
         />
       </View>
 
+      <View style={styles.buttoncontainer}>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Suivant</Text>
+      </TouchableOpacity>
+      </View>
+
     </View>
   )
 }
@@ -208,4 +216,24 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       alignItems:"center", 
     },
+    title: {
+      fontFamily: "Recoleta",
+      fontSize: 20,
+      color: "#785C83",
+      marginLeft: 20
+    },
+    buttoncontainer: {
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    button: {
+      backgroundColor: '#5ABAB6',
+      padding: 10,
+      borderRadius: 8,
+      width: 120,
+    },
+    buttonText: {
+      color: 'white',
+      textAlign: "center",
+  },
     })
