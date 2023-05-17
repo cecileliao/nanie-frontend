@@ -31,7 +31,6 @@ export default function AidantProfilScreen3() {
     const dispatch = useDispatch();
     //récupérer infos du réducer pour user
     const user = useSelector((state) => state.user.value)
-    //console.log(user);
 
     //gérer l'état des toggles - initialisés à false
   const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
@@ -47,48 +46,23 @@ export default function AidantProfilScreen3() {
  
 
   const handleValidate = () => {
-    // recupérer talents selectionnés avec le toggle
-    const selectedTalents = blocks.reduce((result, block, index) => {
-      result[block.title.toLowerCase()] = switchesState[index];
-      return result;
-    }, {});
-    // récupérer les valeurs des inputs
-    const profilValues = {
-      photoAidant: null,
-      nameAidant: null,
-      firstNameAidant: null,
-      phoneAidant: null,
-      ageAidant: null,
-      sexeAidant: null,
-      addressAidant: null,
-      zipAidant: null,
-      cityAidant: null,
-      ratebyHour: null,
-      car: false,
-      introBioAidant: null,
-      longBioAidant: null,
-      abilitiesAidant: null,
-      talents: {
-        mobility: false,
-        hygiene: false,
-        cooking: false,
-        entertainment: false,
-        // ...selectedTalents // Inclure les talents sélectionnés ici
-      }
-    };
-    
-
+    dispatch(updateAidant({talents: {mobility:switchesState[0],hygiene: switchesState[1],cooking: switchesState[2],entertainment: switchesState[3] }}))
+    // console.log(user)
     //const [token, setToken] = useState(false);
     //if token ??
-    fetch('http:/192.168.10.126:3000/aidantUsers/signup', {
+    fetch('http://192.168.10.140:3000/aidantUsers/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(profilValues),
+      body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        if (data.result) {
-          dispatch(updateAidant(profilValues));
+        console.log(data);
+        if(data.result) {
+          dispatch(updateAidant());
+          // navigavigate.nav
+          
         }
+        
       });
   };
     

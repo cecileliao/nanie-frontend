@@ -45,66 +45,52 @@ export default function AidantProfilScreen1({ navigation }) {
     const [zipError, setZipError] = useState(false);
     const [birthYearError, setbirthYearError] = useState(false);
    
-    //fonction pour vérifier la validité du telephone
     const validateTel = (phone) => {
-      const PHONE_REGEX = /^[+0-9]+$/; // Expression régulière pour valider le numéro de téléphone
-      if (PHONE_REGEX.test(phone)) {
-        setPhoneError(false); // Le téléphone est valide, pas d'erreur
-      } else {
-        setPhoneError(true); // Le téléphone est invalide, afficher une erreur
-      }
+      const PHONE_REGEX = /^[+0-9]+$/;
+      return PHONE_REGEX.test(phone);
     };
-
-     //fonction pour vérifier la validité du code postal
-     const validateZip = (zip) => {
-      const ZIP_REGEX = /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/; // Expression régulière pour valider 
-      if (ZIP_REGEX.test(zip)) {
-        setZipError(false); // Le zip est valide, pas d'erreur
-      } else {
-        setZipError(true); // Le zip est invalide, afficher une erreur
-      }
+    
+    const validateZip = (zip) => {
+      const ZIP_REGEX = /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/;
+      return ZIP_REGEX.test(zip);
     };
-
-       //fonction pour vérifier la validité du code postal
-       const validatebirthYear = (birthyear) => {
-        const BIRTH_REGEX = /^(19|20)\d{2}$/; // Expression régulière pour valider 
-        if (BIRTH_REGEX.test(birthyear)) {
-          setbirthYearError(false); // Le zip est valide, pas d'erreur
-        } else {
-          setbirthYearError(true); // Le zip est invalide, afficher une erreur
-        }
-      };
+    
+    const validatebirthYear = (birthyear) => {
+      const BIRTH_REGEX = /^(19|20)\d{2}$/;
+      return BIRTH_REGEX.test(birthyear);
+    };
+    
   
 
-  // Quand on clique sur bouton suivant 
-  const handleNext = () => {
-    let isValid = true; // Variable pour suivre la validité globale des données
+    const handleNext = () => {
+      let isValid = true;
     
-    if (!validateTel(user.phoneAidant)) {
-      setPhoneError(true);
-      isValid = false; // Le numéro de téléphone est invalide, donc les données globales ne sont pas valides
-    } else {
-      setPhoneError(false); // Réinitialiser phoneError à false si le numéro de téléphone est valide
-    }
+      if (!validateTel(user.phoneAidant)) {
+        setPhoneError(true);
+        isValid = false;
+      } else {
+        setPhoneError(false);
+      }
     
-    if (!validateZip(user.zipAidant)) {
-      setZipError(true);
-      isValid = false; // Le code postal est invalide, donc les données globales ne sont pas valides
-    } else {
-      setZipError(false); // Réinitialiser zipError à false si le code postal est valide
-    }
-
-    if (!validatebirthYear(user.ageAidant)) {
-      setbirthYearError(true);
-      isValid = false; // Le code postal est invalide, donc les données globales ne sont pas valides
-    } else {
-      setbirthYearError(false); // Réinitialiser zipError à false si le code postal est valide
-    }
+      if (!validateZip(user.zipAidant)) {
+        setZipError(true);
+        isValid = false;
+      } else {
+        setZipError(false);
+      }
     
-    if (isValid) {
-      navigation.navigate('AidantProfilScreen2'); 
-    }
-  };
+      if (!validatebirthYear(user.ageAidant)) {
+        setbirthYearError(true);
+        isValid = false;
+      } else {
+        setbirthYearError(false);
+      }
+    
+      if (isValid) {
+        navigation.navigate('AidantProfilScreen2');
+      }
+    };
+    
   
 
   return (
@@ -208,8 +194,8 @@ export default function AidantProfilScreen1({ navigation }) {
 
      {/* tarif horaire l'aidant */}
      <View style={styles.tarifcontainerInput}>
-      <Text>Tarif horaire</Text>
-        <TextInput style={styles.city} value={user.ratebyHourAidant} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Tarif" />
+      <Text>Taux horaire</Text>
+        <TextInput style={styles.city} value={user.ratebyHourAidant} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Taux horaire" />
       </View>
 
       {/* permis l'aidant */}

@@ -79,7 +79,7 @@ const handleNext = () => {
   navigation.navigate('AidantProfilScreen3');
 };
 
-console.log(user)
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
