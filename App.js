@@ -16,6 +16,8 @@ import AidantRechercheScreen from "./screens/AidantRechercheScreen";
 import AidantProfilScreen1 from "./screens/AidantProfilScreen1";
 import AidantProfilScreen2 from "./screens/AidantProfilScreen2";
 import AidantProfilScreen3 from "./screens/AidantProfilScreen3";
+import AidantAvisScreen from "./screens/AidantAvisScreen"
+import AidantDisplayProfilScreen from "./screens/AidantDisplayProfilScreen"
 //ajout des modules pour importer les fonts
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
@@ -157,6 +159,8 @@ export default function App() {
         <Stack.Screen name="AidantProfilScreen2" component={AidantProfilScreen2} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantRechercheScreen" component={AidantRechercheScreen} />
+        <Stack.Screen name="AidantAvisScreen" component={AidantAvisScreen} />
+        <Stack.Screen name="AidantDisplayProfilScreen" component={AidantDisplayProfilScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
     );

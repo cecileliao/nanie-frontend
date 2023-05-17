@@ -24,11 +24,11 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('AidantProfilScreen1')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>AidantProfilScreen1</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('AidantProfilScreen2')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>AidantProfilScreen2</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('AidantAvisScreen')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>AidantAvisScreen</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('AidantProfilScreen3')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>AidantProfilScreen3</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('AidantDisplayProfilScreen')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>AidantDisplayProfilScreen</Text>
       </TouchableOpacity>
       </View>
     </View>
