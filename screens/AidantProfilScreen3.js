@@ -31,7 +31,6 @@ export default function AidantProfilScreen3() {
     const dispatch = useDispatch();
     //récupérer infos du réducer pour user
     const user = useSelector((state) => state.user.value)
-    //console.log(user);
 
     //gérer l'état des toggles - initialisés à false
   const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
@@ -47,25 +46,26 @@ export default function AidantProfilScreen3() {
  
 
   const handleValidate = () => {
-    dispatch(updateAidant({mobility: switchesState[0]}))
+    dispatch(updateAidant({talentsmobility: switchesState[0]}))
     dispatch(updateAidant({hygiene: switchesState[1]}))
     dispatch(updateAidant({cooking: switchesState[2]}))
     dispatch(updateAidant({entertainment: switchesState[3]}))
+    console.log(user);
 
     //const [token, setToken] = useState(false);
     //if token ??
-    fetch('http:/192.168.10.126:3000/aidantUsers/signup', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(user.state.value),
-    }).then(response => response.json())
-      .then(data => {
-        if(data.result) {
-          dispatch(updateAidant());
-          // navigavigate.nav
-        }
-        console.log(data)
-      });
+    // fetch('http://192.168.10.126:3000/aidantUsers/signup', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(user.state.value),
+    // }).then(response => response.json())
+    //   .then(data => {
+    //     if(data.result) {
+    //       dispatch(updateAidant());
+    //       // navigavigate.nav
+    //     }
+    //     console.log(data)
+    //   });
   };
     
     
