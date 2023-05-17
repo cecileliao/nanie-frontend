@@ -87,10 +87,11 @@ const TabNavigator = () => {
       <Tab.Screen name="Recherche" component={AidantRechercheScreen} />
       <Tab.Screen name="Message" component={AidantMessageScreen} />
       <Tab.Screen name="Mission" component={AidantMissionScreen} />
-      <Tab.Screen name="Profil" component={AidantProfilScreen3} />
+      <Tab.Screen name="Profil" component={AidantDisplayProfilScreen} />
     </Tab.Navigator>
   );
 };
+
 
 
 // bouton back du header

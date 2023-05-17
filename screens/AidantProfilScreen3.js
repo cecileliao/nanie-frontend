@@ -59,7 +59,7 @@ export default function AidantProfilScreen3() {
         console.log(data);
         if(data.result) {
           dispatch(updateAidant());
-          // navigavigate.nav
+          navigation.navigate('AidantDisplayProfilScreen');
           
         }
         
