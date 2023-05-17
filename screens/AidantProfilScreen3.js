@@ -27,10 +27,12 @@ const blocks = [
     
 export default function AidantProfilScreen3() {
   const dispatch = useDispatch();
+  //à commenter Marion
   const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
 
   const toggleSwitch = (index) => {
     const newState = [...switchesState];
+    // index de la map crée - selectionne l'index et change l'état en fonction
     newState[index] = !newState[index];
     setSwitchesState(newState);
   };
