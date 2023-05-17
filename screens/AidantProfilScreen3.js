@@ -47,24 +47,23 @@ export default function AidantProfilScreen3() {
  
 
   const handleValidate = () => {
-    dispatch(updateAidant({mobility: switchesState[0]}))
-    dispatch(updateAidant({hygiene: switchesState[1]}))
-    dispatch(updateAidant({cooking: switchesState[2]}))
-    dispatch(updateAidant({entertainment: switchesState[3]}))
-
+    dispatch(updateAidant({talents: {mobility:switchesState[0],hygiene: switchesState[1],cooking: switchesState[2],entertainment: switchesState[3] }}))
+    // console.log(user)
     //const [token, setToken] = useState(false);
     //if token ??
-    fetch('http:/192.168.10.126:3000/aidantUsers/signup', {
+    fetch('http://192.168.10.140:3000/aidantUsers/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(user.state.value),
+      body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
+        console.log(data);
         if(data.result) {
           dispatch(updateAidant());
           // navigavigate.nav
+          
         }
-        console.log(data)
+        
       });
   };
     
