@@ -25,8 +25,9 @@ export default function InscriptionScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
-  const [emailError, setEmailError] = useState(false);
-
+  // const [emailError, setEmailError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  
   const [isParent, setParent] = useState(false);
   const [isAidant, setAidant] = useState(false);
 
@@ -55,14 +56,24 @@ export default function InscriptionScreen({ navigation }) {
 
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleSubmit = () => {
-    if (EMAIL_REGEX.test(user.email)) {
-      if (isParent){
-        navigation.navigate('ParentProfilScreen1', { name: 'ParentProfilScreen1' })
+    if(isParent || isAidant){
+      if (EMAIL_REGEX.test(user.email)) {
+        if (!user.password || user.password.trim() === '') {
+          setErrorMessage('Le mot de passe ne peut pas être vide.'); // Set the error message for empty password
+        } else if (user.password.length < 6) {
+          setErrorMessage('Le mot de passe doit avoir au moins 6 caractères.'); // Set the error message for short password
+        } else {
+          if (isParent) {
+            navigation.navigate('ParentProfilScreen1', { name: 'ParentProfilScreen1' });
+          } else {
+            navigation.navigate('AidantProfilScreen1', { name: 'AidantProfilScreen1' });
+          }
+        }
       } else {
-        navigation.navigate('AidantProfilScreen1', { name: 'AidantProfilScreen1' });
+        setErrorMessage(`Le format de l'email est invalide.`);
       }
     } else {
-      setEmailError(true);
+      setErrorMessage('Vous devez obligatoirement sélectionner un profil.');
     }
   };
 
@@ -77,10 +88,13 @@ export default function InscriptionScreen({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+        
         <View style={styles.container}>
+
           <View style={styles.topContainer}>
             <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
           </View>
+
           <View style={styles.centerContainer}>
             <View style={styles.emailLabelContainer}>
               <Text style={styles.label}>Email</Text>
@@ -97,7 +111,6 @@ export default function InscriptionScreen({ navigation }) {
                 style={styles.input}
               />
             </View>
-              {emailError && <Text style={styles.error}>L'adresse email est erronée</Text>}
             <View style={styles.mdpLabelContainer}>
               <Text style={styles.label}>Mot de passe</Text>
             </View>
@@ -132,13 +145,17 @@ export default function InscriptionScreen({ navigation }) {
               />
               <Text style={styles.checkboxLabel}>Aidant</Text>
             </View>
+            {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
           </View>
+
           <View style={styles.bottomContainer}>
             <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
               <Text style={styles.textButton}>Inscription</Text>
             </TouchableOpacity>
           </View>
+
         </View>
+        
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
