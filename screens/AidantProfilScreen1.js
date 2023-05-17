@@ -40,8 +40,10 @@ export default function AidantProfilScreen1({ navigation }) {
       dispatch(updateAidant({ photoAidant: result.uri }))}
   };
 
-    //etat pour afficher erreur si pas bonne structure de téléphone
+    //etat pour afficher erreur si mauvaise structure
     const [phoneError, setPhoneError] = useState(false);
+    const [zipError, setZipError] = useState(false);
+    const [birthYearError, setbirthYearError] = useState(false);
    
     //fonction pour vérifier la validité du telephone
     const validateTel = (phone) => {
@@ -52,16 +54,58 @@ export default function AidantProfilScreen1({ navigation }) {
         setPhoneError(true); // Le téléphone est invalide, afficher une erreur
       }
     };
+
+     //fonction pour vérifier la validité du code postal
+     const validateZip = (zip) => {
+      const ZIP_REGEX = /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/; // Expression régulière pour valider 
+      if (ZIP_REGEX.test(zip)) {
+        setZipError(false); // Le zip est valide, pas d'erreur
+      } else {
+        setZipError(true); // Le zip est invalide, afficher une erreur
+      }
+    };
+
+       //fonction pour vérifier la validité du code postal
+       const validatebirthYear = (birthyear) => {
+        const BIRTH_REGEX = /^(19|20)\d{2}$/; // Expression régulière pour valider 
+        if (BIRTH_REGEX.test(birthyear)) {
+          setbirthYearError(false); // Le zip est valide, pas d'erreur
+        } else {
+          setbirthYearError(true); // Le zip est invalide, afficher une erreur
+        }
+      };
   
 
   // Quand on clique sur bouton suivant 
-    const handleNext = () => {
-      if(validateTel(user.phoneAidant)){ 
-        navigation.navigate('AidantProfilScreen2'); 
-      }else{
-        setPhoneError(true) //si tel pas valide reste sur la page et renvoie l'image
-      }
-    };
+  const handleNext = () => {
+    let isValid = true; // Variable pour suivre la validité globale des données
+    
+    if (!validateTel(user.phoneAidant)) {
+      setPhoneError(true);
+      isValid = false; // Le numéro de téléphone est invalide, donc les données globales ne sont pas valides
+    } else {
+      setPhoneError(false); // Réinitialiser phoneError à false si le numéro de téléphone est valide
+    }
+    
+    if (!validateZip(user.zipAidant)) {
+      setZipError(true);
+      isValid = false; // Le code postal est invalide, donc les données globales ne sont pas valides
+    } else {
+      setZipError(false); // Réinitialiser zipError à false si le code postal est valide
+    }
+
+    if (!validatebirthYear(user.ageAidant)) {
+      setbirthYearError(true);
+      isValid = false; // Le code postal est invalide, donc les données globales ne sont pas valides
+    } else {
+      setbirthYearError(false); // Réinitialiser zipError à false si le code postal est valide
+    }
+    
+    if (isValid) {
+      navigation.navigate('AidantProfilScreen2'); 
+    }
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -103,7 +147,7 @@ export default function AidantProfilScreen1({ navigation }) {
           placeholder="Téléphone"
         />
       </View>
-      {phoneError && <Text style={{color:"red", textAlign: "center"}}>Téléphone non valide</Text>}
+      {phoneError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Téléphone non valide</Text>}
 
       {/* adresse de l'aidant */}
       <View style={styles.containerInput}>
@@ -125,7 +169,11 @@ export default function AidantProfilScreen1({ navigation }) {
       <TextInput style={styles.city} value={user.cityAidant} onChangeText={text => dispatch(updateAidant({cityAidant: text}))} placeholder="Ville" />
       </View>
 
+      
+
     </View>
+
+    {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
 
     <View style={styles.doubleInput}>
 
@@ -134,6 +182,7 @@ export default function AidantProfilScreen1({ navigation }) {
       <Text>Naissance</Text>
       <TextInput style={styles.smallinput} value={user.ageAidant} onChangeText={text => dispatch(updateAidant({ageAidant: text}))} placeholder="AAAA" />
       </View>
+      
 
       {/* sexe de l'aidant */}
       <View style={styles.smallcontainerInput}>
@@ -155,12 +204,12 @@ export default function AidantProfilScreen1({ navigation }) {
 
 
     </View>
-
+    {birthYearError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Année de naissance non valide</Text>}
 
      {/* tarif horaire l'aidant */}
      <View style={styles.tarifcontainerInput}>
       <Text>Tarif horaire</Text>
-        <TextInput style={styles.city} value={user.ratebyHourAidant} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Tarif/heure" />
+        <TextInput style={styles.city} value={user.ratebyHourAidant} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Tarif" />
       </View>
 
       {/* permis l'aidant */}

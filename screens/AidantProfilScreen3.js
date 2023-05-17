@@ -33,20 +33,63 @@ export default function AidantProfilScreen3() {
     const user = useSelector((state) => state.user.value)
     //console.log(user);
 
-
+    //gérer l'état des toggles - initialisés à false
   const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
-
+    // fonction appelée au changement du toggle. Prends en paramètre l'index du toggle
   const toggleSwitch = (index) => {
+    // copie de l'état avec spread opérateur
     const newState = [...switchesState];
-    // index de la map crée - selectionne l'index et change l'état en fonction
+    //inverser l'état du toggle entre activé et désactivé
     newState[index] = !newState[index];
+    //mise à jour état des toggle avec nouvelle copie modifiée 
     setSwitchesState(newState);
   };
  
 
   const handleValidate = () => {
-    //fetch
+    // recupérer talents selectionnés avec le toggle
+    const selectedTalents = blocks.reduce((result, block, index) => {
+      result[block.title.toLowerCase()] = switchesState[index];
+      return result;
+    }, {});
+    // récupérer les valeurs des inputs
+    const profilValues = {
+      photoAidant: null,
+      nameAidant: null,
+      firstNameAidant: null,
+      phoneAidant: null,
+      ageAidant: null,
+      sexeAidant: null,
+      addressAidant: null,
+      zipAidant: null,
+      cityAidant: null,
+      ratebyHour: null,
+      car: false,
+      introBioAidant: null,
+      longBioAidant: null,
+      abilitiesAidant: null,
+      talents: {
+        mobility: false,
+        hygiene: false,
+        cooking: false,
+        entertainment: false,
+        // ...selectedTalents // Inclure les talents sélectionnés ici
+      }
+    };
     
+
+    //const [token, setToken] = useState(false);
+    //if token ??
+    fetch('http:/192.168.10.126:3000/aidantUsers/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(profilValues),
+    }).then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          dispatch(updateAidant(profilValues));
+        }
+      });
   };
     
     
@@ -94,6 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: 50,
+    backgroundColor: '#ffff'
   },
   pagetitle: {
     fontSize: 20,
@@ -148,7 +192,7 @@ const styles = StyleSheet.create({
   },
     buttonText: {
     color: 'white',
-    fontFamily: "Recoleta",
+    fontFamily: "Manrope",
   },
     button: {
     backgroundColor: '#5ABAB6',
