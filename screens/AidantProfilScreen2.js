@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateAidant } from '../reducers/users';
 import { 
   Dimensions, 
@@ -53,18 +53,29 @@ export default function AidantProfilScreen2({ navigation }) {
 
 //récupération info user au moment d'appuyer sur le bouton suivant
 const dispatch = useDispatch();
+//récupérer infos du réducer pour user
+const user = useSelector((state) => state.user.value)
+//console.log(user);
 
+
+const handleIntro = (text) => {
+  setintroBioAidant(text)
+  dispatch(updateAidant())
+}
+
+const handleLongBio = (text) => {
+  setlongBioAidant(text)
+  dispatch(updateAidant())
+}
+
+const handleAbilities = (text) => {
+  setabilitiesAidant(text)
+  dispatch(updateAidant())
+}
+
+
+//aller sur page suivante
 const handleNext = () => {
-  dispatch(updateAidant(
-    introBioAidant,
-    longBioAidant,
-    abilitiesAidant,
-  ));
-  console.log(dispatch(updateAidant(
-    introBioAidant,
-    longBioAidant,
-    abilitiesAidant,
-  )));
   navigation.navigate('AidantProfilScreen3');
 };
 
@@ -79,7 +90,8 @@ const handleNext = () => {
             <Text style={styles.firsttitle}>Ma présentation en quelques mots</Text>
             <TextInput
                 style={styles.input}
-                onChangeText={text => setintroBioAidant(text)}
+                value={user.introBioAidant}
+                onChangeText={text => handleIntro(text)}
                 placeholder="Ma phrase d’introduction"
                 textAlignVertical="top" //sur android pour center le placeholder en haut
                 multiline={true} //sur ios pour center le placeholder en haut
@@ -95,7 +107,8 @@ const handleNext = () => {
             <Text style={styles.title}>Ma personnalité incroyable</Text>
             <TextInput
                 style={styles.longinput}
-                onChangeText={text => setlongBioAidant(text)}
+                value={user.longBioAidant}
+                onChangeText={text => handleLongBio(text)}
                 placeholder="Présentation détaillée de ta personnalité"
                 textAlignVertical="top" //sur android pour center le placeholder en haut
                 multiline={true} //sur ios pour center le placeholder en haut
@@ -111,7 +124,8 @@ const handleNext = () => {
             <Text style={styles.title}>Mes compétences magiques</Text>
             <TextInput
                 style={styles.longinput}
-                onChangeText={text => setabilitiesAidant(text)}
+                value={user.abilitiesAidant}
+                onChangeText={text => handleAbilities(text)}
                 placeholder="Description de mes compétences, diplômes, expérience ..."
                 textAlignVertical="top" //sur android pour center le placeholder en haut
                 multiline={true} //sur ios pour center le placeholder en haut
