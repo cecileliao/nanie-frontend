@@ -149,13 +149,13 @@ export default function App() {
     >
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Connexion" component={ConnexionScreen} options={{ title: 'Connexion' }}/>
-        <Stack.Screen name="Inscription" component={InscriptionScreen} />
+        <Stack.Screen name="Inscription" component={InscriptionScreen} options={{ title: 'Créer un compte' }}/>
         <Stack.Screen name="AidantMessageScreen" component={AidantMessageScreen} />
         <Stack.Screen name="AidantMissionScreen" component={AidantMissionScreen} />
         <Stack.Screen name="AidantMissionScreen2" component={AidantMissionScreen2} />
-        <Stack.Screen name="AidantProfilScreen1" component={AidantProfilScreen1} />
-        <Stack.Screen name="AidantProfilScreen2" component={AidantProfilScreen2} />
-        <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} />
+        <Stack.Screen name="AidantProfilScreen1" component={AidantProfilScreen1} options={{ title: 'Créer mon Profil' }}/>
+        <Stack.Screen name="AidantProfilScreen2" component={AidantProfilScreen2} options={{ title: 'Créer mon Profil' }}/>
+        <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantRechercheScreen" component={AidantRechercheScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
