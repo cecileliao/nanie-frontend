@@ -45,6 +45,10 @@ export default function AidantProfilScreen3() {
  
 
   const handleValidate = () => {
+    dispatch(updateAidant({mobility: switchesState[0]}))
+    dispatch(updateAidant({hygiene: switchesState[1]}))
+    dispatch(updateAidant({cooking: switchesState[2]}))
+    dispatch(updateAidant({entertainment: switchesState[3]}))
     //fetch
     
   };
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
   },
     buttonText: {
     color: 'white',
-    fontFamily: "Recoleta",
+    fontFamily: "Manrope",
   },
     button: {
     backgroundColor: '#5ABAB6',
