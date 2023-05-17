@@ -31,13 +31,6 @@ export default function InscriptionScreen({ navigation }) {
   const [isParent, setParent] = useState(false);
   const [isAidant, setAidant] = useState(false);
 
-  // pour ne pas avoir à se reconnecter au rechargement de l'app
-  useEffect(() => {
-    if(user.email){
-      navigation.navigate('TabNavigator', { screen: 'Message' });
-    }
-  }, []);
-
   //mise à jour du store
   const handleEmail = (text) => {
     if (isParent){
