@@ -55,7 +55,7 @@ export default function InscriptionScreen({ navigation }) {
 
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleSubmit = () => {
-    if (EMAIL_REGEX.test(email)) {
+    if (EMAIL_REGEX.test(user.email)) {
       if (isParent){
         navigation.navigate('ParentProfilScreen1', { name: 'ParentProfilScreen1' })
       } else {
