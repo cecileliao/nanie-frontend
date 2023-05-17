@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../reducers/users';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 // Grabbed from emailregex.com
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -26,22 +27,33 @@ export default function ConnexionScreen({ navigation }) {
   const [email, setEmail] = useState(null);
   const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [profilError, setProfilError] = useState(false);
+
 
   const [isParent, setParent] = useState(false);
   const [isAidant, setAidant] = useState(false);
 
+  //menu dropdown pour le sexe
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Parent', value: 'Parent'},
+    {label: 'Aidant', value: 'Aidant'},
+  ]);
+
   // pour ne pas avoir à se reconnecter au rechargement de l'app
   useEffect(() => {
-    if(user.email){
+    if(user.email !== null){
       navigation.navigate('TabNavigator', { screen: 'Message' });
     }
   }, []);
 
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleConnexion = () => {
-    if (EMAIL_REGEX.test(email)) {
-      if (isParent){
-        fetch('http:/192.168.10.150:3000/parentUsers/signup', {
+    if (isParent) {
+      if (EMAIL_REGEX.test(email)) {
+        fetch('http://192.168.10.162:3000/parentUsers/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -52,10 +64,19 @@ export default function ConnexionScreen({ navigation }) {
             dispatch(login({ email, token: data.token }));
             setEmail('');
             setPassword('');
+            navigation.navigate('TabNavigator', { screen: 'Message' });
+          } else {
+            setErrorMessage(true);
           }
-        });
+        }) // fin du fetch parent
       } else {
-        fetch('http://192.168.10.150:3000/aidantUsers/signup', {
+        setEmailError(true);
+      } // fin du if regex
+    } // fin du if parent
+
+    else if (isAidant) {
+      if (EMAIL_REGEX.test(email)) {
+        fetch('http://192.168.10.162:3000/aidantUsers/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -66,13 +87,19 @@ export default function ConnexionScreen({ navigation }) {
             dispatch(login({ email, token: data.token }));
             setEmail('');
             setPassword('');
+            navigation.navigate('TabNavigator', { screen: 'Message' });
+          } else {
+            setErrorMessage(true);
           }
-        });
-      }
-      navigation.navigate('TabNavigator', { screen: 'Message' });
-    } else {
-      setEmailError(true);
-    }
+        }) // fin du fetch aidant
+      } else {
+        setEmailError(true);
+      } // fin du if regex
+    } // fin du else if aidant
+
+    else {
+      setProfilError(true);
+    } // fin du if global
   };
 
   
@@ -87,6 +114,24 @@ export default function ConnexionScreen({ navigation }) {
           </View>
 
           <View style={styles.centerContainer}>
+            <DropDownPicker style={{width: 120, marginLeft: 15, borderColor: '#5ABAB6'}} placeholderStyle={{color: "grey"}} disabledStyle={{opacity: 0.5}}
+              open={open}
+              value={value}
+              items={items}
+              placeholder="Profil"
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+              dropDownContainerStyle={{ width: 120, marginLeft: 15, marginBottom: 15, borderColor: '#5ABAB6' }}
+              onSelectItem={(item) => {
+                if (item.value === 'Parent') {
+                  setParent(true)
+                } else {
+                  setAidant(true)
+                }
+              }}
+              />
+            {profilError && <Text style={styles.error}>Choisir un profil</Text>}
             <View style={styles.emailLabelContainer}>
               <Text style={styles.label}>Email</Text>
             </View>
@@ -102,7 +147,7 @@ export default function ConnexionScreen({ navigation }) {
                 style={styles.input}
               />
             </View>
-              {emailError && <Text style={styles.error}>Invalid email address</Text>}
+              {emailError && <Text style={styles.error}>Format d'email incorrect.</Text>}
             <View style={styles.mdpLabelContainer}>
               <Text style={styles.label}>Mot de passe</Text>
             </View>
@@ -115,6 +160,7 @@ export default function ConnexionScreen({ navigation }) {
                 style={styles.input}
               />
             </View>
+            {errorMessage && <Text style={styles.error}>Email/Password inexistant ou non valide</Text>}
           </View>
 
           <View style={styles.bottomContainer}>
