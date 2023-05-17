@@ -70,10 +70,10 @@ export default function InscriptionScreen({ navigation }) {
           }
         }
       } else {
-        setErrorMessage(`Le format de l'email est invalide.`);
+        setErrorMessage(`Le format de l'email est invalide.`); // Set the error message for invalid email
       }
     } else {
-      setErrorMessage('Vous devez obligatoirement sélectionner un profil.');
+      setErrorMessage('Vous devez obligatoirement sélectionner un profil.'); // Set the error message for empty profile
     }
   };
 
@@ -155,7 +155,7 @@ export default function InscriptionScreen({ navigation }) {
           </View>
 
         </View>
-        
+
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
