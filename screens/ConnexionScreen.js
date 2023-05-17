@@ -32,7 +32,7 @@ export default function ConnexionScreen({ navigation }) {
 
   // pour ne pas avoir à se reconnecter au rechargement de l'app
   useEffect(() => {
-    if(user.email){
+    if(user.email !== null){
       navigation.navigate('TabNavigator', { screen: 'Message' });
     }
   }, []);
@@ -40,34 +40,36 @@ export default function ConnexionScreen({ navigation }) {
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleConnexion = () => {
     if (EMAIL_REGEX.test(email)) {
-      if (isParent){
-        fetch('http:/192.168.10.150:3000/parentUsers/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.result) {
-            dispatch(login({ email, token: data.token }));
-            setEmail('');
-            setPassword('');
-          }
-        });
+      if (isParent) {
+          fetch('http://192.168.10.162:3000/parentUsers/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+          })
+          .then(response => response.json())
+          .then(data => {
+
+            if (data.result) {
+              console.log(data)
+              dispatch(login({ email, token: data.token }));
+              setEmail('');
+              setPassword('');
+            }
+          });
       } else {
-        fetch('http://192.168.10.150:3000/aidantUsers/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.result) {
-            dispatch(login({ email, token: data.token }));
-            setEmail('');
-            setPassword('');
-          }
-        });
+          fetch('http://192.168.10.162:3000/aidantUsers/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.result) {
+              dispatch(login({ email, token: data.token }));
+              setEmail('');
+              setPassword('');
+            }
+          })
       }
       navigation.navigate('TabNavigator', { screen: 'Message' });
     } else {
@@ -102,7 +104,7 @@ export default function ConnexionScreen({ navigation }) {
                 style={styles.input}
               />
             </View>
-              {emailError && <Text style={styles.error}>Invalid email address</Text>}
+              {emailError && <Text style={styles.error}>L'adresse email est incorrecte.</Text>}
             <View style={styles.mdpLabelContainer}>
               <Text style={styles.label}>Mot de passe</Text>
             </View>
