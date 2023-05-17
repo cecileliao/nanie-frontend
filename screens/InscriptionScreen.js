@@ -25,9 +25,7 @@ export default function InscriptionScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
-  const [email, setEmail] = useState(null);
   const [emailError, setEmailError] = useState(false);
-  const [password, setPassword] = useState(null);
 
   const [isParent, setParent] = useState(false);
   const [isAidant, setAidant] = useState(false);
@@ -39,18 +37,28 @@ export default function InscriptionScreen({ navigation }) {
     }
   }, []);
 
+  //mise à jour du store
+  const handleEmail = (text) => {
+    if (isParent){
+      dispatch(updateParent({email: text}))
+    } else {
+      dispatch(updateAidant({email: text}))
+    }
+  };
+  const handlePassword = (text) => {
+    if (isParent){
+      dispatch(updateParent({password: text}))
+    } else {
+      dispatch(updateAidant({password: text}))
+    }
+  };
+
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleSubmit = () => {
     if (EMAIL_REGEX.test(email)) {
       if (isParent){
-        dispatch(updateParent({ email, password }));
-        setEmail('');
-        setPassword('');
         navigation.navigate('ParentProfilScreen1', { name: 'ParentProfilScreen1' })
       } else {
-        dispatch(updateAidant({ email, password }));
-        setEmail('');
-        setPassword('');
         navigation.navigate('AidantProfilScreen1', { name: 'AidantProfilScreen1' });
       }
     } else {
@@ -84,8 +92,8 @@ export default function InscriptionScreen({ navigation }) {
                 keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
                 textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
                 autoComplete="email" // https://reactnative.dev/docs/textinput#autocomplete-android
-                onChangeText={(value) => setEmail(value)}
-                value={email}
+                value={user.email}
+                onChangeText={text => handleEmail(text)}
                 style={styles.input}
               />
             </View>
@@ -97,8 +105,8 @@ export default function InscriptionScreen({ navigation }) {
               <TextInput
                 placeholder="Mot de passe"
                 secureTextEntry={true}
-                onChangeText={(value) => setPassword(value)}
-                value={password}
+                value={user.password}
+                onChangeText={text => handlePassword(text)}
                 style={styles.input}
               />
             </View>
