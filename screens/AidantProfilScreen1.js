@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateAidant } from '../reducers/users';
 import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image, Button } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -63,21 +63,23 @@ export default function AidantProfilScreen1({ navigation }) {
 
     //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.value)
+    console.log(user);
 
     const handleNext = () => {
-      dispatch(updateAidant(
-        photoAidant,
-        nameAidant,
-        firstNameAidant,
-        phoneAidant,
-        ageAidant,
-        sexeAidant,
-        addressAidant,
-        zipAidant,
-        cityAidant,
-        ratebyHour,
-        car,
-      ));
+      // dispatch(updateAidant(
+      //   photoAidant,
+      //   nameAidant,
+      //   firstNameAidant,
+      //   phoneAidant,
+      //   ageAidant,
+      //   sexeAidant,
+      //   addressAidant,
+      //   zipAidant,
+      //   cityAidant,
+      //   ratebyHour,
+      //   car,
+      // ));
       navigation.navigate('AidantProfilScreen2');
     };
 
@@ -104,25 +106,27 @@ export default function AidantProfilScreen1({ navigation }) {
 
     <View style={styles.containerInput}>
       <Text>Nom</Text>
-      <TextInput style={styles.input} onChangeText={text => setnameAidant(text)} placeholder="Nom" />
+      <TextInput style={styles.input} value={user.nameAidant} onChangeText={text => dispatch(updateAidant({nameAidant: text}))} placeholder="Nom" />
     </View>
 
     {/* prénom de l'aidant */}
     <View style={styles.containerInput}>
       <Text>Prénom</Text>
-      <TextInput style={styles.input} onChangeText={text => setfirstNameAidant(text)} placeholder="Prénom" />
+      <TextInput style={styles.input} value={user.firstNameAidant} onChangeText={text => dispatch(updateAidant({firstNameAidant: text}))} placeholder="Prénom" />
     </View>
 
     {/* téléphone de l'aidant */}
     <View style={styles.containerInput}>
       <Text>Téléphone</Text>
-      <TextInput style={styles.input} onChangeText={text => setphoneAidant(text)} placeholder="Téléphone" />
+      {/* <TextInput style={styles.input} onChangeText={text => setphoneAidant(text)} placeholder="Téléphone" /> */}
+      <TextInput style={styles.input} value={user.phoneAidant} onChangeText={text => dispatch(updateAidant({phoneAidant: text}))} placeholder="Téléphone" />
     </View>
 
       {/* adresse de l'aidant */}
       <View style={styles.containerInput}>
         <Text>Adresse</Text>
-        <TextInput style={styles.input} onChangeText={text => setaddressAidant(text)} placeholder="Adresse" />
+        {/* <TextInput style={styles.input} onChangeText={text => setaddressAidant(text)} placeholder="Adresse" /> */}
+        <TextInput style={styles.input} value={user.addressAidant} onChangeText={text => dispatch(updateAidant({addressAidant: text}))} placeholder="Adresse" />
       </View>
 
     <View style={styles.doubleInput}>
@@ -130,13 +134,15 @@ export default function AidantProfilScreen1({ navigation }) {
       {/* code postal de l'aidant */}
       <View style={styles.smallcontainerInput}>
       <Text>Code Postal</Text>
-        <TextInput style={styles.codePostal} onChangeText={text => setzipAidant(text)} placeholder="CP" />
+        {/* <TextInput style={styles.codePostal} onChangeText={text => setzipAidant(text)} placeholder="CP" /> */}
+        <TextInput style={styles.codePostal} value={user.zipAidant} onChangeText={text => dispatch(updateAidant({zipAidant: text}))} placeholder="CP" />
       </View>
 
       {/* code postal de l'aidant */}
       <View style={styles.smallcontainerInput}>
       <Text>Ville</Text>
-        <TextInput style={styles.city} onChangeText={text => setcityAidant(text)} placeholder="Ville" />
+        {/* <TextInput style={styles.city} onChangeText={text => setcityAidant(text)} placeholder="Ville" /> */}
+      <TextInput style={styles.city} value={user.cityAidant} onChangeText={text => dispatch(updateAidant({cityAidant: text}))} placeholder="Ville" />
       </View>
 
     </View>
@@ -146,7 +152,8 @@ export default function AidantProfilScreen1({ navigation }) {
       {/* âge de l'aidant */}
       <View style={styles.smallcontainerInput}>
       <Text>Naissance</Text>
-        <TextInput style={styles.smallinput} onChangeText={text => setageAidant(text)} placeholder="AAAA" />
+        {/* <TextInput style={styles.smallinput} onChangeText={text => setageAidant(text)} placeholder="AAAA" /> */}
+      <TextInput style={styles.smallinput} value={user.ageAidant} onChangeText={text => dispatch(updateAidant({ageAidant: text}))} placeholder="AAAA" />
       </View>
 
       {/* sexe de l'aidant */}
@@ -154,7 +161,7 @@ export default function AidantProfilScreen1({ navigation }) {
           <Text>Sexe</Text>
           <DropDownPicker style={{width: 120, marginLeft: 15, borderColor: '#5ABAB6'}} placeholderStyle={{color: "grey"}} disabledStyle={{opacity: 0.5}}
           open={open}
-          value={value}
+          value={value} // value ??
           items={items}
           placeholder="Sexe"
           setOpen={setOpen}
@@ -162,8 +169,9 @@ export default function AidantProfilScreen1({ navigation }) {
           setItems={setItems}
           dropDownContainerStyle={{ width: 120, marginLeft: 15, marginBottom: 15, borderColor: '#5ABAB6' }}
           onSelectItem={(item) => {
-            setsexeAidant(item)
-          }}
+            // setsexeAidant(item)
+            dispatch(updateAidant({sexeAidant: item}))}
+          }
           />
       </View>
 
@@ -174,7 +182,8 @@ export default function AidantProfilScreen1({ navigation }) {
      {/* tarif horaire l'aidant */}
      <View style={styles.tarifcontainerInput}>
       <Text>Tarif horaire</Text>
-        <TextInput style={styles.city} onChangeText={text => setratebyHour(text)} placeholder="Tarif/heure" />
+        {/* <TextInput style={styles.city} onChangeText={text => setratebyHour(text)} placeholder="Tarif/heure" /> */}
+        <TextInput style={styles.city} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Tarif/heure" />
       </View>
 
       {/* permis l'aidant */}
@@ -182,7 +191,8 @@ export default function AidantProfilScreen1({ navigation }) {
         <Text>Permis B</Text>
         <Switch style={{marginLeft: 30}}
         value={car}
-        onValueChange={(value) => setcar(value)}
+        // onValueChange={(value) => setcar(value)}
+        onValueChange={(value) => dispatch(updateAidant({ageAidant: value}))}
         trackColor={{ false: '#D9D9D9', true: '#5ABAB6' }}
         />
       </View>

@@ -1,50 +1,44 @@
 import { View, Text, Image, StyleSheet, Switch, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAidant } from '../reducers/users';
     
 const blocks = [
   {
     image: require('../assets/person-cane-solid.png'),
     title: 'Balade',
-    description: 'Sortir avec l’aîné à pied ou en voiture, pour se rendre au parc, magasins, ciné...',
+    description: 'Sortir avec mon aîné à pied ou en voiture, pour se rendre au parc, magasins, ciné...',
   },
   {
     image: require('../assets/pump-soap-solid.png'),
     title: 'Hygiène',
-    description: 'Assurer l’hygiène complète (aider à changer les vêtements, toilette, dents, ..)',      },
+    description: 'Assurer son hygiène complète (aider à changer ses vêtements, toilette, dents, ..)',      },
   {
     image: require('../assets/carrot-solid.png'),
     title: 'Alimentation',
-    description: 'Préparer des repas équilibrés et adaptés aux besoins des personnes âgées.',
+    description: 'Préparer des repas équilibrés et adaptés à ses besoins.',
   },
   {
     image: require('../assets/music-solid.png'),
     title: 'Divertissement',
-    description: 'Accompagner la personne dans la lecture, les jeux de cartes, les activités artistiques ...',
+    description: 'Accompagner mon aîné dans la lecture, les jeux de cartes, les activités artistiques ...',
   },
 ];
     
-export default function AidantProfilScreen3() {
-  const dispatch = useDispatch();
+export default function FamilleProfilScreen() {
   const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
-
-  const toggleSwitch = (index) => {
-    const newState = [...switchesState];
-    newState[index] = !newState[index];
-    setSwitchesState(newState);
-  };
- 
-
-  const handleValidate = () => {
-    //fetch
     
+  const toggleSwitch = (index) => {      
+    setSwitchesState(prevState => {
+      const newState = [...prevState];
+      newState[index] = !newState[index];
+      return newState;
+    });
   };
     
     
   return (
     <View style={styles.container}>
-      <Text style={styles.pagetitle}>Mes Talents</Text>
+      <Text style={styles.pagetitle}>Talents Recherchés</Text>
     
       {blocks.map((block, index) => (
         <View style={styles.block} key={index}>
@@ -73,8 +67,8 @@ export default function AidantProfilScreen3() {
         </View>
       ))}
     
-      <TouchableOpacity style={styles.button} >
-        <Text style={styles.buttonText} onPress={handleValidate}>Valider</Text>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Valider</Text>
       </TouchableOpacity>
     </View>
   );
@@ -110,6 +104,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginRight: 15,
+    color: '#D9D9D9',
   },
     textContainer: {
     flex: 1,
