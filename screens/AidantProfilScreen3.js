@@ -47,48 +47,24 @@ export default function AidantProfilScreen3() {
  
 
   const handleValidate = () => {
-    // recupérer talents selectionnés avec le toggle
-    const selectedTalents = blocks.reduce((result, block, index) => {
-      result[block.title.toLowerCase()] = switchesState[index];
-      return result;
-    }, {});
-    // récupérer les valeurs des inputs
-    const profilValues = {
-      photoAidant: null,
-      nameAidant: null,
-      firstNameAidant: null,
-      phoneAidant: null,
-      ageAidant: null,
-      sexeAidant: null,
-      addressAidant: null,
-      zipAidant: null,
-      cityAidant: null,
-      ratebyHour: null,
-      car: false,
-      introBioAidant: null,
-      longBioAidant: null,
-      abilitiesAidant: null,
-      talents: {
-        mobility: false,
-        hygiene: false,
-        cooking: false,
-        entertainment: false,
-        // ...selectedTalents // Inclure les talents sélectionnés ici
-      }
-    };
-    
+    dispatch(updateAidant({mobility: switchesState[0]}))
+    dispatch(updateAidant({hygiene: switchesState[1]}))
+    dispatch(updateAidant({cooking: switchesState[2]}))
+    dispatch(updateAidant({entertainment: switchesState[3]}))
 
     //const [token, setToken] = useState(false);
     //if token ??
     fetch('http:/192.168.10.126:3000/aidantUsers/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(profilValues),
+      body: JSON.stringify(user.state.value),
     }).then(response => response.json())
       .then(data => {
-        if (data.result) {
-          dispatch(updateAidant(profilValues));
+        if(data.result) {
+          dispatch(updateAidant());
+          // navigavigate.nav
         }
+        console.log(data)
       });
   };
     
