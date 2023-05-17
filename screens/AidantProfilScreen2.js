@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateAidant } from '../reducers/users';
-import { Dimensions, TouchableOpacity, View, Text, TextInput, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native'
+import { Dimensions, TouchableOpacity, View, Text, TextInput, StyleSheet, Image, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback, } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function AidantProfilScreen2({ navigation }) {
 
-  //text rempli
-  //phrase intro de l'aidant
+  // //text rempli
+ //phrase intro de l'aidant
   const [introBioAidant, setintroBioAidant] = useState("");
   //description détaillée de l'aidant
   const [longBioAidant, setlongBioAidant] = useState("");
-  //compétences de l'aidant
+  // //compétences de l'aidant
   const [abilitiesAidant, setabilitiesAidant] = useState("");
 
   //afficher le nombre de caractères restants sur le textInput
@@ -43,25 +43,31 @@ useEffect(() => {
 
 //récupération info user au moment d'appuyer sur le bouton suivant
 const dispatch = useDispatch();
+//récupérer valeur de user du reducer
+const user = useSelector((state) => state.user.value)
+
+const handleIntro = (text) => {
+  setintroBioAidant(text)
+  dispatch(updateAidant())
+}
+
+const handleLongBio = (text) => {
+  setlongBioAidant(text)
+  dispatch(updateAidant())
+}
+
+const handleAbilities = (text) => {
+  setabilitiesAidant(text)
+  dispatch(updateAidant())
+}
 
 const handleNext = () => {
-  dispatch(updateAidant(
-    introBioAidant,
-    longBioAidant,
-    abilitiesAidant,
-  ));
-  console.log(dispatch(updateAidant(
-    introBioAidant,
-    longBioAidant,
-    abilitiesAidant,
-  )));
   navigation.navigate('AidantProfilScreen3');
 };
 
-
-
+console.log(user)
   return (
-
+    
  <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
 
     {/* Phrase intro */}
@@ -70,7 +76,8 @@ const handleNext = () => {
     <Text style={styles.firsttitle}>Ma présentation en quelques mots</Text>
         <TextInput
             style={styles.input}
-            onChangeText={text => setintroBioAidant(text)}
+            value={user.introBioAidant}
+            onChangeText={text => handleIntro(text)}
             placeholder="Ma phrase d’introduction"
             textAlignVertical="top" //sur android pour center le placeholder en haut
             multiline={true} //sur ios pour center le placeholder en haut
@@ -88,7 +95,8 @@ const handleNext = () => {
     <Text style={styles.title}>Ma personnalité incroyable</Text>
         <TextInput
             style={styles.longinput}
-            onChangeText={text => setlongBioAidant(text)}
+            value={user.longBioAidant}
+            onChangeText={text => handleLongBio(text)}
             placeholder="Présentation détaillée de ta personnalité"
             textAlignVertical="top" //sur android pour center le placeholder en haut
             multiline={true} //sur ios pour center le placeholder en haut
@@ -104,7 +112,8 @@ const handleNext = () => {
     <Text style={styles.title}>Mes compétences magiques</Text>
         <TextInput
             style={styles.longinput}
-            onChangeText={text => setabilitiesAidant(text)}
+            value={user.abilitiesAidant}
+            onChangeText={text => handleAbilities(text)}
             placeholder="Description de mes compétences, diplômes, expérience ..."
             textAlignVertical="top" //sur android pour center le placeholder en haut
             multiline={true} //sur ios pour center le placeholder en haut
