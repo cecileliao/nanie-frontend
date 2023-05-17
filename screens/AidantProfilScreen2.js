@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { updateAidant } from '../reducers/users';
-import { Dimensions, TouchableOpacity, View, Text, TextInput, StyleSheet, Image, KeyboardAvoidingView, Platform } from 'react-native'
-import DropDownPicker from 'react-native-dropdown-picker';
+import { 
+  Dimensions, 
+  TouchableOpacity, 
+  View, 
+  Text, 
+  TextInput, 
+  StyleSheet, 
+  KeyboardAvoidingView, 
+  Platform, 
+  Keyboard,
+  TouchableWithoutFeedback, 
+} from 'react-native'
 
 export default function AidantProfilScreen2({ navigation }) {
 
-  //text rempli
+  //texte rempli
   //phrase intro de l'aidant
   const [introBioAidant, setintroBioAidant] = useState("");
   //description détaillée de l'aidant
@@ -33,12 +43,12 @@ export default function AidantProfilScreen2({ navigation }) {
     setlongIntroRemainingCharacters(longremainingCount);
   }, [longBioAidant]);
 
-//pour le nombre de caractères de la description détaillée
-useEffect(() => {
-        const charactersCount = abilitiesAidant.length;
-        const abilitiesRemainingCount = 300 - charactersCount;
-        setabilitiesRemainingCharacters(abilitiesRemainingCount);
-}, [abilitiesAidant]);
+  //pour le nombre de caractères de la description détaillée
+  useEffect(() => {
+          const charactersCount = abilitiesAidant.length;
+          const abilitiesRemainingCount = 300 - charactersCount;
+          setabilitiesRemainingCharacters(abilitiesRemainingCount);
+  }, [abilitiesAidant]);
 
 
 //récupération info user au moment d'appuyer sur le bouton suivant
@@ -61,70 +71,67 @@ const handleNext = () => {
 
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
+          
+           {/* Phrase intro */}
+          <View style={styles.phraseIntroContainer}>
+            <Text style={styles.firsttitle}>Ma présentation en quelques mots</Text>
+            <TextInput
+                style={styles.input}
+                onChangeText={text => setintroBioAidant(text)}
+                placeholder="Ma phrase d’introduction"
+                textAlignVertical="top" //sur android pour center le placeholder en haut
+                multiline={true} //sur ios pour center le placeholder en haut
+                maxLength={100} //taille max de la phrase
+            />
+            <View style={styles.characterCountContainer}>
+              <Text style={styles.characterCountText}>{shortIntroremainingCharacters}</Text>
+            </View>
+          </View>
 
- <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+          {/* Description détaillée */}
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.title}>Ma personnalité incroyable</Text>
+            <TextInput
+                style={styles.longinput}
+                onChangeText={text => setlongBioAidant(text)}
+                placeholder="Présentation détaillée de ta personnalité"
+                textAlignVertical="top" //sur android pour center le placeholder en haut
+                multiline={true} //sur ios pour center le placeholder en haut
+                maxLength={300} //taille max de la phrase
+            />
+            <View style={styles.characterCountContainer}>
+              <Text style={styles.characterCountText}>{longIntroremainingCharacters}</Text>
+            </View>
+          </View>
 
-    {/* Phrase intro */}
-   
-    <View>
-    <Text style={styles.firsttitle}>Ma présentation en quelques mots</Text>
-        <TextInput
-            style={styles.input}
-            onChangeText={text => setintroBioAidant(text)}
-            placeholder="Ma phrase d’introduction"
-            textAlignVertical="top" //sur android pour center le placeholder en haut
-            multiline={true} //sur ios pour center le placeholder en haut
-            maxLength={100} //taille max de la phrase
-        />
-          <View style={styles.characterCountContainer}>
-          <Text style={styles.characterCountText}>{shortIntroremainingCharacters}</Text>
-        </View>
-      </View>
+          {/* Compétences */}
+          <View style={styles.competencesContainer}>
+            <Text style={styles.title}>Mes compétences magiques</Text>
+            <TextInput
+                style={styles.longinput}
+                onChangeText={text => setabilitiesAidant(text)}
+                placeholder="Description de mes compétences, diplômes, expérience ..."
+                textAlignVertical="top" //sur android pour center le placeholder en haut
+                multiline={true} //sur ios pour center le placeholder en haut
+                maxLength={300} //taille max de la phrase
+            />
+            <View style={styles.characterCountContainer}>
+              <Text style={styles.characterCountText}>{abilitiesremainingCharacters}</Text>
+            </View>
+          </View>
 
-
-
-       {/* Description détaillée */}
-    <View>
-    <Text style={styles.title}>Ma personnalité incroyable</Text>
-        <TextInput
-            style={styles.longinput}
-            onChangeText={text => setlongBioAidant(text)}
-            placeholder="Présentation détaillée de ta personnalité"
-            textAlignVertical="top" //sur android pour center le placeholder en haut
-            multiline={true} //sur ios pour center le placeholder en haut
-            maxLength={300} //taille max de la phrase
-        />
-          <View style={styles.characterCountContainer}>
-          <Text style={styles.characterCountText}>{longIntroremainingCharacters}</Text>
-        </View>
-      </View>
-
-         {/* Compétences */}
-    <View>
-    <Text style={styles.title}>Mes compétences magiques</Text>
-        <TextInput
-            style={styles.longinput}
-            onChangeText={text => setabilitiesAidant(text)}
-            placeholder="Description de mes compétences, diplômes, expérience ..."
-            textAlignVertical="top" //sur android pour center le placeholder en haut
-            multiline={true} //sur ios pour center le placeholder en haut
-            maxLength={300} //taille max de la phrase
-        />
-          <View style={styles.characterCountContainer}>
-          <Text style={styles.characterCountText}>{abilitiesremainingCharacters}</Text>
-        </View>
-      </View>
-
-     
-       
         {/* Bouton suivant */}
-      <View style={styles.buttoncontainer}>
-      <TouchableOpacity style={styles.button} onPress={handleNext}>
-        <Text style={styles.buttonText}>Suivant</Text>
-      </TouchableOpacity>
-      </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={handleNext}>
+              <Text style={styles.textButton}>Suivant</Text>
+            </TouchableOpacity>
+          </View>
 
- </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
+
 
   )
 }
@@ -136,11 +143,22 @@ const handleNext = () => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#ffffff',
+      backgroundColor: 'white',
+      alignItems: 'center',
+      justifyContent: 'center', // par défaut justify-content: 'flex-start', pour que le padding du keyboardavoiding fonctionne il faut le mettre sur flex-end ou center
     },
+    phraseIntroContainer: {
+      height:windowHeight * 0.15,
+    },
+    descriptionContainer: {
+      height:windowHeight * 0.26,
+    },
+    competencesContainer: {
+      height:windowHeight * 0.26,
+    },
+    // input
     input: {
-      width: windowWidth * 0.88,
-      height:windowWidth * 0.20,
+      height:windowHeight * 0.10,
       borderColor: '#5ABAB6',
       borderWidth: 1,
       borderRadius: 5,
@@ -149,58 +167,74 @@ const styles = StyleSheet.create({
       marginLeft:20,
       marginRight:25,
       marginBottom:25,
+      fontFamily: 'Manrope',
     },
     longinput: {
-        width: windowWidth * 0.88,
-        height: windowHeight * 0.21,
-        borderColor: '#5ABAB6',
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: 10,
-        fontSize: 13,
-        marginLeft:20,
-        marginRight:25,
-        marginBottom:25,
-      },
+      height: windowHeight * 0.20,
+      borderColor: '#5ABAB6',
+      borderWidth: 1,
+      borderRadius: 5,
+      padding: 10,
+      fontSize: 13,
+      marginLeft:20,
+      marginRight:25,
+      marginBottom:25,
+      fontFamily: 'Manrope',
+    },
+      // compteur
     characterCountContainer: {
-        position: 'absolute',
-        bottom: 30,
-        right: 40,
-        backgroundColor: 'white',
-        borderRadius: 5,
-      },
-      characterCountText: {
-        color: '#868686',
-        fontSize: 12
-      },
-      firsttitle: {
-        fontFamily: "Recoleta",
-        fontSize: 20,
-        color: "#785C83",
-        marginLeft: 20,
-        marginBottom: 20,
-        marginTop: 20
-      },
-    title: {
+      position: 'absolute',
+      bottom: -10,
+      right: 40,
+      backgroundColor: 'white',
+      borderRadius: 5,
+    },
+    characterCountText: {
+      color: '#868686',
+      fontSize: 12,
+      fontFamily: 'Manrope',
+    },
+    //titres
+    firsttitle: {
       fontFamily: "Recoleta",
       fontSize: 20,
       color: "#785C83",
       marginLeft: 20,
-      marginBottom: 20
+      marginBottom: 10,
+      marginTop: 20,
+      height: windowHeight * 0.04,
+      width: windowWidth * 0.9,
     },
-    buttoncontainer: {
+    title: {
+      height: windowHeight * 0.04,
+      width: windowWidth * 0.9,
+      fontFamily: "Recoleta",
+      fontSize: 20,
+      color: "#785C83",
+      marginLeft: 20,
+      marginBottom: 10,
+      marginTop: 30,
+    },
+    //bouton suivant
+    buttonContainer: {
       alignItems: 'center',
       justifyContent: 'center',
+      marginBottom: 10,
+      marginTop: 50,
+      height:windowHeight* 0.1,
     },
     button: {
       backgroundColor: '#5ABAB6',
+      width: windowWidth * 0.4,
+      margin: 20,
+      borderRadius: '5%',
       padding: 10,
-      borderRadius: 8,
-      width: windowWidth * 0.25,
+      alignItems: 'center',
     },
-    buttonText: {
+    textButton: {
+      fontFamily: 'Manrope',
+      fontSize: 16,
       color: 'white',
-      textAlign: "center",
-  },
+    },
   
     })
