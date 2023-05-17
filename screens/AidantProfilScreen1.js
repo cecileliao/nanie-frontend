@@ -40,28 +40,58 @@ export default function AidantProfilScreen1({ navigation }) {
       dispatch(updateAidant({ photoAidant: result.uri }))}
   };
 
-    //etat pour afficher erreur si pas bonne structure de téléphone
+    //etat pour afficher erreur si mauvaise structure
     const [phoneError, setPhoneError] = useState(false);
+    const [zipError, setZipError] = useState(false);
+    const [birthYearError, setbirthYearError] = useState(false);
    
-    //fonction pour vérifier la validité du telephone
     const validateTel = (phone) => {
-      const PHONE_REGEX = /^[+0-9]+$/; // Expression régulière pour valider le numéro de téléphone
-      if (PHONE_REGEX.test(phone)) {
-        setPhoneError(false); // Le téléphone est valide, pas d'erreur
-      } else {
-        setPhoneError(true); // Le téléphone est invalide, afficher une erreur
-      }
+      const PHONE_REGEX = /^[+0-9]+$/;
+      return PHONE_REGEX.test(phone);
     };
+    
+    const validateZip = (zip) => {
+      const ZIP_REGEX = /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/;
+      return ZIP_REGEX.test(zip);
+    };
+    
+    const validatebirthYear = (birthyear) => {
+      const BIRTH_REGEX = /^(19|20)\d{2}$/;
+      return BIRTH_REGEX.test(birthyear);
+    };
+    
   
 
-  // Quand on clique sur bouton suivant 
     const handleNext = () => {
-      if(validateTel(user.phoneAidant)){ 
-        navigation.navigate('AidantProfilScreen2'); 
-      }else{
-        setPhoneError(true) //si tel pas valide reste sur la page et renvoie l'image
+      let isValid = true;
+    
+      if (!validateTel(user.phoneAidant)) {
+        setPhoneError(true);
+        isValid = false;
+      } else {
+        setPhoneError(false);
+      }
+    
+      if (!validateZip(user.zipAidant)) {
+        setZipError(true);
+        isValid = false;
+      } else {
+        setZipError(false);
+      }
+    
+      if (!validatebirthYear(user.ageAidant)) {
+        setbirthYearError(true);
+        isValid = false;
+      } else {
+        setbirthYearError(false);
+      }
+    
+      if (isValid) {
+        navigation.navigate('AidantProfilScreen2');
       }
     };
+    
+  
 
   return (
     <View style={styles.container}>
@@ -103,7 +133,7 @@ export default function AidantProfilScreen1({ navigation }) {
           placeholder="Téléphone"
         />
       </View>
-      {phoneError && <Text style={{color:"red", textAlign: "center"}}>Téléphone non valide</Text>}
+      {phoneError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Téléphone non valide</Text>}
 
       {/* adresse de l'aidant */}
       <View style={styles.containerInput}>
@@ -125,7 +155,11 @@ export default function AidantProfilScreen1({ navigation }) {
       <TextInput style={styles.city} value={user.cityAidant} onChangeText={text => dispatch(updateAidant({cityAidant: text}))} placeholder="Ville" />
       </View>
 
+      
+
     </View>
+
+    {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
 
     <View style={styles.doubleInput}>
 
@@ -134,6 +168,7 @@ export default function AidantProfilScreen1({ navigation }) {
       <Text>Naissance</Text>
       <TextInput style={styles.smallinput} value={user.ageAidant} onChangeText={text => dispatch(updateAidant({ageAidant: text}))} placeholder="AAAA" />
       </View>
+      
 
       {/* sexe de l'aidant */}
       <View style={styles.smallcontainerInput}>
@@ -155,12 +190,12 @@ export default function AidantProfilScreen1({ navigation }) {
 
 
     </View>
-
+    {birthYearError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Année de naissance non valide</Text>}
 
      {/* tarif horaire l'aidant */}
      <View style={styles.tarifcontainerInput}>
       <Text>Tarif horaire</Text>
-        <TextInput style={styles.city} value={user.ratebyHourAidant} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Tarif/heure" />
+        <TextInput style={styles.city} value={user.ratebyHourAidant} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Tarif" />
       </View>
 
       {/* permis l'aidant */}
