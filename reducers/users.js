@@ -18,7 +18,7 @@ const initialState = {
       introBioAidant: null,
       longBioAidant: null,
       abilitiesAidant: null,
-      parameters: {
+      talents: {
         mobility: false,
         hygiene: false,
         cooking: false,
