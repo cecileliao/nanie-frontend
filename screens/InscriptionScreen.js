@@ -25,28 +25,21 @@ export default function InscriptionScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
-  const [emailError, setEmailError] = useState(false);
-
-  const [isParent, setParent] = useState(false);
-  const [isAidant, setAidant] = useState(false);
-
-  // pour ne pas avoir à se reconnecter au rechargement de l'app
-  useEffect(() => {
-    if(user.email){
-      navigation.navigate('TabNavigator', { screen: 'Message' });
-    }
-  }, []);
+  // const [emailError, setEmailError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  
+  const [selectedProfile, setSelectedProfile] = useState(null);
 
   //mise à jour du store
   const handleEmail = (text) => {
-    if (isParent){
+    if (selectedProfile === 'parent'){
       dispatch(updateParent({email: text}))
     } else {
       dispatch(updateAidant({email: text}))
     }
   };
   const handlePassword = (text) => {
-    if (isParent){
+    if (selectedProfile === 'parent'){
       dispatch(updateParent({password: text}))
     } else {
       dispatch(updateAidant({password: text}))
@@ -55,32 +48,45 @@ export default function InscriptionScreen({ navigation }) {
 
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleSubmit = () => {
-    if (EMAIL_REGEX.test(user.email)) {
-      if (isParent){
-        navigation.navigate('ParentProfilScreen1', { name: 'ParentProfilScreen1' })
+    if(selectedProfile === 'parent' || selectedProfile === 'aidant'){
+      if (EMAIL_REGEX.test(user.email)) {
+        if (!user.password || user.password.trim() === '') {
+          setErrorMessage('Le mot de passe ne peut pas être vide.'); // Set the error message for empty password
+        } else if (user.password.length < 6) {
+          setErrorMessage('Le mot de passe doit avoir au moins 6 caractères.'); // Set the error message for short password
+        } else {
+          if (selectedProfile === 'parent') {
+            navigation.navigate('ParentProfilScreen1', { name: 'ParentProfilScreen1' });
+          } else {
+            navigation.navigate('AidantProfilScreen1', { name: 'AidantProfilScreen1' });
+          }
+        }
       } else {
-        navigation.navigate('AidantProfilScreen1', { name: 'AidantProfilScreen1' });
+        setErrorMessage(`Le format de l'email est invalide.`); // Set the error message for invalid email
       }
     } else {
-      setEmailError(true);
+      setErrorMessage('Vous devez obligatoirement sélectionner un profil.'); // Set the error message for empty profile
     }
   };
 
 // variables pour le profil de l'utilisateur
   const handleParent = () => {
-    setParent(!isParent);
+    setSelectedProfile('parent');
   };
   const handleAidant = () => {
-    setAidant(!isAidant);
+    setSelectedProfile('aidant');
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+        
         <View style={styles.container}>
+
           <View style={styles.topContainer}>
             <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
           </View>
+
           <View style={styles.centerContainer}>
             <View style={styles.emailLabelContainer}>
               <Text style={styles.label}>Email</Text>
@@ -97,7 +103,6 @@ export default function InscriptionScreen({ navigation }) {
                 style={styles.input}
               />
             </View>
-              {emailError && <Text style={styles.error}>L'adresse email est erronée</Text>}
             <View style={styles.mdpLabelContainer}>
               <Text style={styles.label}>Mot de passe</Text>
             </View>
@@ -113,11 +118,10 @@ export default function InscriptionScreen({ navigation }) {
             <View style={styles.checkboxContainer}>
               <Checkbox
                 title='Parent' 
-                style={styles.checkbox} 
-                value={isParent} 
-                onValueChange={setParent}
-                color={isParent ? '#5ABAB6' : undefined}
-                onPress={()=> handleParent}
+                style={styles.checkbox}
+                value={selectedProfile === 'parent'}
+                onValueChange={handleParent}
+                color={selectedProfile === 'parent' ? '#5ABAB6' : undefined}
               />
               <Text style={styles.checkboxLabel}>Parent</Text>
             </View>
@@ -125,20 +129,23 @@ export default function InscriptionScreen({ navigation }) {
               <Checkbox
                 title='Aidant' 
                 style={styles.checkbox} 
-                value={isAidant} 
-                onValueChange={setAidant}
-                color={isAidant ? '#5ABAB6' : undefined}
-                onPress={()=> handleAidant}
+                value={selectedProfile === 'aidant'}
+                onValueChange={handleAidant}
+                color={selectedProfile === 'aidant' ? '#5ABAB6' : undefined}
               />
               <Text style={styles.checkboxLabel}>Aidant</Text>
             </View>
+            {errorMessage && <Text style={styles.error}>{errorMessage}</Text>}
           </View>
+
           <View style={styles.bottomContainer}>
             <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
               <Text style={styles.textButton}>Inscription</Text>
             </TouchableOpacity>
           </View>
+
         </View>
+
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
