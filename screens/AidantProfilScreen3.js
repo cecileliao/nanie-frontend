@@ -26,11 +26,19 @@ const blocks = [
 ];
     
 export default function AidantProfilScreen3() {
-  const dispatch = useDispatch();
+
+    //récupération info user au moment d'appuyer sur le bouton suivant
+    const dispatch = useDispatch();
+    //récupérer infos du réducer pour user
+    const user = useSelector((state) => state.user.value)
+    //console.log(user);
+
+
   const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
 
   const toggleSwitch = (index) => {
     const newState = [...switchesState];
+    // index de la map crée - selectionne l'index et change l'état en fonction
     newState[index] = !newState[index];
     setSwitchesState(newState);
   };
@@ -111,6 +119,11 @@ const styles = StyleSheet.create({
     height: 24,
     marginRight: 15,
   },
+      image: {
+    width: 24,
+    height: 25,
+    marginRight: 15,
+  },
     textContainer: {
     flex: 1,
   },
@@ -130,7 +143,8 @@ const styles = StyleSheet.create({
   },
     text: {
     marginBottom: 8,
-    fontFamily: "Recoleta",
+    fontFamily: "Manrope",
+    fontSize: 13
   },
     buttonText: {
     color: 'white',

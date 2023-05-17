@@ -5,7 +5,13 @@ import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image, But
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from "expo-image-picker";
 
+
+
 export default function AidantProfilScreen1({ navigation }) {
+
+    //récupération info user au moment d'appuyer sur le bouton suivant
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.value)
 
   //photo de profil
   const [photoAidant, setphotoAidant] = useState("");
@@ -30,19 +36,33 @@ export default function AidantProfilScreen1({ navigation }) {
     
     // check if user canceled the image selection // selectedImage state updated with uri
     if (!result.canceled) {
-      dispatch(updateAidant({photoAidant: result.uri}))}
+      setphotoAidant(result.uri)
+      dispatch(updateAidant({ photoAidant: result.uri }))}
   };
 
-    //récupération info user au moment d'appuyer sur le bouton suivant
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.user.value)
+    //etat pour afficher erreur si pas bonne structure de téléphone
+    const [phoneError, setPhoneError] = useState(false);
+   
+    //fonction pour vérifier la validité du telephone
+    const validateTel = (phone) => {
+      const PHONE_REGEX = /^[+0-9]+$/; // Expression régulière pour valider le numéro de téléphone
+      if (PHONE_REGEX.test(phone)) {
+        setPhoneError(false); // Le téléphone est valide, pas d'erreur
+      } else {
+        setPhoneError(true); // Le téléphone est invalide, afficher une erreur
+      }
+    };
+  
 
+  // Quand on clique sur bouton suivant 
     const handleNext = () => {
-      navigation.navigate('AidantProfilScreen2');
+      if(validateTel(user.phoneAidant)){ 
+        navigation.navigate('AidantProfilScreen2'); 
+      }else{
+        setPhoneError(true) //si tel pas valide reste sur la page et renvoie l'image
+      }
     };
 
-
-    // console.log(user)
   return (
     <View style={styles.container}>
 
@@ -51,7 +71,7 @@ export default function AidantProfilScreen1({ navigation }) {
       <View style={styles.imageProfil}>
         <TouchableOpacity onPress={handleImageUpload}>
       <Image source={photoAidant ? { uri: photoAidant } : require("../assets/userPicture.png")}
-            style={{ width: 96, height: 96, margin: 20 }} />
+            style={{ width: 96, height: 96, margin: 20, borderRadius: 50 }} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImageUpload}>
         <Text>Ajouter/Modifier photo</Text>
@@ -75,9 +95,15 @@ export default function AidantProfilScreen1({ navigation }) {
 
     {/* téléphone de l'aidant */}
     <View style={styles.containerInput}>
-      <Text>Téléphone</Text>
-      <TextInput style={styles.input} value={user.phoneAidant} onChangeText={text => dispatch(updateAidant({phoneAidant: text}))} placeholder="Téléphone" />
-    </View>
+        <Text>Téléphone</Text>
+        <TextInput
+          style={styles.input}
+          value={user.phoneAidant}
+          onChangeText={text => dispatch(updateAidant({ phoneAidant: text }))}
+          placeholder="Téléphone"
+        />
+      </View>
+      {phoneError && <Text style={{color:"red", textAlign: "center"}}>Téléphone non valide</Text>}
 
       {/* adresse de l'aidant */}
       <View style={styles.containerInput}>
@@ -93,7 +119,7 @@ export default function AidantProfilScreen1({ navigation }) {
         <TextInput style={styles.codePostal} value={user.zipAidant} onChangeText={text => dispatch(updateAidant({zipAidant: text}))} placeholder="CP" />
       </View>
 
-      {/* code postal de l'aidant */}
+      {/* ville de l'aidant */}
       <View style={styles.smallcontainerInput}>
       <Text>Ville</Text>
       <TextInput style={styles.city} value={user.cityAidant} onChangeText={text => dispatch(updateAidant({cityAidant: text}))} placeholder="Ville" />
