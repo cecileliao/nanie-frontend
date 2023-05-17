@@ -38,6 +38,7 @@ export default function AidantProfilScreen3() {
 
   const toggleSwitch = (index) => {
     const newState = [...switchesState];
+    // index de la map crée - selectionne l'index et change l'état en fonction
     newState[index] = !newState[index];
     setSwitchesState(newState);
   };
