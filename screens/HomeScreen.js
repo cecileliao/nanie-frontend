@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
       alignItems: 'center',
     },
     textButton: {
-      // fontFamily: 'Manrope',
-      fontSize: 15,
+      fontFamily: 'Manrope',
+      fontSize: 16,
       color: 'white',
     }
 

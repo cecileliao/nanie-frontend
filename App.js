@@ -113,6 +113,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Recoleta: require("./assets/fonts/Recoleta.ttf"),
     RecoletaBold: require("./assets/fonts/RecoletaAlt-Bold.ttf"),
+    Manrope: require("./assets/fonts/Manrope-Regular.ttf"),
   });
 
   useEffect(() => {

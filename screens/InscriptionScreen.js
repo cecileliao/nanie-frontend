@@ -9,41 +9,56 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
-// import { useDispatch, useSelector } from 'react-redux';
-// import { updateEmail } from '../reducers/user';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateAidant } from '../reducers/users';
 
 // Grabbed from emailregex.com
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
 export default function InscriptionScreen({ navigation }) {
-  // const dispatch = useDispatch();
-  // const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(null);
   const [emailError, setEmailError] = useState(false);
-  const [password, setPassword] = useState('');
-  // useEffect(() => {
-  //   if(user.email){
-  //     navigation.navigate('TabNavigator', { screen: 'Message' });
-  //   }
-  // }, []);
+  const [password, setPassword] = useState(null);
 
+  const [isParent, setParent] = useState(false);
+  const [isAidant, setAidant] = useState(false);
+
+  // pour ne pas avoir à se reconnecter au rechargement de l'app
+  useEffect(() => {
+    if(user.email){
+      navigation.navigate('TabNavigator', { screen: 'Message' });
+    }
+  }, []);
+
+  //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleSubmit = () => {
     if (EMAIL_REGEX.test(email)) {
-      dispatch(updateEmail(email));
-      navigation.navigate('TabNavigator', { screen: 'Profil' });
+      if (isParent){
+        dispatch(updateParent({ email, password }));
+        setEmail('');
+        setPassword('');
+        navigation.navigate('ParentProfilScreen1', { name: 'ParentProfilScreen1' })
+      } else {
+        dispatch(updateAidant({ email, password }));
+        setEmail('');
+        setPassword('');
+        navigation.navigate('AidantProfilScreen1', { name: 'AidantProfilScreen1' });
+      }
     } else {
       setEmailError(true);
     }
   };
 
-  const [isParent, setParent] = useState(false);
-  const [isAidant, setAidant] = useState(false);
-
+// variables pour le profil de l'utilisateur
   const handleParent = () => {
     setParent(!isParent);
   };
@@ -52,69 +67,72 @@ export default function InscriptionScreen({ navigation }) {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-      <View style={styles.container}>
-        <View style={styles.topContainer}>
-          <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+        <View style={styles.container}>
+          <View style={styles.topContainer}>
+            <Image style={styles.image} source={require('../assets/nanieLogoGreen.png')} />
+          </View>
+          <View style={styles.centerContainer}>
+            <View style={styles.emailLabelContainer}>
+              <Text style={styles.label}>Email</Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                placeholder="Email"
+                autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
+                keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
+                textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
+                autoComplete="email" // https://reactnative.dev/docs/textinput#autocomplete-android
+                onChangeText={(value) => setEmail(value)}
+                value={email}
+                style={styles.input}
+              />
+            </View>
+              {emailError && <Text style={styles.error}>L'adresse email est erronée</Text>}
+            <View style={styles.mdpLabelContainer}>
+              <Text style={styles.label}>Mot de passe</Text>
+            </View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                placeholder="Mot de passe"
+                secureTextEntry={true}
+                onChangeText={(value) => setPassword(value)}
+                value={password}
+                style={styles.input}
+              />
+            </View>
+            <View style={styles.checkboxContainer}>
+              <Checkbox
+                title='Parent' 
+                style={styles.checkbox} 
+                value={isParent} 
+                onValueChange={setParent}
+                color={isParent ? '#5ABAB6' : undefined}
+                onPress={()=> handleParent}
+              />
+              <Text style={styles.checkboxLabel}>Parent</Text>
+            </View>
+            <View style={styles.checkboxContainer}>
+              <Checkbox
+                title='Aidant' 
+                style={styles.checkbox} 
+                value={isAidant} 
+                onValueChange={setAidant}
+                color={isAidant ? '#5ABAB6' : undefined}
+                onPress={()=> handleAidant}
+              />
+              <Text style={styles.checkboxLabel}>Aidant</Text>
+            </View>
+          </View>
+          <View style={styles.bottomContainer}>
+            <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
+              <Text style={styles.textButton}>Inscription</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.centerContainer}>
-          <View style={styles.emailLabelContainer}>
-            <Text style={styles.label}>Email</Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Email"
-              autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
-              keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
-              textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
-              autoComplete="email" // https://reactnative.dev/docs/textinput#autocomplete-android
-              onChangeText={(value) => setEmail(value)}
-              value={email}
-              style={styles.input}
-            />
-          </View>
-            {emailError && <Text style={styles.error}>Invalid email address</Text>}
-          <View style={styles.mdpLabelContainer}>
-            <Text style={styles.label}>Mot de passe</Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Mot de passe"
-              onChangeText={(value) => setPassword(value)}
-              value={password}
-              style={styles.input}
-            />
-          </View>
-          <View style={styles.checkboxContainer}>
-            <Checkbox
-              title='Parent' 
-              style={styles.checkbox} 
-              value={isParent} 
-              onValueChange={setParent}
-              color={isParent ? '#5ABAB6' : undefined}
-              onPress={()=> handleParent}
-            />
-            <Text style={styles.checkboxLabel}>Parent</Text>
-          </View>
-          <View style={styles.checkboxContainer}>
-            <Checkbox
-              title='Aidant' 
-              style={styles.checkbox} 
-              value={isAidant} 
-              onValueChange={setAidant}
-              color={isAidant ? '#5ABAB6' : undefined}
-              onPress={()=> handleAidant}
-            />
-            <Text style={styles.checkboxLabel}>Aidant</Text>
-          </View>
-        </View>
-        <View style={styles.bottomContainer}>
-          <TouchableOpacity onPress={() => handleSubmit()} style={styles.button} activeOpacity={0.8}>
-            <Text style={styles.textButton}>Inscription</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -162,8 +180,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textButton: {
-    // fontFamily: 'Manrope',
-    fontSize: 15,
+    fontFamily: 'Manrope',
+    fontSize: 16,
     color: 'white',
   },
 
@@ -178,7 +196,7 @@ const styles = StyleSheet.create({
     elevation: 1, // Needed for android
     shadowColor: "white", // Same as background color because elevation: 1 creates a shadow that we don't want
     position: "relative", // Needed to be able to precisely overlap label with border
-    top: '3.8%', // Vertical position of label. Eyeball it to see where label intersects border.
+    top: '9%', // Vertical position of label. Eyeball it to see where label intersects border.
     left: '5%',
   },
   mdpLabelContainer: {
@@ -191,7 +209,7 @@ const styles = StyleSheet.create({
     elevation: 1, // Needed for android
     shadowColor: "white", // Same as background color because elevation: 1 creates a shadow that we don't want
     position: "relative", // Needed to be able to precisely overlap label with border
-    top: '3.8%', // Vertical position of label. Eyeball it to see where label intersects border.
+    top: '9%', // Vertical position of label. Eyeball it to see where label intersects border.
     left: '5%',
   },
   label: {
@@ -200,6 +218,7 @@ const styles = StyleSheet.create({
     color: '#5ABAB6',
     margin: 2,
     fontSize: 16,
+    fontFamily: 'Manrope',
     },
   inputContainer: {
     width: windowWidth * 0.6,
@@ -213,10 +232,12 @@ const styles = StyleSheet.create({
   input: {
     width: windowWidth * 0.6,
     fontSize: 16,
+    fontFamily: 'Manrope',
   },
   error: {
     marginTop: 10,
     color: 'red',
+    fontFamily: 'Manrope',
   },
 
   // checkbox
@@ -230,6 +251,7 @@ const styles = StyleSheet.create({
     color: '#5ABAB6',
     fontSize: 16,
     padding: 3,
+    fontFamily: 'Manrope',
   },
   checkbox: {
     margin: 8,
