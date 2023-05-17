@@ -194,8 +194,8 @@ export default function AidantProfilScreen1({ navigation }) {
 
      {/* tarif horaire l'aidant */}
      <View style={styles.tarifcontainerInput}>
-      <Text>Tarif horaire</Text>
-        <TextInput style={styles.city} value={user.ratebyHourAidant} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Tarif" />
+      <Text>Taux horaire</Text>
+        <TextInput style={styles.city} value={user.ratebyHourAidant} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Taux horaire" />
       </View>
 
       {/* permis l'aidant */}
