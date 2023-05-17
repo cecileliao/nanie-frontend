@@ -27,7 +27,7 @@ export default function ConnexionScreen({ navigation }) {
   const [emailError, setEmailError] = useState(false);
   const [password, setPassword] = useState(null);
 
-  const [isParent, setParent] = useState(false);
+  const [isParent, setParent] = useState(true);
   const [isAidant, setAidant] = useState(false);
 
   // pour ne pas avoir à se reconnecter au rechargement de l'app
@@ -41,23 +41,23 @@ export default function ConnexionScreen({ navigation }) {
   const handleConnexion = () => {
     if (EMAIL_REGEX.test(email)) {
       if (isParent) {
-          fetch('http://192.168.10.162:3000/parentUsers/signup', {
+          fetch('http://192.168.10.162:3000/parentUsers/signin', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
           })
           .then(response => response.json())
           .then(data => {
-
+            console.log(data)
             if (data.result) {
-              console.log(data)
+             
               dispatch(login({ email, token: data.token }));
               setEmail('');
               setPassword('');
             }
           });
       } else {
-          fetch('http://192.168.10.162:3000/aidantUsers/signup', {
+          fetch('http://192.168.10.162:3000/aidantUsers/signin', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password }),
