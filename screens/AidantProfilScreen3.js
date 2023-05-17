@@ -76,7 +76,7 @@ export default function AidantProfilScreen3() {
         // ...selectedTalents // Inclure les talents sélectionnés ici
       }
     };
-    }
+    
 
     //const [token, setToken] = useState(false);
     //if token ??
