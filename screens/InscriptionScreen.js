@@ -28,19 +28,18 @@ export default function InscriptionScreen({ navigation }) {
   // const [emailError, setEmailError] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   
-  const [isParent, setParent] = useState(false);
-  const [isAidant, setAidant] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState(null);
 
   //mise à jour du store
   const handleEmail = (text) => {
-    if (isParent){
+    if (selectedProfile === 'parent'){
       dispatch(updateParent({email: text}))
     } else {
       dispatch(updateAidant({email: text}))
     }
   };
   const handlePassword = (text) => {
-    if (isParent){
+    if (selectedProfile === 'parent'){
       dispatch(updateParent({password: text}))
     } else {
       dispatch(updateAidant({password: text}))
@@ -49,14 +48,14 @@ export default function InscriptionScreen({ navigation }) {
 
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleSubmit = () => {
-    if(isParent || isAidant){
+    if(selectedProfile === 'parent' || selectedProfile === 'aidant'){
       if (EMAIL_REGEX.test(user.email)) {
         if (!user.password || user.password.trim() === '') {
           setErrorMessage('Le mot de passe ne peut pas être vide.'); // Set the error message for empty password
         } else if (user.password.length < 6) {
           setErrorMessage('Le mot de passe doit avoir au moins 6 caractères.'); // Set the error message for short password
         } else {
-          if (isParent) {
+          if (selectedProfile === 'parent') {
             navigation.navigate('ParentProfilScreen1', { name: 'ParentProfilScreen1' });
           } else {
             navigation.navigate('AidantProfilScreen1', { name: 'AidantProfilScreen1' });
@@ -72,10 +71,10 @@ export default function InscriptionScreen({ navigation }) {
 
 // variables pour le profil de l'utilisateur
   const handleParent = () => {
-    setParent(!isParent);
+    setSelectedProfile('parent');
   };
   const handleAidant = () => {
-    setAidant(!isAidant);
+    setSelectedProfile('aidant');
   };
 
   return (
@@ -119,11 +118,10 @@ export default function InscriptionScreen({ navigation }) {
             <View style={styles.checkboxContainer}>
               <Checkbox
                 title='Parent' 
-                style={styles.checkbox} 
-                value={isParent} 
-                onValueChange={setParent}
-                color={isParent ? '#5ABAB6' : undefined}
-                onPress={()=> handleParent}
+                style={styles.checkbox}
+                value={selectedProfile === 'parent'}
+                onValueChange={handleParent}
+                color={selectedProfile === 'parent' ? '#5ABAB6' : undefined}
               />
               <Text style={styles.checkboxLabel}>Parent</Text>
             </View>
@@ -131,10 +129,9 @@ export default function InscriptionScreen({ navigation }) {
               <Checkbox
                 title='Aidant' 
                 style={styles.checkbox} 
-                value={isAidant} 
-                onValueChange={setAidant}
-                color={isAidant ? '#5ABAB6' : undefined}
-                onPress={()=> handleAidant}
+                value={selectedProfile === 'aidant'}
+                onValueChange={handleAidant}
+                color={selectedProfile === 'aidant' ? '#5ABAB6' : undefined}
               />
               <Text style={styles.checkboxLabel}>Aidant</Text>
             </View>
