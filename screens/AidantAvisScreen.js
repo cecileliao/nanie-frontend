@@ -1,6 +1,6 @@
 import { StyleSheet, View, Text,  Image, SafeAreaView, ScrollView } from 'react-native'
 import React from 'react';
-import Avis from '../components/Avis';
+import Avis from "../components/Avis";
 
 export default function AidantAvisScreen() {
   return (

@@ -1,104 +1,107 @@
-import { StyleSheet, View, Text, Image } from "react-native"
-import { useSelector } from 'react-redux';
-import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, Image } from 'react-native';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { showHeart } from '../modules/showHeart';
 
 const avisData = [
-    {
-      photoUrl: 'https://exemple.com/photo1.jpg',
-      nom: 'John Doe',
-      etoiles: 5,
-      texteAvis: 'C\'était une expérience incroyable !'
-    },
-    {
-      photoUrl: 'https://exemple.com/photo2.jpg',
-      nom: 'Jane Smith',
-      etoiles: 4,
-      texteAvis: 'Excellent service, je recommande vivement.'
-    },
-    {
-      photoUrl: 'https://exemple.com/photo3.jpg',
-      nom: 'Alice Johnson',
-      etoiles: 3,
-      texteAvis: 'Pas mal, mais peut être amélioré.'
-    },
-    {
-      photoUrl: 'https://exemple.com/photo4.jpg',
-      nom: 'Bob Williams',
-      etoiles: 5,
-      texteAvis: 'Le meilleur que j\'ai jamais eu !'
-    },
-    {
-      photoUrl: 'https://exemple.com/photo5.jpg',
-      nom: 'Sarah Brown',
-      etoiles: 2,
-      texteAvis: 'Je m\'attendais à mieux...'
-    }
-
-]
+  {
+    photoUrl: require('../assets/userPicture.png'),
+    nom: 'John Doe',
+    datePublication: '01/03/2023',
+    etoiles: 2.5,
+    texteAvis: "Je suis très satisfait des services à la personne que j'ai reçus. L'aide à domicile qui s'est occupée de moi était extrêmement professionnelle et attentionnée. Elle a fait un excellent travail en prenant soin de mes besoins quotidiens et en m'offrant un soutien moral précieux."
+  },
+  {
+    photoUrl: require('../assets/carrot-solid.png'),
+    datePublication: '15/03/2023',
+    nom: 'Jane Smith',
+    etoiles: 3.3,
+    texteAvis: "J'ai été agréablement surpris par la qualité des services à la personne que j'ai reçus. L'assistant personnel que j'ai engagé était compétent et toujours à l'heure. Il m'a aidé à gérer mes tâches domestiques et m'a apporté un soulagement considérable. Je le recommande vivement."
+  },
+  {
+    photoUrl: require('../assets/music-solid.png'),
+    datePublication: '02/04/2023',
+    nom: 'Alice Johnson',
+    etoiles: 4.9,
+    texteAvis: "Les services à la personne ont été d'une grande aide pour ma famille. Notre nounou était extrêmement attentionnée et bienveillante envers nos enfants. Elle a créé un environnement sûr et stimulant pour eux, et nous pouvions nous reposer en sachant qu'ils étaient entre de bonnes mains."
+  },
+  {
+    photoUrl: require('../assets/person-cane-solid.png'),
+    nom: 'Bob Williams',
+    datePublication: '19/04/2023',
+    etoiles: 4.4,
+    texteAvis: "J'ai eu recours à des services d'aide à domicile après une chirurgie, et cela a été une expérience très positive. L'assistant qui m'a été assigné était compétent et patient. Il m'a aidé avec mes besoins quotidiens, m'a accompagné lors de mes rendez-vous médicaux et m'a permis de me rétablir plus rapidement."
+  },
+  {
+    photoUrl: require('../assets/pump-soap-solid.png'),
+    nom: 'Sarah Brown',
+    datePublication: '07/05/2023',
+    etoiles: 4.7,
+    texteAvis: "Les services à la personne ont grandement amélioré la qualité de vie de mon grand-père âgé. L'aide à domicile qui s'occupe de lui est extrêmement bienveillante et lui offre une compagnie précieuse. Elle l'aide avec les tâches ménagères, les courses et les sorties, ce qui lui permet de rester autonome et de rester connecté à la communauté."
+  }
+];
 
 export default function Avis() {
-
-    fetch('http://192.168.10.140:3000/aidantUsers', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user),
-      }).then(response => response.json())
-        .then(data => {
-          console.log(data);
-          if(data.result) {
-            dispatch(updateAidant());
- }})
-
-return (
+  return (
     <View style={styles.container}>
-    
-        <View style={styles.block}>
-        <View style={styles.image}>
-            <Image source={user.photoAidant}/>
+      {avisData.map((avis, index) => (
+        <View style={styles.block} key={index}>
+          <View style={styles.image}>
+            <Image source={avis.photoUrl} style={{ width: 50, height: 50 }} />
+          </View>
+          <View style={styles.content}>
+            <View style={styles.infosAvis}>
+              <Text style={styles.title}>{avis.nom}</Text>
+              <Text style={styles.text}>Date de publication: {avis.datePublication}</Text>
+              <Text style={styles.text}>Avis: {avis.etoiles}    {showHeart(avis.etoiles)}</Text>
+            </View>
+            <Text style={styles.texteAvis}>{avis.texteAvis}</Text>
+          </View>
         </View>
-        <View style={styles.infosAvis}>
-            <Text style={styles.title}>Elsa Snow</Text>
-            <Text style={styles.text}>Ginette est une grand-mère très attachante et passionnante...</Text>
-            <Text style={styles.avis}>Avis °°°°°</Text>
-        </View>
-        </View>
+      ))}
     </View>
-)
+  );
 }
 
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center', 
-      paddingTop: 20, 
-      backgroundColor: '#ffff'
-    },
-    block: {
-        width: '90%',
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#5ABAB6',
-        marginBottom: 8,
-        padding: 8,
-      },
-    image: {
-        borderColor: 'blue',
-    },
-    infosAvis: {
-        fontFamily: "Manrope",
-    },
-    title: {
-        borderColor: 'red',
-        fontFamily: "Manrope",
-    },
-    text: {
-        borderColor: 'green',
-        fontFamily: "Manrope"
-    },
-    avis: {
-        fontFamily: "Manrope",
-    },
-})
-
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 20,
+    backgroundColor: '#ffff',
+  },
+  block: {
+    flexDirection: 'row',
+    width: '90%',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#5ABAB6',
+    marginBottom: 8,
+    padding: 8,
+  },
+  image: {
+    marginRight: 8,
+  },
+  content: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  infosAvis: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  title: {
+    fontFamily: 'Manrope',
+    marginBottom: 4,
+  },
+  text: {
+    fontFamily: 'Manrope',
+    marginBottom: 4,
+  },
+  texteAvis: {
+    marginTop: 8,
+    fontFamily: 'Manrope',
+  },
+});
