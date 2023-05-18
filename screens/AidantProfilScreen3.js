@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet, Switch, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAidant } from '../reducers/users';
     
@@ -35,31 +35,48 @@ export default function AidantProfilScreen3({navigation}) {
     //gérer l'état des toggles - initialisés à false
   const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
     // fonction appelée au changement du toggle. Prends en paramètre l'index du toggle
-  const toggleSwitch = (index) => {
-    // copie de l'état avec spread opérateur
-    const newState = [...switchesState];
+  
+      // copie de l'état avec spread opérateur
+      const newState = [...switchesState];
+    const toggleSwitch = (index) => {
+
     //inverser l'état du toggle entre activé et désactivé
     newState[index] = !newState[index];
     //mise à jour état des toggle avec nouvelle copie modifiée 
     setSwitchesState(newState);
   };
- 
+
+
+  useEffect(() => {
+    dispatch(updateAidant({
+      talents: {
+        mobility: switchesState[0],
+        hygiene: switchesState[1],
+        cooking: switchesState[2],
+        entertainment: switchesState[3]
+      }
+    }));
+  }, [switchesState]);
+
+    
+
+
+//console.log({talents: {mobility:switchesState[0],hygiene: switchesState[1],cooking: switchesState[2],entertainment: switchesState[3] }});
+   
 
   const handleValidate = () => {
-    dispatch(updateAidant({talents: {mobility:switchesState[0],hygiene: switchesState[1],cooking: switchesState[2],entertainment: switchesState[3] }}))
-    // console.log(user)
 
-    fetch('http://192.168.10.140:3000/aidantUsers/signup', {
+    console.log(user)
+
+    fetch('http://192.168.10.146:3000/aidantUsers/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        console.log(data);
+        //console.log(data)
         if(data.result) {
-          dispatch(updateAidant());
           navigation.navigate('AidantDisplayProfilScreen');
-          
         }
         
       });

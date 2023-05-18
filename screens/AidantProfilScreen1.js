@@ -12,57 +12,57 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function AidantProfilScreen1({ navigation }) {
 
-    //récupération info user au moment d'appuyer sur le bouton suivant
+  //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value)
 
   //photo de profil
-  const [photoAidant, setphotoAidant] = useState("");
+    const [photoAidant, setphotoAidant] = useState("");
 
   //menu dropdown pour le sexe
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    {label: 'Femme', value: 'femme'},
-    {label: 'Homme', value: 'homme'},
-    {label: 'Indifférent', value: 'indifférent'},
-  ]);
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(null);
+    const [items, setItems] = useState([
+      {label: 'Femme', value: 'femme'},
+      {label: 'Homme', value: 'homme'},
+      {label: 'Indifférent', value: 'indifférent'},
+    ]);
 
   //Image upload from device library w/ ImagePickerExpo
-  const handleImageUpload = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+    const handleImageUpload = async () => {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
     
     // check if user canceled the image selection // selectedImage state updated with uri
-    if (!result.canceled) {
-      setphotoAidant(result.uri)
-      dispatch(updateAidant({ photoAidant: result.uri }))}
-  };
+      if (!result.canceled) {
+        setphotoAidant(result.uri)
+        dispatch(updateAidant({ photoAidant: result.uri }))}
+      };
 
     //etat pour afficher erreur si mauvaise structure
-    const [phoneError, setPhoneError] = useState(false);
-    const [zipError, setZipError] = useState(false);
-    const [birthYearError, setbirthYearError] = useState(false);
+      const [phoneError, setPhoneError] = useState(false);
+      const [zipError, setZipError] = useState(false);
+      const [birthYearError, setbirthYearError] = useState(false);
    
-    const validateTel = (phone) => {
-      const PHONE_REGEX = /^[+0-9]+$/;
-      return PHONE_REGEX.test(phone);
-    };
+      const validateTel = (phone) => {
+        const PHONE_REGEX = /^[+0-9]+$/;
+        return PHONE_REGEX.test(phone);
+      };
     
-    const validateZip = (zip) => {
-      const ZIP_REGEX = /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/;
-      return ZIP_REGEX.test(zip);
-    };
+      const validateZip = (zip) => {
+        const ZIP_REGEX = /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/;
+        return ZIP_REGEX.test(zip);
+      };
     
-    const validatebirthYear = (birthyear) => {
-      const BIRTH_REGEX = /^(19|20)\d{2}$/;
-      return BIRTH_REGEX.test(birthyear);
-    };
-    
+      const validatebirthYear = (birthyear) => {
+        const BIRTH_REGEX = /^(19|20)\d{2}$/;
+        return BIRTH_REGEX.test(birthyear);
+      };
+      
   
 
     const handleNext = () => {
@@ -97,8 +97,8 @@ export default function AidantProfilScreen1({ navigation }) {
   
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
+<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+  <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
 
       
 
@@ -106,7 +106,7 @@ export default function AidantProfilScreen1({ navigation }) {
 
       <View style={styles.imageProfil}>
         <TouchableOpacity onPress={handleImageUpload}>
-      <Image source={photoAidant ? { uri: photoAidant } : require("../assets/userPicture.png")}
+        <Image source={photoAidant ? { uri: photoAidant } : require("../assets/userPicture.png")}
             style={{ width: 96, height: 96, margin: 20, borderRadius: 50 }} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImageUpload}>
@@ -138,7 +138,7 @@ export default function AidantProfilScreen1({ navigation }) {
           onChangeText={text => dispatch(updateAidant({ phoneAidant: text }))}
           placeholder="Téléphone"
         />
-      </View>
+    </View>
       {phoneError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Téléphone non valide</Text>}
 
       {/* adresse de l'aidant */}
@@ -149,30 +149,30 @@ export default function AidantProfilScreen1({ navigation }) {
 
     <View style={styles.doubleInput}>
 
-      {/* code postal de l'aidant */}
-      <View style={styles.smallcontainerInput}>
-      <Text>Code Postal</Text>
-        <TextInput style={styles.codePostal} value={user.zipAidant} onChangeText={text => dispatch(updateAidant({zipAidant: text}))} placeholder="CP" />
-      </View>
+        {/* code postal de l'aidant */}
+        <View style={styles.smallcontainerInput}>
+          <Text>Code Postal</Text>
+          <TextInput style={styles.codePostal} value={user.zipAidant} onChangeText={text => dispatch(updateAidant({zipAidant: text}))} placeholder="CP" />
+        </View>
 
-      {/* ville de l'aidant */}
-      <View style={styles.smallcontainerInput}>
-      <Text>Ville</Text>
-      <TextInput style={styles.city} value={user.cityAidant} onChangeText={text => dispatch(updateAidant({cityAidant: text}))} placeholder="Ville" />
-      </View>
+        {/* ville de l'aidant */}
+        <View style={styles.smallcontainerInput}>
+          <Text>Ville</Text>
+          <TextInput style={styles.city} value={user.cityAidant} onChangeText={text => dispatch(updateAidant({cityAidant: text}))} placeholder="Ville" />
+        </View>
 
       
 
     </View>
 
-    {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
+      {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
 
     <View style={styles.doubleInput}>
 
       {/* âge de l'aidant */}
       <View style={styles.smallcontainerInput}>
-      <Text>Naissance</Text>
-      <TextInput style={styles.smallinput} value={user.ageAidant} onChangeText={text => dispatch(updateAidant({ageAidant: text}))} placeholder="AAAA" />
+        <Text>Naissance</Text>
+        <TextInput style={styles.smallinput} value={user.ageAidant} onChangeText={text => dispatch(updateAidant({ageAidant: text}))} placeholder="AAAA" />
       </View>
       
 
@@ -196,34 +196,35 @@ export default function AidantProfilScreen1({ navigation }) {
 
 
     </View>
+
     {birthYearError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Année de naissance non valide</Text>}
 
      {/* tarif horaire l'aidant */}
      <View style={styles.tarifcontainerInput}>
-      <Text>Taux horaire</Text>
+        <Text>Taux horaire</Text>
         <TextInput style={styles.city} value={user.ratebyHourAidant} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Taux horaire" />
-      </View>
+     </View>
 
       {/* permis l'aidant */}
-     <View style={styles.tarifcontainerInput}>
-        <Text>Permis B</Text>
-        <Switch style={{marginLeft: 30}}
-        value={user.car}
-        onValueChange={(value) => dispatch(updateAidant({car: value}))}
-        trackColor={{ false: '#D9D9D9', true: '#5ABAB6' }}
-        />
+      <View style={styles.tarifcontainerInput}>
+          <Text>Permis B</Text>
+          <Switch style={{marginLeft: 30}}
+          value={user.car}
+          onValueChange={(value) => dispatch(updateAidant({car: value}))}
+          trackColor={{ false: '#D9D9D9', true: '#5ABAB6' }}
+          />
       </View>
 
       {/* Bouton suivant */}
       <View style={styles.buttoncontainer}>
-      <TouchableOpacity style={styles.button} onPress={handleNext}>
-        <Text style={styles.buttonText}>Suivant</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleNext}>
+          <Text style={styles.buttonText}>Suivant</Text>
+        </TouchableOpacity>
       </View>
 
       
-    </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+  </KeyboardAvoidingView>
+</TouchableWithoutFeedback>
     
   )
 }

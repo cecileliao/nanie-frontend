@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     value: { 
       token: null, 
-      email: null,
-      password: null,
+      emailAidant: null,
+      passwordAidant: null,
       photoAidant: null,
       nameAidant: null,
       firstNameAidant: null,
@@ -20,10 +20,10 @@ const initialState = {
       longBioAidant: null,
       abilitiesAidant: null,
       talents: {
-        mobility: false,
-        hygiene: false,
-        cooking: false,
-        entertainment: false,
+        // mobility: false,
+        // hygiene: false,
+        // cooking: false,
+        // entertainment: false,
       }
       
     },
