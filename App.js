@@ -160,7 +160,7 @@ export default function App() {
         <Stack.Screen name="AidantProfilScreen2" component={AidantProfilScreen2} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantRechercheScreen" component={AidantRechercheScreen} />
-        <Stack.Screen name="AidantAvisScreen" component={AidantAvisScreen} />
+        <Stack.Screen name="AidantAvisScreen" component={AidantAvisScreen} options={{ title: 'Mes avis' }}/>
         <Stack.Screen name="AidantDisplayProfilScreen" component={AidantDisplayProfilScreen} />
         <Stack.Screen name="TabNavigator" component={TabNavigator} />
       </Stack.Navigator>
