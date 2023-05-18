@@ -74,7 +74,7 @@ export default function AidantProfilScreen3({navigation}) {
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        //console.log(data)
+        console.log(data)
         if(data.result) {
           navigation.navigate('AidantDisplayProfilScreen');
         }
