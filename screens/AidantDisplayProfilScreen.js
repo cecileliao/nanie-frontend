@@ -11,20 +11,22 @@ export default function AidantDisplayProfilScreen({navigation}) {
 
     //récupération du token dans le store quand l'utilisateur se connecte
     const user = useSelector((state) => state.user.value);
-    //console.log(user)
+    //console.log({user: user})
 
 
     useEffect(() => {
-      fetch(`http://192.168.10.146:3000/aidantUsers/Infos/${user.token}`)
+      fetch(`http://192.168.1.46:3000/aidantUsers/Infos/${user.token}`)
         .then(response => response.json())
         .then(data => {
           if (data.result) {
             setUserAidant(data);
-            console.log({ userAidant: userAidant.Aidantinfos });
+            //console.log({ infosData: data });
           }
           setIsLoading(false);
         });
     }, []);
+    //console.log({ infos: userAidant.Aidantinfos.aidant.car })
+    //console.log({ infos: userAidant.Aidantinfos.photo })
 
     //coeurs avec note moyenne
     const averageHearts = [];
@@ -32,25 +34,25 @@ export default function AidantDisplayProfilScreen({navigation}) {
         averageHearts.push(<FontAwesome key={i} name={"heart"} size={15} color={"#868686"}/>)
     }
 
-if (isLoading) {
+if (!isLoading) {
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView>
               <View style={styles.pictureprofilcontainer}>
                     <View style={{ justifyContent: "center", alignItems: "center"}}>
                     <Image 
-                    source={{ uri: userAidant?.Aidantinfos?.photoAidant }} 
+                    source={{ uri: userAidant?.Aidantinfos?.photo }} 
                     style={styles.imageProfil} />
-                        <Text style={styles.text}>💶 {userAidant?.Aidantinfos?.ratebyHour}€/h</Text>
+                        <Text style={styles.text}>💶 {userAidant?.Aidantinfos?.aidant.rate}€/h</Text>
                     </View>
                   <View style={styles.profilcontainer}>
                       <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userAidant?.Aidantinfos?.firstNameAidant} {userAidant?.Aidantinfos?.nameAidant}</Text>
 
-                          <Text style={styles.text}>{userAidant?.Aidantinfos?.introBioAidant}</Text>
+                          <Text style={styles.text}>{userAidant?.Aidantinfos?.introBio}</Text>
 
                       <View style={styles.CarandAdress}>
-                          <Text style={styles.text}>🏠 {userAidant?.Aidantinfos?.zipAidant} {userAidant?.Aidantinfos?.cityAidant}</Text>
-                          <Text style={styles.text}>🚗 {userAidant?.Aidantinfos?.car ? 'Permis B' : 'Pas de permis'}</Text>
+                          <Text style={styles.text}>🏠 {userAidant?.Aidantinfos?.zip} {userAidant?.Aidantinfos?.cityAidant}</Text>
+                          <Text style={styles.text}>🚗 {userAidant?.Aidantinfos?.aidant.car ? 'Permis B' : 'Pas de permis'}</Text>
                       </View>
                       
                       <Text style={styles.text}>Membre depuis le 01/03/22</Text>
@@ -69,13 +71,13 @@ if (isLoading) {
               <View style={styles.inputcontainer}>
                   <Text style={styles.title}>Profil d’une pépite</Text>
                   <Text style={styles.text}>
-                  {userAidant?.Aidantinfos?.longBioAidant} 
+                  {userAidant?.Aidantinfos?.longBio} 
                   </Text>
               </View>
               <View style={styles.inputcontainer}>
                   <Text style={styles.title}>Mes compétences</Text>
                   <Text style={styles.text}>
-                  {userAidant?.Aidantinfos?.abilitiesAidant} 
+                  {userAidant?.Aidantinfos?.aidant.abilities} 
                   </Text>
               </View>
               <View style={styles.talentscontainer}>
@@ -85,7 +87,7 @@ if (isLoading) {
                       source={require("../assets/person-cane-solid.png")}
                       style={[
                         styles.imageMobility,
-                        { tintColor: userAidant?.Aidantinfos?.talents.imageMobility ? '#5ABAB6' : '#868686' }
+                        { tintColor: userAidant?.Aidantinfos?.talents.mobility ? '#5ABAB6' : '#868686' }
                       ]}/>
                       <Text style={styles.textAbilities}>Mobilité</Text>
                       <Image

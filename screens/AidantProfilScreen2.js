@@ -61,7 +61,13 @@ const user = useSelector((state) => state.user.value)
 
 //aller sur page suivante
 const handleNext = () => {
-  dispatch(updateUser({introBio, longBio, abilities}))
+  dispatch(updateUser({introBio, longBio,
+    aidant: {
+      car: user.aidant.car,
+      rate: user.aidant.rate,
+      abilities: abilities,
+    }
+  }))
   //console.log(user)
   navigation.navigate('AidantProfilScreen3');
 };

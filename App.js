@@ -15,7 +15,7 @@ import MissionScreen1 from "./screens/MissionScreen1";
 import MissionScreen2 from "./screens/MissionScreen2";
 import RechercheScreen1 from "./screens/RechercheScreen1";
 import RechercheScreen2 from "./screens/RechercheScreen2";
-import AidantDisplayProfilScreen from "./screens/AidantDisplayProfilScreen"
+import AidantDisplayProfilScreen from "./screens/AidantDisplayProfilScreen";
 import AidantProfilScreen1 from "./screens/AidantProfilScreen1";
 import AidantProfilScreen2 from "./screens/AidantProfilScreen2";
 import AidantProfilScreen3 from "./screens/AidantProfilScreen3";

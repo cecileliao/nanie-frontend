@@ -26,6 +26,7 @@ const blocks = [
 ];
     
 export default function AidantProfilScreen3({navigation}) {
+  
 
     //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();
@@ -61,18 +62,18 @@ export default function AidantProfilScreen3({navigation}) {
 
   const handleValidate = () => {
 
-    //console.log(user)
+    //console.log(user.isParent)
 
-    fetch('http://192.168.10.146:3000/aidantUsers/signup', {
+    fetch('http://192.168.1.46:3000/aidantUsers/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        console.log(data)
+        //console.log(data)
         if(data.result) {
           dispatch(updateUser({token: data.token}))
-          navigation.navigate('AidantDisplayProfilScreen');
+          navigation.navigate('TabNavigator' , { screen: 'Profil' });
         }
         
       });

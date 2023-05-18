@@ -102,7 +102,12 @@ export default function AidantProfilScreen1({ navigation }) {
     
       if (isValid) {
         //console.log(user)
-        dispatch(updateUser({name, firstName, phone, age, sexe, city, zip, address, car, rate, photo}))
+        dispatch(updateUser({name, firstName, phone, age, sexe, city, zip, address, photo,
+          aidant: {
+            car: car,
+            rate: rate,
+          }
+        }))
         //console.log(user)
         navigation.navigate('AidantProfilScreen2');
       }
