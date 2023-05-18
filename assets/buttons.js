@@ -1,5 +1,5 @@
 <View>
-    <TouchableOpacity style={styles.button}>
+<TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Suivant</Text>
 </TouchableOpacity>
 
@@ -14,6 +14,8 @@
 
 </View>
 
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
       button: {

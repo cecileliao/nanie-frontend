@@ -30,11 +30,14 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('AidantDisplayProfilScreen')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>AidantDisplayProfilScreen</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Conversation')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>Conversation</Text>
+      </TouchableOpacity>
       </View>
     </View>
   )
 }
-const windowHeight = Dimensions.get('window').height;
+
 const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({

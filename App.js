@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity, Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -18,6 +18,7 @@ import AidantProfilScreen2 from "./screens/AidantProfilScreen2";
 import AidantProfilScreen3 from "./screens/AidantProfilScreen3";
 import AidantAvisScreen from "./screens/AidantAvisScreen"
 import AidantDisplayProfilScreen from "./screens/AidantDisplayProfilScreen"
+import Conversation from "./screens/ConversationScreen"
 //ajout des modules pour importer les fonts
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
@@ -161,11 +162,34 @@ export default function App() {
         <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantRechercheScreen" component={AidantRechercheScreen} />
         <Stack.Screen name="AidantAvisScreen" component={AidantAvisScreen} options={{ title: 'Mes avis' }}/>
-        <Stack.Screen name="AidantDisplayProfilScreen" component={AidantDisplayProfilScreen} />
-        <Stack.Screen name="TabNavigator" component={TabNavigator} />
-      </Stack.Navigator>
-    );
-  };
+        <Stack.Screen
+        name="AidantDisplayProfilScreen"
+        component={AidantDisplayProfilScreen}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('AidantProfilScreen1')}>
+              <View style={styles.button}>
+                <Text style={styles.buttonTxt}>Editer</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        })}
+        />
+        <Stack.Screen name="Conversation" 
+        component={Conversation}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <View style={styles.button}>
+                <Text style={styles.buttonTxt}>Voir Profil</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        })}/>
+      <Stack.Screen name="TabNavigator" component={TabNavigator} />
+    </Stack.Navigator>
+  );
+};
 
   return (
     <Provider store={store}>
@@ -175,6 +199,7 @@ export default function App() {
     </Provider>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -186,5 +211,14 @@ const styles = StyleSheet.create({
   backIcon: {
     width: 30,
     height: 30,
+  },
+  button: {
+    backgroundColor: '#785C83',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+  },
+  buttonTxt: {
+    color: '#ffff'
   }
 });
