@@ -14,7 +14,7 @@ const conversation = [
   ];
 
 export default function Mission() {
-const [textInput, setTextInput] = useState('');
+const [newMessage, setNewMessage] = useState('');
 
 //récupérer infos du réducer pour user
 const user = useSelector((state) => state.user.value)
@@ -32,7 +32,7 @@ const handleSendMessage = () => {
 
         // }
         // data.result && dispatch(addMessage(data.message));
-        //setTextInput('');
+        //setNewMessage('');
       });
     };
 
@@ -51,8 +51,8 @@ const handleSendMessage = () => {
           <TextInput
             style={styles.chatInput}
             placeholder="Ecrire un message"
-            value={textInput}
-            onChangeText={setTextInput}
+            value={newMessage}
+            onChangeText={setNewMessage}
           />
           <TouchableOpacity onPress={handleSendMessage} style={styles.sendButton}>
             <Text style={styles.buttonText}>Envoyer</Text>
