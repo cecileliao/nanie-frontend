@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAidant } from '../reducers/users';
-import { TouchableOpacity, Switch, View, Text, TextInput, StyleSheet, Image, Button } from 'react-native'
+import { KeyboardAvoidingView, 
+  TouchableOpacity, 
+  Switch, View, Text, TextInput, Dimensions,
+  StyleSheet, Image, Button,Platform, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as ImagePicker from "expo-image-picker";
 
@@ -94,7 +97,10 @@ export default function AidantProfilScreen1({ navigation }) {
   
 
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
+
+      
 
       {/* image de profil */}
 
@@ -215,44 +221,52 @@ export default function AidantProfilScreen1({ navigation }) {
       </TouchableOpacity>
       </View>
 
-    </View>
+      
+    </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
+    
   )
 }
+
+//mise en place méthode Dimension pour mettre en % pour faire fonctionner le KeyboardAvoidingView
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#ffffff',
+      justifyContent: 'center', // par défaut justify-content: 'flex-start', pour que le padding du keyboardavoiding fonctionne il faut le mettre sur flex-end ou center
     },
     imageProfil: {
       flexDirection: "row",
       alignItems:"center",
     },
     input: {
-      width: 250,
-      height:26,
+      width: windowWidth * 0.66,
+      height: windowHeight * 0.035,
       borderBottomColor: '#5ABAB6',
       borderBottomWidth: 1,
     },
     smallinput: {
-      width: 70,
-      height:26,
+      width: windowWidth * 0.18,
+      height: windowHeight * 0.030,
       borderBottomColor: '#5ABAB6',
       borderBottomWidth: 1,
       marginLeft: 25,
       marginRight: 15
     },
     codePostal:  {
-      width: 50,
-      height:26,
+      width: windowWidth * 0.16,
+      height: windowHeight * 0.030,
       borderBottomColor: '#5ABAB6',
       borderBottomWidth: 1,
-      marginLeft: 25,
+      marginLeft: 15,
       marginRight: 25
     },
     city:  {
-      width: 120,
-      height:26,
+      width: windowWidth * 0.31,
+      height: windowHeight * 0.030,
       borderBottomColor: '#5ABAB6',
       borderBottomWidth: 1,
       marginLeft: 15,
@@ -299,8 +313,9 @@ const styles = StyleSheet.create({
     button: {
       backgroundColor: '#5ABAB6',
       padding: 10,
+      margin: 50,
       borderRadius: 8,
-      width: 120,
+      width: windowWidth * 0.25,
     },
     buttonText: {
       color: 'white',

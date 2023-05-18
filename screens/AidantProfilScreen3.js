@@ -25,7 +25,7 @@ const blocks = [
   },
 ];
     
-export default function AidantProfilScreen3() {
+export default function AidantProfilScreen3({navigation}) {
 
     //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();
@@ -47,10 +47,10 @@ export default function AidantProfilScreen3() {
 
   const handleValidate = () => {
     dispatch(updateAidant({talents: {mobility:switchesState[0],hygiene: switchesState[1],cooking: switchesState[2],entertainment: switchesState[3] }}))
-    // console.log(user)
+     console.log(user)
     //const [token, setToken] = useState(false);
     //if token ??
-    fetch('http://192.168.10.140:3000/aidantUsers/signup', {
+    fetch('http://192.168.1.46:3000/aidantUsers/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
