@@ -42,18 +42,18 @@ export default function ConnexionScreen({ navigation }) {
     {label: 'Aidant', value: 'Aidant'},
   ]);
 
-  // pour ne pas avoir à se reconnecter au rechargement de l'app
-  useEffect(() => {
-    if(user.email !== null){
-      navigation.navigate('TabNavigator', { screen: 'Message' });
-    }
-  }, []);
+  // // pour ne pas avoir à se reconnecter au rechargement de l'app
+  // useEffect(() => {
+  //   if(user.email !== null){
+  //     navigation.navigate('TabNavigator', { screen: 'Message' });
+  //   }
+  // }, []);
 
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleConnexion = () => {
     if (isParent) {
       if (EMAIL_REGEX.test(email)) {
-        fetch('http://192.168.10.162:3000/parentUsers/signin', {
+        fetch('http://192.168.10.146:3000/parentUsers/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -76,7 +76,7 @@ export default function ConnexionScreen({ navigation }) {
 
     else if (isAidant) {
       if (EMAIL_REGEX.test(email)) {
-        fetch('http://192.168.10.162:3000/aidantUsers/signin', {
+        fetch('http://192.168.10.146:3000/aidantUsers/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

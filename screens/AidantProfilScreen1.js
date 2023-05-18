@@ -90,6 +90,7 @@ export default function AidantProfilScreen1({ navigation }) {
       }
     
       if (isValid) {
+        //console.log(user)
         navigation.navigate('AidantProfilScreen2');
       }
     };
@@ -106,7 +107,7 @@ export default function AidantProfilScreen1({ navigation }) {
 
       <View style={styles.imageProfil}>
         <TouchableOpacity onPress={handleImageUpload}>
-        <Image source={photoAidant ? { uri: photoAidant } : require("../assets/userPicture.png")}
+      <Image source={photoAidant ? { uri: photoAidant } : require("../assets/userPicture.png")}
             style={{ width: 96, height: 96, margin: 20, borderRadius: 50 }} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImageUpload}>
@@ -202,7 +203,7 @@ export default function AidantProfilScreen1({ navigation }) {
      {/* tarif horaire l'aidant */}
      <View style={styles.tarifcontainerInput}>
         <Text>Taux horaire</Text>
-        <TextInput style={styles.city} value={user.ratebyHourAidant} onChangeText={text => dispatch(updateAidant({ratebyHourAidant: text}))} placeholder="Taux horaire" />
+        <TextInput style={styles.city} value={user.ratebyHour} onChangeText={text => dispatch(updateAidant({ratebyHour: text}))} placeholder="Taux horaire" />
      </View>
 
       {/* permis l'aidant */}
