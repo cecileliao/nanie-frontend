@@ -15,7 +15,7 @@ import {
 import Checkbox from 'expo-checkbox';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAidant } from '../reducers/users';
+import { updateUser } from '../reducers/users';
 
 // Grabbed from emailregex.com
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -25,39 +25,30 @@ export default function InscriptionScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value);
 
-  // const [emailError, setEmailError] = useState(false);
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+
   const [errorMessage, setErrorMessage] = useState(null);
   
   const [selectedProfile, setSelectedProfile] = useState(null);
+  const [isParent, setIsParent] = useState(false);
 
-  //mise à jour du store
-  const handleEmail = (text) => {
-    if (selectedProfile === 'parent'){
-      dispatch(updateParent({email: text}))
-    } else {
-      dispatch(updateAidant({email: text}))
-    }
-  };
-  const handlePassword = (text) => {
-    if (selectedProfile === 'parent'){
-      dispatch(updateParent({password: text}))
-    } else {
-      dispatch(updateAidant({password: text}))
-    }
-  };
+ 
 
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleSubmit = () => {
     if(selectedProfile === 'parent' || selectedProfile === 'aidant'){
-      if (EMAIL_REGEX.test(user.email)) {
-        if (!user.password || user.password.trim() === '') {
+      if (EMAIL_REGEX.test(email)) {
+        if (!password || password.trim() === '') {
           setErrorMessage('Le mot de passe ne peut pas être vide.'); // Set the error message for empty password
-        } else if (user.password.length < 6) {
+        } else if (password.length < 6) {
           setErrorMessage('Le mot de passe doit avoir au moins 6 caractères.'); // Set the error message for short password
         } else {
           if (selectedProfile === 'parent') {
+            dispatch(updateUser({email, password, isParent}))
             navigation.navigate('ParentProfilScreen1', { name: 'ParentProfilScreen1' });
           } else {
+            dispatch(updateUser({email, password, isParent}))
             navigation.navigate('AidantProfilScreen1', { name: 'AidantProfilScreen1' });
           }
         }
@@ -71,9 +62,11 @@ export default function InscriptionScreen({ navigation }) {
 
 // variables pour le profil de l'utilisateur
   const handleParent = () => {
+    setIsParent(true);
     setSelectedProfile('parent');
   };
   const handleAidant = () => {
+    setIsParent(false);
     setSelectedProfile('aidant');
   };
 
@@ -98,8 +91,8 @@ export default function InscriptionScreen({ navigation }) {
                 keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
                 textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
                 autoComplete="email" // https://reactnative.dev/docs/textinput#autocomplete-android
-                value={user.email}
-                onChangeText={text => handleEmail(text)}
+                value={email}
+                onChangeText={value => setEmail(value)}
                 style={styles.input}
               />
             </View>
@@ -110,8 +103,8 @@ export default function InscriptionScreen({ navigation }) {
               <TextInput
                 placeholder="Mot de passe"
                 secureTextEntry={true}
-                value={user.password}
-                onChangeText={text => handlePassword(text)}
+                value={password}
+                onChangeText={value => setPassword(value)}
                 style={styles.input}
               />
             </View>

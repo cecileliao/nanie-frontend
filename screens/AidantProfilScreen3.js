@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, Switch, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAidant } from '../reducers/users';
+import { updateUser } from '../reducers/users';
     
 const blocks = [
   {
@@ -48,7 +48,7 @@ export default function AidantProfilScreen3({navigation}) {
 
 
   useEffect(() => {
-    dispatch(updateAidant({
+    dispatch(updateUser({
       talents: {
         mobility: switchesState[0],
         hygiene: switchesState[1],
@@ -58,11 +58,6 @@ export default function AidantProfilScreen3({navigation}) {
     }));
   }, [switchesState]);
 
-    
-
-
-//console.log({talents: {mobility:switchesState[0],hygiene: switchesState[1],cooking: switchesState[2],entertainment: switchesState[3] }});
-   
 
   const handleValidate = () => {
 
@@ -74,9 +69,9 @@ export default function AidantProfilScreen3({navigation}) {
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        //console.log(data)
+        console.log(data)
         if(data.result) {
-          dispatch(updateAidant({token: data.token}))
+          dispatch(updateUser({token: data.token}))
           navigation.navigate('AidantDisplayProfilScreen');
         }
         

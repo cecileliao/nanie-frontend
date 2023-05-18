@@ -3,7 +3,7 @@ import React, { useState, useEffect }  from 'react'
 import { useSelector} from 'react-redux';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
-export default function AidantDisplayScreen({navigation}) {
+export default function AidantDisplayProfilScreen({navigation}) {
 
     //stocker les données utilisateur et les afficher au chargement de la page
     const [userAidant, setUserAidant] = useState(null);
