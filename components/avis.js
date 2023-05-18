@@ -1,6 +1,4 @@
 import { StyleSheet, View, Text, Image } from 'react-native';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { showHeart } from '../modules/showHeart';
 
 const avisData = [
