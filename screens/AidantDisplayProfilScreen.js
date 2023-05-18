@@ -1,9 +1,30 @@
 import { View, Image, Text, SafeAreaView, ScrollView, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect }  from 'react'
+import { useSelector} from 'react-redux';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function AidantDisplayScreen({navigation}) {
+
+    //stocker les données utilisateur et les afficher au chargement de la page
+    const [userAidant, setUserAidant] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    //récupération du token dans le store quand l'utilisateur se connecte
+    const user = useSelector((state) => state.user.value);
+    //console.log(user)
+
+
+    useEffect(() => {
+      fetch(`http://192.168.10.146:3000/aidantUsers/Infos/${user.token}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.result) {
+            setUserAidant(data);
+            console.log({ userAidant: userAidant.Aidantinfos });
+          }
+          setIsLoading(false);
+        });
+    }, []);
 
     //coeurs avec note moyenne
     const averageHearts = [];
@@ -11,87 +32,91 @@ export default function AidantDisplayScreen({navigation}) {
         averageHearts.push(<FontAwesome key={i} name={"heart"} size={15} color={"#868686"}/>)
     }
 
+if (isLoading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+              <View style={styles.pictureprofilcontainer}>
+                    <View style={{ justifyContent: "center", alignItems: "center"}}>
+                    <Image 
+                    source={{ uri: userAidant?.Aidantinfos?.photoAidant }} 
+                    style={styles.imageProfil} />
+                        <Text style={styles.text}>💶 {userAidant?.Aidantinfos?.ratebyHour}€/h</Text>
+                    </View>
+                  <View style={styles.profilcontainer}>
+                      <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userAidant?.Aidantinfos?.firstNameAidant} {userAidant?.Aidantinfos?.nameAidant}</Text>
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-            <View style={styles.pictureprofilcontainer}>
-                  <View style={{ justifyContent: "center", alignItems: "center"}}>
-                      <Image
-                      source={require("../assets/userPicture.png")}
-                      style={styles.imageProfil}/>
-                      <Text style={styles.text}>💶 28€/h</Text>
+                          <Text style={styles.text}>{userAidant?.Aidantinfos?.introBioAidant}</Text>
+
+                      <View style={styles.CarandAdress}>
+                          <Text style={styles.text}>🏠 {userAidant?.Aidantinfos?.zipAidant} {userAidant?.Aidantinfos?.cityAidant}</Text>
+                          <Text style={styles.text}>🚗 {userAidant?.Aidantinfos?.car ? 'Permis B' : 'Pas de permis'}</Text>
+                      </View>
+                      
+                      <Text style={styles.text}>Membre depuis le 01/03/22</Text>
+                      <Text style={styles.text}>Avis : 4,8</Text>
+                      <View style={styles.averageHearts}>
+                          {averageHearts}
+                          <TouchableOpacity onPress={() => navigation.navigate('AidantAvisScreen')}>
+                              <Text style={styles.textAvis}>Lire les avis</Text>
+                          </TouchableOpacity>
+                      </View>
                   </View>
-                <View style={styles.profilcontainer}>
-                    <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>Emma Lorain</Text>
-
-                        <Text style={styles.text}>Ohayō! Etudiante passionnée de culture japonaise et de basket entre amis</Text>
-
-                    <View style={styles.CarandAdress}>
-                        <Text style={styles.text}>🏠 75015 Paris</Text>
-                        <Text style={styles.text}>🚗 Permis B</Text>
-                    </View>
-                    
-                    <Text style={styles.text}>Membre depuis le 01/03/22</Text>
-                    <Text style={styles.text}>Avis : 4,8</Text>
-                    <View style={styles.averageHearts}>
-                        {averageHearts}
-                        <TouchableOpacity onPress={() => navigation.navigate('AidantAvisScreen')}>
-                            <Text style={styles.textAvis}>Lire les avis</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </View>
-            
-            
-            
-            <View style={styles.inputcontainer}>
-                <Text style={styles.title}>Profil d’une pépite</Text>
-                <Text style={styles.text}>
-                Bonjour, je suis en 3ème année d’école d’infirmière, et j’étudie en parallèle la langue japonaise. En effet, depuis 
-                toute petite la culture japonaise me passionne! Je suis quelqu’un 
-                de très patiente et pétillante, qui cherche à compléter ses fins 
-                de mois avec des missions qui ont du sens. 
-                </Text>
-            </View>
-            <View style={styles.inputcontainer}>
-                <Text style={styles.title}>Mes compétences</Text>
-                <Text style={styles.text}>
-                Diplôme d’infirmière en préparation, j’ai déjà effectué un stage 
-                de 3 mois en maison de retraite, ou j’ai pu apprendre à aider les 
-                personnes âgées pour prendre soin de leur hygiène, à suivre l’état 
-                de santé et réaliser des exercices de mobilité. Sinon, j’adore lire 
-                notamment des romans japonais et je cuisine également de très bons 
-                sushis et ramens. 
-                </Text>
-            </View>
-            <View style={styles.talentscontainer}>
-                <Text style={{fontFamily: "Recoleta",fontSize:20, marginLeft: 20, marginTop: 10,}}>Mes talents</Text>
-                <View style={styles.doubleTalents}>
-                    <Image
-                    source={require("../assets/person-cane-solid.png")}
-                    style={styles.imageMobility}/>
-                    <Text style={styles.textAbilities}>Mobilité</Text>
-                    <Image
-                    source={require("../assets/carrot-solid.png")}
-                    style={styles.imageAlimentation}/>
-                    <Text style={styles.textAbilities}>Alimentation</Text>
-                </View>
-                    <View style={styles.doubleTalents}>
-                    <Image
-                    source={require("../assets/pump-soap-solid.png")}
-                    style={styles.imageHygiene}/>
-                    <Text style={styles.textAbilities}>Hygiène</Text>
-                    <Image
-                    source={require("../assets/music-solid.png")}
-                    style={styles.imageDivertissement}/>
-                    <Text style={styles.textAbilities}>Divertissement</Text>
-                </View>
-            </View>
-        </ScrollView>
-    </SafeAreaView>
-  )
-}
+              </View>
+              
+              
+              
+              <View style={styles.inputcontainer}>
+                  <Text style={styles.title}>Profil d’une pépite</Text>
+                  <Text style={styles.text}>
+                  {userAidant?.Aidantinfos?.longBioAidant} 
+                  </Text>
+              </View>
+              <View style={styles.inputcontainer}>
+                  <Text style={styles.title}>Mes compétences</Text>
+                  <Text style={styles.text}>
+                  {userAidant?.Aidantinfos?.abilitiesAidant} 
+                  </Text>
+              </View>
+              <View style={styles.talentscontainer}>
+                  <Text style={{fontFamily: "Recoleta",fontSize:20, marginLeft: 20, marginTop: 10,}}>Mes talents</Text>
+                  <View style={styles.doubleTalents}>
+                      <Image
+                      source={require("../assets/person-cane-solid.png")}
+                      style={[
+                        styles.imageMobility,
+                        { tintColor: userAidant?.Aidantinfos?.talents.imageMobility ? '#5ABAB6' : '#868686' }
+                      ]}/>
+                      <Text style={styles.textAbilities}>Mobilité</Text>
+                      <Image
+                      source={require("../assets/carrot-solid.png")}
+                      style={[
+                        styles.imageAlimentation,
+                        { tintColor: userAidant?.Aidantinfos?.talents.alimentation ? '#5ABAB6' : '#868686' }
+                      ]}/>
+                      <Text style={styles.textAbilities}>Alimentation</Text>
+                  </View>
+                      <View style={styles.doubleTalents}>
+                      <Image
+                      source={require("../assets/pump-soap-solid.png")}
+                      style={[
+                        styles.imageHygiene,
+                        { tintColor: userAidant?.Aidantinfos?.talents.hygiene ? '#5ABAB6' : '#868686' }
+                      ]}/>
+                      <Text style={styles.textAbilities}>Hygiène</Text>
+                      <Image
+                      source={require("../assets/music-solid.png")}
+                      style={[
+                        styles.imageDivertissement,
+                        { tintColor: userAidant?.Aidantinfos?.talents.entertainment ? '#5ABAB6' : '#868686' }
+                      ]}/>
+                      <Text style={styles.textAbilities}>Divertissement</Text>
+                  </View>
+              </View>
+          </ScrollView>
+      </SafeAreaView>
+    )
+}}
 
 //mise en place méthode Dimension pour mettre en % pour faire fonctionner le KeyboardAvoidingView
 const windowHeight = Dimensions.get('window').height;
@@ -167,7 +192,6 @@ const styles = StyleSheet.create({
     imageAlimentation: {
         height: windowHeight * 0.035,
         width: windowWidth * 0.075,
-        tintColor: "#868686"
        },
     imageMobility: {
         height: windowHeight * 0.040,

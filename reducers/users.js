@@ -16,15 +16,11 @@ const initialState = {
       cityAidant: null,
       ratebyHour: null,
       car: false,
+      signupAidant: null,
       introBioAidant: null,
       longBioAidant: null,
       abilitiesAidant: null,
-      talents: {
-        // mobility: false,
-        // hygiene: false,
-        // cooking: false,
-        // entertainment: false,
-      }
+      talents: {}
       
     },
   };

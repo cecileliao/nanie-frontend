@@ -57,25 +57,25 @@ const dispatch = useDispatch();
 const user = useSelector((state) => state.user.value)
 //console.log(user);
 
-
 const handleIntro = (text) => {
   setintroBioAidant(text)
-  dispatch(updateAidant())
+  dispatch(updateAidant({introBioAidant: text}))
 }
 
 const handleLongBio = (text) => {
   setlongBioAidant(text)
-  dispatch(updateAidant())
+  dispatch(updateAidant({longBioAidant: text}))
 }
 
 const handleAbilities = (text) => {
   setabilitiesAidant(text)
-  dispatch(updateAidant())
+  dispatch(updateAidant({abilitiesAidant: text}))
 }
 
 
 //aller sur page suivante
 const handleNext = () => {
+  //console.log(user)
   navigation.navigate('AidantProfilScreen3');
 };
 

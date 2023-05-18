@@ -66,7 +66,7 @@ export default function AidantProfilScreen3({navigation}) {
 
   const handleValidate = () => {
 
-    console.log(user)
+    //console.log(user)
 
     fetch('http://192.168.10.146:3000/aidantUsers/signup', {
       method: 'POST',
@@ -74,8 +74,9 @@ export default function AidantProfilScreen3({navigation}) {
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        console.log(data)
+        //console.log(data)
         if(data.result) {
+          dispatch(updateAidant({token: data.token}))
           navigation.navigate('AidantDisplayProfilScreen');
         }
         
