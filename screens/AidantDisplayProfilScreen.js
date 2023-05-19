@@ -15,18 +15,21 @@ export default function AidantDisplayProfilScreen({navigation}) {
 
 
     useEffect(() => {
-      fetch(`http://192.168.1.46:3000/aidantUsers/Infos/${user.token}`)
+      fetch(`http://192.168.10.135:3000/aidantUsers/Infos/${user.token}`)
         .then(response => response.json())
         .then(data => {
           if (data.result) {
             setUserAidant(data);
-            //console.log({ infosData: data });
+            console.log({ infosData: data });
+            //Aidantinfos vient de la route GET
+            //besoin de l'appeler pour afficher données 
+            //console.log({ infos: userAidant.Aidantinfos.aidant })
+            //console.log({ infos: userAidant.Aidantinfos.photo })
           }
           setIsLoading(false);
         });
     }, []);
-    //console.log({ infos: userAidant.Aidantinfos.aidant.car })
-    //console.log({ infos: userAidant.Aidantinfos.photo })
+    
 
     //coeurs avec note moyenne
     const averageHearts = [];
@@ -46,7 +49,7 @@ if (!isLoading) {
                         <Text style={styles.text}>💶 {userAidant?.Aidantinfos?.aidant.rate}€/h</Text>
                     </View>
                   <View style={styles.profilcontainer}>
-                      <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userAidant?.Aidantinfos?.firstNameAidant} {userAidant?.Aidantinfos?.nameAidant}</Text>
+                      <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userAidant?.Aidantinfos?.firstName} {userAidant?.Aidantinfos?.name}</Text>
 
                           <Text style={styles.text}>{userAidant?.Aidantinfos?.introBio}</Text>
 
