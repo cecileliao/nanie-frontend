@@ -15,23 +15,23 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('Inscription')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>Inscription</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('AidantMissionScreen')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>AidantMissionScreen</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('MissionScreen1')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>MissionScreen1</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('AidantMissionScreen2')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>AidantMissionScreen2</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('MissionScreen2')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>MissionScreen2</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('AidantProfilScreen1')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>AidantProfilScreen1</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('ParentProfilScreen2')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>ParentProfilScreen2</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('AidantAvisScreen')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>AidantAvisScreen</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>AvisScreen</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('AidantDisplayProfilScreen')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>AidantDisplayProfilScreen</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Conversation')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>Conversation</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('ConversationScreen')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>ConversationScreen</Text>
       </TouchableOpacity>
       </View>
     </View>

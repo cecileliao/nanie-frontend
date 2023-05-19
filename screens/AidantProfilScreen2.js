@@ -81,7 +81,7 @@ const handleNext = () => {
           <View style={styles.phraseIntroContainer}>
             <Text style={styles.firsttitle}>Ma présentation en quelques mots</Text>
             <TextInput
-                style={styles.input}
+                style={styles.introInput}
                 value={introBio}
                 onChangeText={value => setintroBio(value)} 
                 placeholder="Ma phrase d’introduction"
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
       height:windowHeight * 0.26,
     },
     // input
-    input: {
+    introInput: {
       height:windowHeight * 0.10,
       borderColor: '#5ABAB6',
       borderWidth: 1,

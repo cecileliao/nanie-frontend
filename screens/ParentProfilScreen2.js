@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { updateParent } from '../reducers/users';
+import { updateUser } from '../reducers/users';
 import { 
     TouchableOpacity, 
     View, 
@@ -11,10 +11,20 @@ import {
     Keyboard,
     TouchableWithoutFeedback, 
     Dimensions,
+    KeyboardAvoidingView,
 } from 'react-native'
 import * as ImagePicker from "expo-image-picker";
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function ParentProfilScreen2({ navigation }) {
+
+  const [name, setName] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [age, setAge] = useState(null);
+  const [sexe, setSexe] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [city, setCity] = useState(null);
+  const [zip, setZip] = useState(null);
 
   //photo de profil
   const [photoParent, setphotoParent] = useState("");
@@ -28,96 +38,185 @@ export default function ParentProfilScreen2({ navigation }) {
       quality: 1,
     });
     
-    // check if user canceled the image selection // selectedImage state updated with uri
-    if (!result.canceled) {
-      dispatch(updateParent({photoParent: result.uri}))}
+  // check if user canceled the image selection // selectedImage state updated with uri
+  if (!result.canceled) {
+    dispatch(updateParent({photoParent: result.uri}))}
   };
 
-    // Presentation du Parent
-    const [shortbioParent, setShortbioParent] = useState("");
+  //etat pour afficher erreur si mauvaise structure
+  const [zipError, setZipError] = useState(false);
+  const [birthYearError, setbirthYearError] = useState(false);
 
-    //afficher le nombre de caractères restants sur le textInput
-    const [shortbioRemainingCharacters, setShortbioRemainingCharacters] = useState(300);
+  const validateZip = (zip) => {
+    const ZIP_REGEX = /^(F-)?((2[A|B])|[0-9]{2})[0-9]{3}$/;
+    return ZIP_REGEX.test(zip);
+  };
+
+  const validatebirthYear = (birthyear) => {
+    const BIRTH_REGEX = /^(19|20)\d{2}$/;
+    return BIRTH_REGEX.test(birthyear);
+  };
     
-    //pour le nombre de caractères de la description détaillée
+  //menu dropdown pour le sexe
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    {label: 'Femme', value: 'femme'},
+    {label: 'Homme', value: 'homme'},
+    {label: 'Indifférent', value: 'indifférent'},
+  ]);
+
+  // mise en place du input + compteur
+    //phrase intro de l'aidant
+    const [introBio, setintroBio] = useState("");
+    //afficher le nombre de caractères restants sur le textInput
+    const [shortIntroremainingCharacters, setshortIntroRemainingCharacters] = useState(100);
+    //pour le nombre de caractères de la phrase d'introduction
     useEffect(() => {
-      const charactersCount = shortbioParent.length;
-      const shortbioRemainingCount = 300 - charactersCount;
-      setShortbioRemainingCharacters(shortbioRemainingCount);
-    }, [shortbioParent]);
+      const charactersCount = introBio.length;
+      const shortremainingCount = 100 - charactersCount;
+      setshortIntroRemainingCharacters(shortremainingCount);
+    }, [introBio]);
 
 
-    //récupération info user au moment d'appuyer sur le bouton suivant
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.user.value)
+  //récupération info user au moment d'appuyer sur le bouton suivant
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value)
 
-    const handleShortbioParent = (text) => {
-      setShortbioParent(text)
-      dispatch(updateParent())
+  // bouton suivant
+  const handleNext = () => {
+    
+    let isValid = true; // est-ce que tous les regex sont valides ?
+  
+    if (!validateZip(zip)) {
+      setZipError(true);
+      isValid = false;
+    } else {
+      setZipError(false);
     }
-
-    // bouton suivant
-    const handleNext = () => {
+  
+    if (!validatebirthYear(age)) {
+      setbirthYearError(true);
+      isValid = false;
+    } else {
+      setbirthYearError(false);
+    }
+  
+    if (isValid) {
+      dispatch(updateUser({name, firstName, age, sexe, city, zip, address, introBio}))
       navigation.navigate('ParentProfilScreen2');
-    };
+    }
+  };
+    
 
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
 
-        {/* image de profil */}
-        <View style={styles.imageProfil}>
-          <TouchableOpacity onPress={handleImageUpload}>
-            <Image 
-              source={photoParent ? { uri: photoParent } : require("../assets/userPicture.png")}
-              style={{ width: 96, height: 96, margin: 20 }} 
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleImageUpload}>
-            <Text>Ajouter/modifier une photo de famille.</Text>
-            <Text>Vous avec votre Parent</Text>
-          </TouchableOpacity>
-        </View>
+        <View style={styles.profilContainer}>
 
+          <Text style={styles.firsttitle}>Profil de mon aîné</Text>
 
-        <Text style={styles.title}>Mon profil de proche {'('}contact{')'}</Text>
+          {/* nom de l'aîné */}
+          <View style={styles.containerInput}>
+            <Text>Nom</Text>
+            <TextInput 
+              style={styles.input} 
+              value={name}
+              onChangeText={value => setName(value)} 
+              placeholder="Nom" />
+          </View>
 
-        {/* nom du Parent */}
-        <View style={styles.containerInput}>
-          <Text>Nom</Text>
-          <TextInput style={styles.input} value={user.nameParent} onChangeText={text => dispatch(update({nameParent: text}))} placeholder="Nom" />
-        </View>
+          {/* prénom de l'aîné */}
+          <View style={styles.containerInput}>
+            <Text>Prénom</Text>
+            <TextInput 
+              style={styles.input} 
+              value={firstName}
+              onChangeText={value => setFirstName(value)} 
+              placeholder="Prénom" />
+          </View>
 
-        {/* prénom du Parent */}
-        <View style={styles.containerInput}>
-          <Text>Prénom</Text>
-          <TextInput style={styles.input} value={user.firstNameParent} onChangeText={text => dispatch(updateParent({firstNameParent: text}))} placeholder="Prénom" />
-        </View>
+          {/* adresse de l'aîné */}
+          <View style={styles.containerInput}>
+            <Text>Adresse</Text>
+            <TextInput style={styles.input} 
+              value={address}
+              onChangeText={value => setAddress(value)} 
+              placeholder="Adresse" />
+          </View>
 
-        {/* téléphone du Parent */}
-        <View style={styles.containerInput}>
-          <Text>Téléphone</Text>
-          <TextInput style={styles.input} value={user.phoneParent} onChangeText={text => dispatch(updateParent({phoneParent: text}))} placeholder="Téléphone" />
-        </View>
+          <View style={styles.doubleInput}>
+            {/* code postal de l'aîné */}
+            <View style={styles.smallcontainerInput}>
+              <Text>Code Postal</Text>
+              <TextInput style={styles.codePostal} 
+                value={zip}
+                onChangeText={value => setZip(value)} 
+                placeholder="CP" />
+            </View>
 
-        {/* Présentation courte */}
-        <View style={styles.shortbioContainer}>
-          <Text style={styles.title}>Présentation courte</Text>
-          <TextInput
-              style={styles.longinput}
-              value={user.shortBioParent}
-              onChangeText={text => handleShortbioParent(text)}
-              placeholder="Description de mes liens et ma relation avec l’aîné ..."
-              textAlignVertical="top" //sur android pour center le placeholder en haut
-              multiline={true} //sur ios pour center le placeholder en haut
-              maxLength={300} //taille max de la phrase
-          />
-          <View style={styles.characterCountContainer}>
-            <Text style={styles.characterCountText}>{shortbioRemainingCharacters}</Text>
+            {/* ville de l'aîné */}
+            <View style={styles.smallcontainerInput}>
+              <Text>Ville</Text>
+              <TextInput style={styles.city} 
+                value={city}
+                onChangeText={value => setCity(value)} 
+                placeholder="Ville" />
+            </View>
+            {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
+          </View>
+
+          <View style={styles.doubleInput}>
+            {/* âge de l'aîné */}
+            <View style={styles.smallcontainerInput}>
+              <Text>Age</Text>
+              <TextInput style={styles.smallinput}
+                value={age}
+                onChangeText={value => setAge(value)} 
+                placeholder="AAAA" />
+            </View>
+            
+            {/* sexe de l'aîné */}
+            <View style={styles.smallcontainerInput}>
+              <Text>Sexe</Text>
+              <DropDownPicker style={{width: 120, marginLeft: 15, borderColor: '#5ABAB6'}} 
+                placeholderStyle={{color: "grey"}} 
+                disabledStyle={{opacity: 0.5}}
+                open={open}
+                value={value}
+                items={items}
+                placeholder="Sexe"
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+                dropDownContainerStyle={{ width: 120, marginLeft: 15, marginBottom: 15, borderColor: '#5ABAB6', backgroundColor: 'white', opacity: 1 }}
+                onSelectItem={(item) => {
+                  setSexe(item.value)}
+                }
+              />
+            </View>
+            {birthYearError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Année de naissance non valide</Text>}
           </View>
         </View>
 
+        {/* Phrase intro */}
+        <View style={styles.introContainer}>
+          <Text style={styles.title}>Votre aîné en quelques mots</Text>
+          <TextInput
+              style={styles.introInput}
+              value={introBio}
+              onChangeText={value => setintroBio(value)} 
+              placeholder="Phrase d’introduction sur votre aîné ..."
+              textAlignVertical="top" //sur android pour center le placeholder en haut
+              multiline={true} //sur ios pour center le placeholder en haut
+              maxLength={100} //taille max de la phrase
+          />
+          <View style={styles.characterCountContainer}>
+            <Text style={styles.characterCountText}>{shortIntroremainingCharacters}</Text>
+          </View>
+        </View>
 
         {/* Bouton suivant */}
         <View style={styles.buttonContainer}>
@@ -135,93 +234,143 @@ export default function ParentProfilScreen2({ navigation }) {
     const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: 'white',
-      alignItems: 'center',
-      justifyContent: 'center', // par défaut justify-content: 'flex-start', pour que le padding du keyboardavoiding fonctionne il faut le mettre sur flex-end ou center
-    },
-    //image
-    imageProfil: {
-      flexDirection: "row",
-      alignItems:"center",
-    },
-    //titre
-    title: {
-      height: windowHeight * 0.04,
-      width: windowWidth * 0.9,
-      fontFamily: "Recoleta",
-      fontSize: 20,
-      color: "#785C83",
-      marginLeft: 20,
-      marginBottom: 10,
-      marginTop: 30,
-    },
-    //input
-    containerInput: {
-      fontSize: 13,
-      flexDirection: "row",
-      alignItems:"center",
-      justifyContent: "space-between",
-      marginLeft:20,
-      marginRight:25,
-      marginBottom:25,
-    },
-    input: {
-      width: 250,
-      height:26,
-      borderBottomColor: '#5ABAB6',
-      borderBottomWidth: 1,
-    },
-    //shortbio
-    shortbioContainer: {
-      height:windowHeight * 0.26,
-    },
-    longinput: {
-      height: windowHeight * 0.20,
-      borderColor: '#5ABAB6',
-      borderWidth: 1,
-      borderRadius: 5,
-      padding: 10,
-      fontSize: 13,
-      marginLeft:20,
-      marginRight:25,
-      marginBottom:25,
-      fontFamily: 'Manrope',
-    },
-
-    // compteur
-    characterCountContainer: {
-      position: 'absolute',
-      bottom: -10,
-      right: 40,
-      backgroundColor: 'white',
-      borderRadius: 5,
-    },
-    characterCountText: {
-      color: '#868686',
-      fontSize: 12,
-      fontFamily: 'Manrope',
-    },
-    //bouton suivant
-    buttonContainer: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginBottom: 10,
-      marginTop: 50,
-      height:windowHeight* 0.1,
-    },
-    button: {
-      backgroundColor: '#5ABAB6',
-      width: windowWidth * 0.4,
-      margin: 20,
-      borderRadius: '5%',
-      padding: 10,
-      alignItems: 'center',
-    },
-    textButton: {
-      fontFamily: 'Manrope',
-      fontSize: 16,
-      color: 'white',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff',
+    justifyContent: 'space-around', // par défaut justify-content: 'flex-start', pour que le padding du keyboardavoiding fonctionne il faut le mettre sur flex-end ou center
+  },
+  introContainer: {
+    height:windowHeight * 0.15,
+    position: 'relative',
+    zIndex: -1, // pour afficher le background du dropdown menu
+  },
+  //input text
+  input: {
+    width: windowWidth * 0.66,
+    height: windowHeight * 0.035,
+    borderBottomColor: '#5ABAB6',
+    borderBottomWidth: 1,
+  },
+  introInput:{
+    height:windowHeight * 0.10,
+    borderColor: '#5ABAB6',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    fontSize: 13,
+    marginLeft:20,
+    marginRight:25,
+    marginBottom:25,
+    fontFamily: 'Manrope',
+  },
+  longinput: {
+    height: windowHeight * 0.20,
+    borderColor: '#5ABAB6',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    fontSize: 13,
+    marginLeft:20,
+    marginRight:25,
+    marginBottom:25,
+    fontFamily: 'Manrope',
+  },
+  smallinput: {
+    width: windowWidth * 0.18,
+    height: windowHeight * 0.030,
+    borderBottomColor: '#5ABAB6',
+    borderBottomWidth: 1,
+    marginLeft: 25,
+    marginRight: 15
+  },
+  codePostal:  {
+    width: windowWidth * 0.16,
+    height: windowHeight * 0.030,
+    borderBottomColor: '#5ABAB6',
+    borderBottomWidth: 1,
+    marginLeft: 15,
+    marginRight: 25
+  },
+  city:  {
+    width: windowWidth * 0.31,
+    height: windowHeight * 0.030,
+    borderBottomColor: '#5ABAB6',
+    borderBottomWidth: 1,
+    marginLeft: 15,
+    marginRight: 15
+  },
+  containerInput: {
+    fontSize: 13,
+    flexDirection: "row",
+    alignItems:"center",
+    justifyContent: "space-between",
+    marginLeft:20,
+    marginRight:25,
+    marginBottom:25,
+  },
+  doubleInput: {
+    flexDirection: "row",
+    marginLeft:20,
+    marginRight:25,
+    marginBottom:25,
+  },
+  smallcontainerInput: {
+    flexDirection: "row",
+    alignItems:"center", 
+  },
+  //titres
+  firsttitle: {
+    fontFamily: "Recoleta",
+    fontSize: 20,
+    color: "#785C83",
+    marginLeft: 20,
+    marginBottom: 10,
+    marginTop: 20,
+    height: windowHeight * 0.04,
+    width: windowWidth * 0.9,
+  },
+  title: {
+    height: windowHeight * 0.04,
+    width: windowWidth * 0.9,
+    fontFamily: "Recoleta",
+    fontSize: 20,
+    color: "#785C83",
+    marginLeft: 20,
+    marginBottom: 10,
+    marginTop: 30,
+  },
+  // compteur
+  characterCountContainer: {
+    position: 'absolute',
+    bottom: -10,
+    right: 40,
+    backgroundColor: 'white',
+    borderRadius: 5,
+  },
+  characterCountText: {
+    color: '#868686',
+    fontSize: 12,
+    fontFamily: 'Manrope',
+  },
+  //bouton suivant
+  buttonContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+    marginTop: 50,
+    height:windowHeight* 0.1,
+  },
+  button: {
+    backgroundColor: '#5ABAB6',
+    width: windowWidth * 0.4,
+    margin: 20,
+    borderRadius: '5%',
+    padding: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontFamily: 'Manrope',
+    fontSize: 16,
+    color: 'white',
+  },
     })

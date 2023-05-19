@@ -25,7 +25,7 @@ const initialState = {
       // abilitiesAidant: null,
       //PARENT
       parent: {},
-      //dans contact: nameParent, firstNameParent, phoneParent, shortBio, gemProfil
+      //dans contact: nameParent, firstNameParent, shortBio, gemProfil
       isParent: false
 
       
