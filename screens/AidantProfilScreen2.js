@@ -62,6 +62,7 @@ const user = useSelector((state) => state.user.value)
 //aller sur page suivante
 const handleNext = () => {
   dispatch(updateUser({introBio, longBio,
+    //pour les sous documents besoin de remettre toutes les infos de l'objet pour ne pas écraser les données déjà récupérées
     aidant: {
       car: user.aidant.car,
       rate: user.aidant.rate,
