@@ -69,7 +69,40 @@ const Tab = createBottomTabNavigator();
 
 //Tabnavigator
 const TabNavigator = () => {
-  const user = useSelector((state) => state.user.value);
+
+  const userData = useSelector((state) => state.user.value);
+  // console.log("coucou", userData);
+  const [isParent, setParent] = useState(false);
+  console.log('isParent', isParent)
+  if (userData.token){
+    // console.log('token', userData.token)
+    fetch(`http://192.168.10.153:3000/parentUsers/Infos/${userData.token}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log('data', data)
+        if (data.result && data.Parentinfos.token) {
+          // console.log({ infosDataParent: data });
+          setParent(true)
+          //Parentinfos vient de la route GET
+          //besoin de l'appeler pour afficher données 
+          //console.log({ infos: data.Parentinfos.token })
+        } 
+        else {
+          fetch(`http://192.168.10.153:3000/aidantUsers/Infos/${userData.token}`)
+          .then(response => response.json())
+          .then(data => {
+            if (data.result && data.Parentinfos.token) {
+              // console.log({ infosDataAidant: data });
+              setParent(false)
+              //Parentinfos vient de la route GET
+              //besoin de l'appeler pour afficher données 
+              //console.log({ infos: userParent.Parentinfos.parent })
+            }
+         })
+        }
+      })
+  }
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -102,10 +135,11 @@ const TabNavigator = () => {
         headerShown: false,
       })}
     >
-      {user.isParent ? <Tab.Screen name="Recherche" component={RechercheScreen1} />:  <Tab.Screen name="Calendar" component={CalendarScreen1} /> }
+      {isParent ? <Tab.Screen name="Recherche" component={RechercheScreen1} /> 
+        : <Tab.Screen name="Calendar" component={CalendarScreen1} />}
       <Tab.Screen name="Message" component={MessageScreen} />
       <Tab.Screen name="Mission" component={MissionScreen1} />
-      {user.isParent ? 
+      {isParent ? 
         <Tab.Screen name="Profil" component={ParentDisplayProfilScreen}
           options={({ navigation }) => ({
             headerRight: () => (

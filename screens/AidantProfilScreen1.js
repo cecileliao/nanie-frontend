@@ -191,8 +191,8 @@ export default function AidantProfilScreen1({ navigation }) {
             onChangeText={value => setCity(value)} 
             placeholder="Ville" />
         </View>
-        {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
     </View>
+        {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
 
     <View style={styles.doubleInput}>
       {/* âge de l'aidant */}
@@ -220,21 +220,19 @@ export default function AidantProfilScreen1({ navigation }) {
             dropDownContainerStyle={{ width: 120, marginLeft: 15, marginBottom: 15, borderColor: '#5ABAB6' }}
             onSelectItem={(item) => {
               setSexe(item.value)}
-            }
-          />
+            }/>
       </View>
     </View>
-
     {birthYearError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Année de naissance non valide</Text>}
 
-     {/* tarif horaire l'aidant */}
-     <View style={styles.tarifcontainerInput}>
-        <Text>Taux horaire</Text>
-        <TextInput style={styles.city} 
-          value={rate}
-          onChangeText={value => setRate(value)} 
-          placeholder="Taux horaire" />
-     </View>
+    {/* tarif horaire l'aidant */}
+    <View style={styles.tarifcontainerInput}>
+      <Text>Taux horaire</Text>
+      <TextInput style={styles.city} 
+        value={rate}
+        onChangeText={value => setRate(value)} 
+        placeholder="Taux horaire" />
+    </View>
 
     {/* permis l'aidant */}
     <View style={styles.tarifcontainerInput}>
@@ -252,7 +250,6 @@ export default function AidantProfilScreen1({ navigation }) {
         <Text style={styles.buttonText}>Suivant</Text>
       </TouchableOpacity>
     </View>
-
       
   </KeyboardAvoidingView>
 </TouchableWithoutFeedback>

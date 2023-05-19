@@ -1,44 +1,83 @@
-import { View, Text, Image, StyleSheet, Switch, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, Switch, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../reducers/users';
     
 const blocks = [
   {
     image: require('../assets/person-cane-solid.png'),
     title: 'Balade',
-    description: 'Sortir avec mon aîné à pied ou en voiture, pour se rendre au parc, magasins, ciné...',
+    description: 'Sortir avec l’aîné à pied ou en voiture, pour se rendre au parc, magasins, ciné...',
   },
   {
     image: require('../assets/pump-soap-solid.png'),
     title: 'Hygiène',
-    description: 'Assurer son hygiène complète (aider à changer ses vêtements, toilette, dents, ..)',      },
+    description: 'Assurer l’hygiène complète (aider à changer les vêtements, toilette, dents, ..)',      },
   {
     image: require('../assets/carrot-solid.png'),
     title: 'Alimentation',
-    description: 'Préparer des repas équilibrés et adaptés à ses besoins.',
+    description: 'Préparer des repas équilibrés et adaptés aux besoins des personnes âgées.',
   },
   {
     image: require('../assets/music-solid.png'),
     title: 'Divertissement',
-    description: 'Accompagner mon aîné dans la lecture, les jeux de cartes, les activités artistiques ...',
+    description: 'Accompagner la personne dans la lecture, les jeux de cartes, les activités artistiques ...',
   },
 ];
     
-export default function ParentProfilScreen4() {
+export default function ParentProfilScreen3({navigation}) {
+  
+  //récupération info user au moment d'appuyer sur le bouton suivant
+  const dispatch = useDispatch();
+  //récupérer infos du réducer pour user
+  const user = useSelector((state) => state.user.value)
+
+  //gérer l'état des toggles - initialisés à false
   const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
-    
-  const toggleSwitch = (index) => {      
-    setSwitchesState(prevState => {
-      const newState = [...prevState];
-      newState[index] = !newState[index];
-      return newState;
-    });
+  // fonction appelée au changement du toggle. Prends en paramètre l'index du toggle
+
+  // copie de l'état avec spread opérateur
+  const newState = [...switchesState];
+  const toggleSwitch = (index) => {
+    //inverser l'état du toggle entre activé et désactivé
+    newState[index] = !newState[index];
+    //mise à jour état des toggle avec nouvelle copie modifiée 
+    setSwitchesState(newState);
   };
-    
+
+  useEffect(() => {
+    dispatch(updateUser({
+      talents: {
+        mobility: switchesState[0],
+        hygiene: switchesState[1],
+        cooking: switchesState[2],
+        entertainment: switchesState[3]
+      }
+    }));
+  }, [switchesState]);
+
+
+  const handleValidate = () => {
+
+    fetch('http://192.168.10.153:3000/parentUsers/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user),
+    }).then(response => response.json())
+      .then(data => {
+        console.log(data)
+        if(data.result) {
+          dispatch(updateUser({token: data.token}))
+          navigation.navigate('TabNavigator', { screen: 'Profil' });
+        }
+        
+      });
+  };
+  // console.log(user)
     
   return (
     <View style={styles.container}>
-      <Text style={styles.pagetitle}>Talents Recherchés</Text>
+      <Text style={styles.pagetitle}>Talents recherchés</Text>
     
       {blocks.map((block, index) => (
         <View style={styles.block} key={index}>
@@ -67,12 +106,16 @@ export default function ParentProfilScreen4() {
         </View>
       ))}
     
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Valider</Text>
+      <TouchableOpacity style={styles.button} >
+        <Text style={styles.buttonText} onPress={handleValidate}>Valider</Text>
       </TouchableOpacity>
     </View>
   );
 }
+
+  //mise en place méthode Dimension pour mettre en % pour faire fonctionner le KeyboardAvoidingView
+  const windowHeight = Dimensions.get('window').height;
+  const windowWidth = Dimensions.get('window').width;
     
 const styles = StyleSheet.create({
   container: {
@@ -80,6 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: 50,
+    backgroundColor: '#ffff'
   },
   pagetitle: {
     fontSize: 20,
@@ -104,7 +148,11 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginRight: 15,
-    color: '#D9D9D9',
+  },
+    image: {
+    width: 24,
+    height: 25,
+    marginRight: 15,
   },
     textContainer: {
     flex: 1,
@@ -125,21 +173,28 @@ const styles = StyleSheet.create({
   },
     text: {
     marginBottom: 8,
-    fontFamily: "Recoleta",
+    fontFamily: "Manrope",
+    fontSize: 13
   },
-    buttonText: {
-    color: 'white',
-    fontFamily: "Recoleta",
-  },
-    button: {
-    backgroundColor: '#5ABAB6',
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 8,
-    width: 120,
-    textAlign: 'center',
-    display: 'flex',
+  //bouton suivant
+  buttonContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 10,
+    marginTop: 50,
+    height:windowHeight* 0.1,
   },
-});    
+  button: {
+    backgroundColor: '#5ABAB6',
+    width: windowWidth * 0.4,
+    margin: 20,
+    borderRadius: '5%',
+    padding: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontFamily: 'Manrope',
+    fontSize: 16,
+    color: 'white',
+  },
+});
