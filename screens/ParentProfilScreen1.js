@@ -62,16 +62,22 @@ export default function ParentProfilScreen1({ navigation }) {
   
   // fonction bouton Suivant 
     const handleNext = () => {
+      console.log(nameParent)
       if (!validateTel(phone)) {
         setPhoneError(true);
       } else {
         setPhoneError(false);
         dispatch(updateUser({ phone, photo, 
-          parent: {nameParent, firstNameParent, shortBio}}))
+          parent: {
+            nameParent: nameParent, //attention bien remettre les : nameParent ici sinon cela ne fonctionne pas meme si c'est le meme nom
+            firstNameParent: firstNameParent, 
+            shortBio: shortBio
+          }}))
+          
         navigation.navigate('ParentProfilScreen2');
       }
     };
-    
+// console.log(user)
   return (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>

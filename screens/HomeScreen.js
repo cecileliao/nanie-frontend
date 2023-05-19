@@ -21,7 +21,7 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('MissionScreen2')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>MissionScreen2</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('ParentProfilScreen2')} style={styles.button} activeOpacity={0.8}>
+      <TouchableOpacity onPress={() => navigation.navigate('ParentProfilScreen3')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>ParentProfilScreen2</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')} style={styles.button} activeOpacity={0.8}>

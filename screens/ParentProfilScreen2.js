@@ -7,13 +7,11 @@ import {
     Text, 
     TextInput, 
     StyleSheet, 
-    Image, 
     Keyboard,
     TouchableWithoutFeedback, 
     Dimensions,
     KeyboardAvoidingView,
 } from 'react-native'
-import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function ParentProfilScreen2({ navigation }) {
@@ -25,23 +23,6 @@ export default function ParentProfilScreen2({ navigation }) {
   const [address, setAddress] = useState(null);
   const [city, setCity] = useState(null);
   const [zip, setZip] = useState(null);
-
-  //photo de profil
-  const [photoParent, setphotoParent] = useState("");
-
-  //Image upload from device library w/ ImagePickerExpo
-  const handleImageUpload = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    
-  // check if user canceled the image selection // selectedImage state updated with uri
-  if (!result.canceled) {
-    dispatch(updateParent({photoParent: result.uri}))}
-  };
 
   //etat pour afficher erreur si mauvaise structure
   const [zipError, setZipError] = useState(false);
@@ -104,10 +85,11 @@ export default function ParentProfilScreen2({ navigation }) {
   
     if (isValid) {
       dispatch(updateUser({name, firstName, age, sexe, city, zip, address, introBio}))
-      navigation.navigate('ParentProfilScreen2');
+
+      navigation.navigate('ParentProfilScreen3');
     }
   };
-    
+  // console.log(user)
 
 
   return (
@@ -165,8 +147,8 @@ export default function ParentProfilScreen2({ navigation }) {
                 onChangeText={value => setCity(value)} 
                 placeholder="Ville" />
             </View>
-            {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
           </View>
+          {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
 
           <View style={styles.doubleInput}>
             {/* âge de l'aîné */}
@@ -197,8 +179,8 @@ export default function ParentProfilScreen2({ navigation }) {
                 }
               />
             </View>
-            {birthYearError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Année de naissance non valide</Text>}
           </View>
+            {birthYearError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Année de naissance non valide</Text>}
         </View>
 
         {/* Phrase intro */}
