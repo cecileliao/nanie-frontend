@@ -1,6 +1,6 @@
 import React , { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image, TextInput, Button, Platform } from 'react-native';
-    // import { moment } from 'moment'; 
+// import { moment } from 'moment'; 
 
 const start = '12-07-2023 09:00';
 const end = '14-07-2023 21:00';
@@ -49,12 +49,6 @@ const styles = StyleSheet.create({
           alignItems: 'center',
           justifyContent: 'space-between',
         },
-    // content: {
-    //   flex: 1,
-    //   flexDirection: 'row',
-    //   alignItems: 'center',
-    //   justifyContent: 'space-between',
-    // },
     left: {
       flexDirection: 'column',
       alignItems: 'flex-start',
