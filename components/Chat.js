@@ -8,7 +8,7 @@ const end = '14-07-2023 21:00';
 
 const conversation = [
     {sender: 'famille', message: 'Bonjour Emma, votre profil sérieux a attiré mon attention! J’aurais besoin d’un peu d’aide pour ma maman la semaine prochaine (du mardi 12 au jeudi 14 inclus). Seriez vous disponible ces jours?'},
-    {sender: 'aidant', message: 'Bonsoir Léa, Oui, bien-sûr, je serais ravie de veiller sur Ginette pendant votre absence ! Je suis disponible ces jours à toute heure. Souhaitez vous discuter par téléphone ? Si votre maman a des envies particulières, n’hésitez pas à m’en faire...'},
+    {sender: 'aidant', message: 'Bonsoir Léa, Oui, bien-sûr, je serais ravie de veiller sur Ginette pendant votre absence ! Je suis disponible ces jours à toute heure. Souhaitez vous discuter par téléphone ? Si votre maman a des envies particulières, n’hésitez pas à m’en faire part.'},
     {sender: 'famille', message: 'Oui, parfait, je reviens vers vous d’ici ce soir avec plus de détails.  Belle journée !'},
     // {sender: 'aidant', message: 'Parfait Léa, je reste disponible si vous souhaitez des information complémentaires. A bientôt !'},
   ];
@@ -20,21 +20,23 @@ const [newMessage, setNewMessage] = useState('');
 const user = useSelector((state) => state.user.value)
 
 const handleSendMessage = () => {
-  fetch(`http://192.168.10.124:3000/message/${user.token}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ token: user.token, content: newMessage }),
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-        // if (data.result) {
+  const messageData = {
+    token: user.token,
+    content: newMessage,
+};
 
-        // }
-        // data.result && dispatch(addMessage(data.message));
-        //setNewMessage('');
-      });
-    };
+  // fetch(`http://192.168.10.124:3000/aidantUsers/message/`, {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({messageData}),
+  //   })
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     console.log(data)
+      
+  //     });
+ };
+
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
