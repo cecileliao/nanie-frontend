@@ -23,7 +23,7 @@ const handleSendMessage = () => {
   const messageData = {
     token: user.token,
     content: newMessage,
-  };
+};
 
   // fetch(`http://192.168.10.124:3000/aidantUsers/message/`, {
   //   method: 'POST',

@@ -20,7 +20,7 @@ export default function AidantDisplayProfilScreen({navigation}) {
         .then(data => {
           if (data.result) {
             setUserAidant(data);
-            console.log({ infosData: data });
+            //console.log({ infosData: data });
             //Aidantinfos vient de la route GET
             //besoin de l'appeler pour afficher données 
             //console.log({ infos: userAidant.Aidantinfos.aidant })
@@ -97,7 +97,7 @@ if (!isLoading) {
                       source={require("../assets/carrot-solid.png")}
                       style={[
                         styles.imageAlimentation,
-                        { tintColor: userAidant?.Aidantinfos?.talents.alimentation ? '#5ABAB6' : '#868686' }
+                        { tintColor: userAidant?.Aidantinfos?.talents.cooking ? '#5ABAB6' : '#868686' }
                       ]}/>
                       <Text style={styles.textAbilities}>Alimentation</Text>
                   </View>
