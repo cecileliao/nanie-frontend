@@ -54,7 +54,7 @@ if (!isLoading) {
                           <Text style={styles.text}>{userAidant?.Aidantinfos?.introBio}</Text>
 
                       <View style={styles.CarandAdress}>
-                          <Text style={styles.text}>🏠 {userAidant?.Aidantinfos?.zip} {userAidant?.Aidantinfos?.cityAidant}</Text>
+                          <Text style={styles.text}>🏠 {userAidant?.Aidantinfos?.zip} {userAidant?.Aidantinfos?.city}</Text>
                           <Text style={styles.text}>🚗 {userAidant?.Aidantinfos?.aidant.car ? 'Permis B' : 'Pas de permis'}</Text>
                       </View>
                       
@@ -62,7 +62,7 @@ if (!isLoading) {
                       <Text style={styles.text}>Avis : 4,8</Text>
                       <View style={styles.averageHearts}>
                           {averageHearts}
-                          <TouchableOpacity onPress={() => navigation.navigate('AidantAvisScreen')}>
+                          <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')}>
                               <Text style={styles.textAvis}>Lire les avis</Text>
                           </TouchableOpacity>
                       </View>
