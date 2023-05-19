@@ -14,13 +14,7 @@ import {
 } from 'react-native'
 import * as ImagePicker from "expo-image-picker";
 
-export default function ParentProfilScreen1({ navigation }) {
-
-  const [name, setName] = useState(null);
-  const [firstName, setFirstName] = useState(null);
-  const [telephone, setTelephone] = useState(null);
-  const [password, setPassword] = useState(null);
-
+export default function ParentProfilScreen2({ navigation }) {
 
   //photo de profil
   const [photoParent, setphotoParent] = useState("");

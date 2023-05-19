@@ -24,7 +24,7 @@ const blocks = [
   },
 ];
     
-export default function FamilleProfilScreen() {
+export default function ParentProfilScreen4() {
   const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
     
   const toggleSwitch = (index) => {      

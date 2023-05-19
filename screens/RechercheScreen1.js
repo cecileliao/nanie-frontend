@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 
-export default function AidantRechercheScreen() {
+export default function RechercheScreen1() {
   return (
     <View style={styles.container}>
-      <Text>AidantRechercheScreen</Text>
+      <Text>RechercheScreen1</Text>
     </View>
   )
 }

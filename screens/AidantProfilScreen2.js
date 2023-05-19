@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAidant } from '../reducers/users';
+import { updateUser } from '../reducers/users';
 import { 
   Dimensions, 
   TouchableOpacity, 
@@ -18,11 +18,11 @@ export default function AidantProfilScreen2({ navigation }) {
 
   //texte rempli
   //phrase intro de l'aidant
-  const [introBioAidant, setintroBioAidant] = useState("");
+  const [introBio, setintroBio] = useState("");
   //description détaillée de l'aidant
-  const [longBioAidant, setlongBioAidant] = useState("");
+  const [longBio, setlongBio] = useState("");
   // //compétences de l'aidant
-  const [abilitiesAidant, setabilitiesAidant] = useState("");
+  const [abilities, setabilities] = useState("");
 
   //afficher le nombre de caractères restants sur le textInput
   const [shortIntroremainingCharacters, setshortIntroRemainingCharacters] = useState(100);
@@ -31,24 +31,24 @@ export default function AidantProfilScreen2({ navigation }) {
 
   //pour le nombre de caractères de la phrase d'introduction
   useEffect(() => {
-    const charactersCount = introBioAidant.length;
+    const charactersCount = introBio.length;
     const shortremainingCount = 100 - charactersCount;
     setshortIntroRemainingCharacters(shortremainingCount);
-  }, [introBioAidant]);
+  }, [introBio]);
 
   //pour le nombre de caractères de la description détaillée
   useEffect(() => {
-    const charactersCount = longBioAidant.length;
+    const charactersCount = longBio.length;
     const longremainingCount = 300 - charactersCount;
     setlongIntroRemainingCharacters(longremainingCount);
-  }, [longBioAidant]);
+  }, [longBio]);
 
   //pour le nombre de caractères de la description détaillée
   useEffect(() => {
-          const charactersCount = abilitiesAidant.length;
+          const charactersCount = abilities.length;
           const abilitiesRemainingCount = 300 - charactersCount;
           setabilitiesRemainingCharacters(abilitiesRemainingCount);
-  }, [abilitiesAidant]);
+  }, [abilities]);
 
 
 //récupération info user au moment d'appuyer sur le bouton suivant
@@ -57,24 +57,17 @@ const dispatch = useDispatch();
 const user = useSelector((state) => state.user.value)
 //console.log(user);
 
-const handleIntro = (text) => {
-  setintroBioAidant(text)
-  dispatch(updateAidant({introBioAidant: text}))
-}
-
-const handleLongBio = (text) => {
-  setlongBioAidant(text)
-  dispatch(updateAidant({longBioAidant: text}))
-}
-
-const handleAbilities = (text) => {
-  setabilitiesAidant(text)
-  dispatch(updateAidant({abilitiesAidant: text}))
-}
 
 
 //aller sur page suivante
 const handleNext = () => {
+  dispatch(updateUser({introBio, longBio,
+    aidant: {
+      car: user.aidant.car,
+      rate: user.aidant.rate,
+      abilities: abilities,
+    }
+  }))
   //console.log(user)
   navigation.navigate('AidantProfilScreen3');
 };
@@ -89,8 +82,8 @@ const handleNext = () => {
             <Text style={styles.firsttitle}>Ma présentation en quelques mots</Text>
             <TextInput
                 style={styles.input}
-                value={user.introBioAidant}
-                onChangeText={text => handleIntro(text)}
+                value={introBio}
+                onChangeText={value => setintroBio(value)} 
                 placeholder="Ma phrase d’introduction"
                 textAlignVertical="top" //sur android pour center le placeholder en haut
                 multiline={true} //sur ios pour center le placeholder en haut
@@ -106,8 +99,8 @@ const handleNext = () => {
             <Text style={styles.title}>Ma personnalité incroyable</Text>
             <TextInput
                 style={styles.longinput}
-                value={user.longBioAidant}
-                onChangeText={text => handleLongBio(text)}
+                value={longBio}
+                onChangeText={value => setlongBio(value)} 
                 placeholder="Présentation détaillée de ta personnalité"
                 textAlignVertical="top" //sur android pour center le placeholder en haut
                 multiline={true} //sur ios pour center le placeholder en haut
@@ -123,8 +116,8 @@ const handleNext = () => {
             <Text style={styles.title}>Mes compétences magiques</Text>
             <TextInput
                 style={styles.longinput}
-                value={user.abilitiesAidant}
-                onChangeText={text => handleAbilities(text)}
+                value={abilities}
+                onChangeText={value => setabilities(value)} 
                 placeholder="Description de mes compétences, diplômes, expérience ..."
                 textAlignVertical="top" //sur android pour center le placeholder en haut
                 multiline={true} //sur ios pour center le placeholder en haut

@@ -9,18 +9,28 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import HomeScreen from "./screens/HomeScreen";
 import ConnexionScreen from "./screens/ConnexionScreen";
 import InscriptionScreen from "./screens/InscriptionScreen";
-import AidantMessageScreen from "./screens/AidantMessageScreen";
-import AidantMissionScreen from "./screens/AidantMissionScreen";
-import AidantMissionScreen2 from "./screens/AidantMissionScreen2";
-import AidantRechercheScreen from "./screens/AidantRechercheScreen";
+import MessageScreen from "./screens/MessageScreen";
+import ConversationScreen from "./screens/ConversationScreen"
+import MissionScreen1 from "./screens/MissionScreen1";
+import MissionScreen2 from "./screens/MissionScreen2";
+import RechercheScreen1 from "./screens/RechercheScreen1";
+import RechercheScreen2 from "./screens/RechercheScreen2";
+import AidantDisplayProfilScreen from "./screens/AidantDisplayProfilScreen";
 import AidantProfilScreen1 from "./screens/AidantProfilScreen1";
 import AidantProfilScreen2 from "./screens/AidantProfilScreen2";
 import AidantProfilScreen3 from "./screens/AidantProfilScreen3";
-import AidantAvisScreen from "./screens/AidantAvisScreen"
-import AidantDisplayProfilScreen from "./screens/AidantDisplayProfilScreen"
-import Conversation from "./screens/ConversationScreen"
+import ParentDisplayProfilScreen from "./screens/ParentDisplayProfilScreen";
+import ParentProfilScreen1 from "./screens/ParentProfilScreen1";
+import ParentProfilScreen2 from "./screens/ParentProfilScreen2";
+import ParentProfilScreen3 from "./screens/ParentProfilScreen3";
+import ParentProfilScreen4 from "./screens/ParentProfilScreen4";
+import AvisScreen from "./screens/AvisScreen";
+import EvaluationScreen from "./screens/EvaluationScreen";
+import CalendarScreen1 from "./screens/CalendarScreen1";
+import CalendarScreen2 from "./screens/CalendarScreen2"
 //ajout des modules pour importer les fonts
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSelector} from 'react-redux';
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 //mise en place des imports de Redux
@@ -49,12 +59,17 @@ const store = configureStore({
 //  });
 // const persistor = persistStore(store);
 
+
+//Fetch get find data.type; if data.result, setIsParent(true)
+
+
 // définir les variables pour le tab et la navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 //Tabnavigator
 const TabNavigator = () => {
+  const user = useSelector((state) => state.user.value);
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -76,6 +91,8 @@ const TabNavigator = () => {
             iconName = "envelope";
           } else if (route.name === "Profil") {
             iconName = "user";
+          } else if (route.name === "Calendar") {
+            iconName = "calendar";
           }
 
           return <FontAwesome name={iconName} size={size} color={color} />;
@@ -85,10 +102,35 @@ const TabNavigator = () => {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Recherche" component={AidantRechercheScreen} />
-      <Tab.Screen name="Message" component={AidantMessageScreen} />
-      <Tab.Screen name="Mission" component={AidantMissionScreen} />
-      <Tab.Screen name="Profil" component={AidantDisplayProfilScreen} />
+      {user.isParent ? <Tab.Screen name="Recherche" component={RechercheScreen1} />:  <Tab.Screen name="Calendar" component={CalendarScreen1} /> }
+      <Tab.Screen name="Message" component={MessageScreen} />
+      <Tab.Screen name="Mission" component={MissionScreen1} />
+      {user.isParent ? 
+        <Tab.Screen name="Profil" component={ParentDisplayProfilScreen}
+          options={({ navigation }) => ({
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate('ParentProfilScreen1')}>
+                {/* remplir les champs de la page modif */}
+                <View style={styles.button}>
+                  <Text style={styles.buttonTxt}>Editer</Text>
+                </View>
+              </TouchableOpacity>
+            ),
+          })} 
+        /> :  
+        <Tab.Screen name="Profil" component={AidantDisplayProfilScreen}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('AidantProfilScreen1')}>
+                              {/* remplir les champs de la page modif */}
+              <View style={styles.button}>
+                <Text style={styles.buttonTxt}>Editer</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        })}
+        /> 
+      }
     </Tab.Navigator>
   );
 };
@@ -154,29 +196,20 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Connexion" component={ConnexionScreen} options={{ title: 'Connexion' }}/>
         <Stack.Screen name="Inscription" component={InscriptionScreen} options={{ title: 'Créer un compte' }}/>
-        <Stack.Screen name="AidantMessageScreen" component={AidantMessageScreen} />
-        <Stack.Screen name="AidantMissionScreen" component={AidantMissionScreen} />
-        <Stack.Screen name="AidantMissionScreen2" component={AidantMissionScreen2} />
+        <Stack.Screen name="MissionScreen2" component={MissionScreen2} options={{ title: 'Mes missions validées' }} />
         <Stack.Screen name="AidantProfilScreen1" component={AidantProfilScreen1} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantProfilScreen2" component={AidantProfilScreen2} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} options={{ title: 'Créer mon Profil' }}/>
-        <Stack.Screen name="AidantRechercheScreen" component={AidantRechercheScreen} />
-        <Stack.Screen name="AidantAvisScreen" component={AidantAvisScreen} options={{ title: 'Mes avis' }}/>
-        <Stack.Screen
-        name="AidantDisplayProfilScreen"
-        component={AidantDisplayProfilScreen}
-        options={({ navigation }) => ({
-          headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('AidantProfilScreen1')}>
-              <View style={styles.button}>
-                <Text style={styles.buttonTxt}>Editer</Text>
-              </View>
-            </TouchableOpacity>
-          ),
-        })}
-        />
-        <Stack.Screen name="Conversation" 
-        component={Conversation}
+        <Stack.Screen name="ParentProfilScreen1" component={ParentProfilScreen1} options={{ title: 'Créer le profil de ma famille' }}/>
+        <Stack.Screen name="ParentProfilScreen2" component={ParentProfilScreen2} options={{ title: 'Créer le profil de ma famille' }}/>
+        <Stack.Screen name="ParentProfilScreen3" component={ParentProfilScreen3} options={{ title: 'Créer le profil de ma famille' }}/>
+        <Stack.Screen name="ParentProfilScreen4" component={ParentProfilScreen4} options={{ title: 'Créer le profil de ma famille' }}/>
+        <Stack.Screen name="AvisScreen" component={AvisScreen} options={{ title: 'Mes avis' }}/>
+        <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Evaluation' }}/>
+        <Stack.Screen name="RechercheScreen2" component={RechercheScreen2} options={{ title: 'Ma recherche' }}/>
+        <Stack.Screen name="CalendarScreen2" component={CalendarScreen2} options={{ title: 'Mon calendrier' }}/>
+        <Stack.Screen name="ConversationScreen" 
+        component={ConversationScreen}
         options={({ navigation }) => ({
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>

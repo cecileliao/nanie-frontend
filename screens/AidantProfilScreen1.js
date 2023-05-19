@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAidant } from '../reducers/users';
+import { updateUser } from '../reducers/users';
 import { KeyboardAvoidingView, 
   TouchableOpacity, 
   Switch, View, Text, TextInput, Dimensions,
@@ -16,8 +16,19 @@ export default function AidantProfilScreen1({ navigation }) {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value)
 
+    const [name, setName] = useState(null);
+    const [firstName, setFirstName] = useState(null);
+    const [phone, setPhone] = useState(null);
+    const [age, setAge] = useState(null);
+    const [sexe, setSexe] = useState(null);
+    const [address, setAddress] = useState(null);
+    const [city, setCity] = useState(null);
+    const [zip, setZip] = useState(null);
+    const [car, setCar] = useState(false);
+    const [rate, setRate] = useState(null);
+
   //photo de profil
-    const [photoAidant, setphotoAidant] = useState("");
+    const [photo, setphoto] = useState("");
 
   //menu dropdown pour le sexe
     const [open, setOpen] = useState(false);
@@ -39,8 +50,7 @@ export default function AidantProfilScreen1({ navigation }) {
     
     // check if user canceled the image selection // selectedImage state updated with uri
       if (!result.canceled) {
-        setphotoAidant(result.uri)
-        dispatch(updateAidant({ photoAidant: result.uri }))}
+        setphoto(result.uri)}
       };
 
     //etat pour afficher erreur si mauvaise structure
@@ -66,23 +76,24 @@ export default function AidantProfilScreen1({ navigation }) {
   
 
     const handleNext = () => {
+      
       let isValid = true;
     
-      if (!validateTel(user.phoneAidant)) {
+      if (!validateTel(phone)) {
         setPhoneError(true);
         isValid = false;
       } else {
         setPhoneError(false);
       }
     
-      if (!validateZip(user.zipAidant)) {
+      if (!validateZip(zip)) {
         setZipError(true);
         isValid = false;
       } else {
         setZipError(false);
       }
     
-      if (!validatebirthYear(user.ageAidant)) {
+      if (!validatebirthYear(age)) {
         setbirthYearError(true);
         isValid = false;
       } else {
@@ -90,6 +101,13 @@ export default function AidantProfilScreen1({ navigation }) {
       }
     
       if (isValid) {
+        //console.log(user)
+        dispatch(updateUser({name, firstName, phone, age, sexe, city, zip, address, photo,
+          aidant: {
+            car: car,
+            rate: rate,
+          }
+        }))
         //console.log(user)
         navigation.navigate('AidantProfilScreen2');
       }
@@ -107,7 +125,7 @@ export default function AidantProfilScreen1({ navigation }) {
 
       <View style={styles.imageProfil}>
         <TouchableOpacity onPress={handleImageUpload}>
-      <Image source={photoAidant ? { uri: photoAidant } : require("../assets/userPicture.png")}
+      <Image source={photo ? { uri: photo } : require("../assets/userPicture.png")}
             style={{ width: 96, height: 96, margin: 20, borderRadius: 50 }} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleImageUpload}>
@@ -121,13 +139,21 @@ export default function AidantProfilScreen1({ navigation }) {
 
     <View style={styles.containerInput}>
       <Text>Nom</Text>
-      <TextInput style={styles.input} value={user.nameAidant} onChangeText={text => dispatch(updateAidant({nameAidant: text}))} placeholder="Nom" />
+      <TextInput 
+        style={styles.input} 
+        value={name}
+        onChangeText={value => setName(value)} 
+        placeholder="Nom" />
     </View>
 
     {/* prénom de l'aidant */}
     <View style={styles.containerInput}>
       <Text>Prénom</Text>
-      <TextInput style={styles.input} value={user.firstNameAidant} onChangeText={text => dispatch(updateAidant({firstNameAidant: text}))} placeholder="Prénom" />
+      <TextInput 
+        style={styles.input} 
+        value={firstName}
+        onChangeText={value => setFirstName(value)} 
+        placeholder="Prénom" />
     </View>
 
     {/* téléphone de l'aidant */}
@@ -135,8 +161,8 @@ export default function AidantProfilScreen1({ navigation }) {
         <Text>Téléphone</Text>
         <TextInput
           style={styles.input}
-          value={user.phoneAidant}
-          onChangeText={text => dispatch(updateAidant({ phoneAidant: text }))}
+          value={phone}
+        onChangeText={value => setPhone(value)} 
           placeholder="Téléphone"
         />
     </View>
@@ -145,7 +171,10 @@ export default function AidantProfilScreen1({ navigation }) {
       {/* adresse de l'aidant */}
       <View style={styles.containerInput}>
         <Text>Adresse</Text>
-        <TextInput style={styles.input} value={user.addressAidant} onChangeText={text => dispatch(updateAidant({addressAidant: text}))} placeholder="Adresse" />
+        <TextInput style={styles.input} 
+        value={address}
+        onChangeText={value => setAddress(value)} 
+        placeholder="Adresse" />
       </View>
 
     <View style={styles.doubleInput}>
@@ -153,13 +182,19 @@ export default function AidantProfilScreen1({ navigation }) {
         {/* code postal de l'aidant */}
         <View style={styles.smallcontainerInput}>
           <Text>Code Postal</Text>
-          <TextInput style={styles.codePostal} value={user.zipAidant} onChangeText={text => dispatch(updateAidant({zipAidant: text}))} placeholder="CP" />
+          <TextInput style={styles.codePostal} 
+          value={zip}
+          onChangeText={value => setZip(value)} 
+          placeholder="CP" />
         </View>
 
         {/* ville de l'aidant */}
         <View style={styles.smallcontainerInput}>
           <Text>Ville</Text>
-          <TextInput style={styles.city} value={user.cityAidant} onChangeText={text => dispatch(updateAidant({cityAidant: text}))} placeholder="Ville" />
+          <TextInput style={styles.city} 
+          value={city}
+          onChangeText={value => setCity(value)} 
+          placeholder="Ville" />
         </View>
 
       
@@ -173,7 +208,10 @@ export default function AidantProfilScreen1({ navigation }) {
       {/* âge de l'aidant */}
       <View style={styles.smallcontainerInput}>
         <Text>Naissance</Text>
-        <TextInput style={styles.smallinput} value={user.ageAidant} onChangeText={text => dispatch(updateAidant({ageAidant: text}))} placeholder="AAAA" />
+        <TextInput style={styles.smallinput}
+        value={age}
+        onChangeText={value => setAge(value)} 
+        placeholder="AAAA" />
       </View>
       
 
@@ -190,7 +228,7 @@ export default function AidantProfilScreen1({ navigation }) {
           setItems={setItems}
           dropDownContainerStyle={{ width: 120, marginLeft: 15, marginBottom: 15, borderColor: '#5ABAB6' }}
           onSelectItem={(item) => {
-            dispatch(updateAidant({sexeAidant: item.value}))}
+            setSexe(item.value)}
           }
           />
       </View>
@@ -203,15 +241,18 @@ export default function AidantProfilScreen1({ navigation }) {
      {/* tarif horaire l'aidant */}
      <View style={styles.tarifcontainerInput}>
         <Text>Taux horaire</Text>
-        <TextInput style={styles.city} value={user.ratebyHour} onChangeText={text => dispatch(updateAidant({ratebyHour: text}))} placeholder="Taux horaire" />
+        <TextInput style={styles.city} 
+        value={rate}
+        onChangeText={value => setRate(value)} 
+        placeholder="Taux horaire" />
      </View>
 
       {/* permis l'aidant */}
       <View style={styles.tarifcontainerInput}>
           <Text>Permis B</Text>
           <Switch style={{marginLeft: 30}}
-          value={user.car}
-          onValueChange={(value) => dispatch(updateAidant({car: value}))}
+          value={car}
+          onValueChange={(value) => setCar(value)}
           trackColor={{ false: '#D9D9D9', true: '#5ABAB6' }}
           />
       </View>

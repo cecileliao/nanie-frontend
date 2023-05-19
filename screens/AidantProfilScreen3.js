@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, Switch, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateAidant } from '../reducers/users';
+import { updateUser } from '../reducers/users';
     
 const blocks = [
   {
@@ -26,6 +26,7 @@ const blocks = [
 ];
     
 export default function AidantProfilScreen3({navigation}) {
+  
 
     //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();
@@ -48,7 +49,7 @@ export default function AidantProfilScreen3({navigation}) {
 
 
   useEffect(() => {
-    dispatch(updateAidant({
+    dispatch(updateUser({
       talents: {
         mobility: switchesState[0],
         hygiene: switchesState[1],
@@ -58,17 +59,12 @@ export default function AidantProfilScreen3({navigation}) {
     }));
   }, [switchesState]);
 
-    
-
-
-//console.log({talents: {mobility:switchesState[0],hygiene: switchesState[1],cooking: switchesState[2],entertainment: switchesState[3] }});
-   
 
   const handleValidate = () => {
 
-    //console.log(user)
+    //console.log(user.isParent)
 
-    fetch('http://192.168.10.146:3000/aidantUsers/signup', {
+    fetch('http://192.168.10.135:3000/aidantUsers/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
@@ -76,8 +72,8 @@ export default function AidantProfilScreen3({navigation}) {
       .then(data => {
         //console.log(data)
         if(data.result) {
-          dispatch(updateAidant({token: data.token}))
-          navigation.navigate('AidantDisplayProfilScreen');
+          dispatch(updateUser({token: data.token}))
+          navigation.navigate('TabNavigator' , { screen: 'Profil' });
         }
         
       });

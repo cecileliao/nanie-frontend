@@ -3,24 +3,31 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     value: { 
       token: null, 
-      emailAidant: null,
-      passwordAidant: null,
-      photoAidant: null,
-      nameAidant: null,
-      firstNameAidant: null,
-      phoneAidant: null,
-      ageAidant: null,
-      sexeAidant: null,
-      addressAidant: null,
-      zipAidant: null,
-      cityAidant: null,
-      ratebyHour: null,
-      car: false,
-      signupAidant: null,
-      introBioAidant: null,
-      longBioAidant: null,
-      abilitiesAidant: null,
-      talents: {}
+      email: null,
+      password: null,
+      photo: null,
+      name: null,
+      firstName: null,
+      phone: null,
+      age: null,
+      sexe: null,
+      address: null,
+      zip: null,
+      city: null,
+      signup: null,
+      introBio: null,
+      longBio: null,
+      talents: {},
+      //AIDANT
+      aidant: {},
+      // ratebyHour: null,
+      // car: false,
+      // abilitiesAidant: null,
+      //PARENT
+      parent: {},
+      //dans contact: nameParent, firstNameParent, phoneParent, shortBio, gemProfil
+      isParent: false
+
       
     },
   };
@@ -37,7 +44,7 @@ reducers: {
     state.value.token = null;
     state.value.email = null;
     },
-    updateAidant: (state, action) => {
+    updateUser: (state, action) => {
       state.value = {
         ...state.value,
         ...action.payload
@@ -47,5 +54,5 @@ reducers: {
 },
 });
 
-export const { login, logout, updateAidant } = userSlice.actions;
+export const { login, logout, updateUser } = userSlice.actions;
 export default userSlice.reducer;

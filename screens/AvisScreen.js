@@ -2,7 +2,7 @@ import { StyleSheet, View, Text,  Image, SafeAreaView, ScrollView } from 'react-
 import React from 'react';
 import Avis from "../components/Avis";
 
-export default function AidantAvisScreen() {
+export default function AvisScreen() {
   return (
     <SafeAreaView style={styles.container}>
     <ScrollView>

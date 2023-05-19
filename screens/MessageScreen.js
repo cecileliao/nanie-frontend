@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 
-export default function AidantMessageScreen() {
+export default function MessageScreen() {
   return (
     <View style={styles.container}>
-      <Text>AidantMessageScreen</Text>
+      <Text>MessageScreen</Text>
     </View>
   )
 }
