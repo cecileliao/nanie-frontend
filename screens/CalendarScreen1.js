@@ -24,43 +24,65 @@ export default function CalendarScreen1() {
 
   const validateModal = () => {
 
-      if (startSelectedDate && endSelectedDate) {
-        // Création de variables pour les dates et les heures
-        const startingDay = startSelectedDate.toISOString();
-        }
+        const startdate = moment(startSelectedDate); 
+        const enddate = moment(endSelectedDate);
+        const startingDay = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        const startingHour = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
+        //console.log({starD: startingDay});
+        //console.log({endD: endingDay});
+        //console.log({starH:startingHour});
+        //console.log({endH:endingHour});
 
-        const date = moment(startSelectedDate); // Remplacez `startSelectedDate` avec votre variable contenant la date récupérée de datetimepickermodal
-
-        const isoDate = date.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-        
-        console.log(isoDate);
-      //const startingDay = DateTime.fromFormat(startSelectedDate, "dd-MM-yyyy")
-      //console.log(startingDay)
-      // const endingDay = endSelectedDate;
-      // const startingHour = startSelectedDate;
-      // const endingHour = endSelectedDate;
-  
       // Récupération via route POST des dates et heures de disponibilités
-      // fetch(`http://192.168.1.46:3000/aidantUsers/dispos/${user.token}`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({
-      //     startingDay: startingDay,
-      //     endingDay: endingDay,
-      //     startingHour: startingHour,
-      //     endingHour: endingHour
-      //   }),
-      // }).then(response => response.json())
-      //   .then(data => {
-      //     console.log(data);
-      //     if (data.result) {
-      //       console.log(data.result);
-      //       setModalVisible(false);
-      //     }
-      //   });
-    //}
+      fetch(`http://192.168.1.46:3000/aidantUsers/addDispo/${user.token}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          startingDay,
+          endingDay,
+          startingHour,
+          endingHour,
+        }),
+      }).then(response => response.json())
+        .then(data => {
+          //console.log(data);
+          if (data.result) {
+            //console.log(data.result);
+            //console.log(data.UserDispos)
+            setModalVisible(false);
+          }
+        });
+
   };
+
+
+  ///////////////Affichage des dates validées
+  //stocker les données utilisateur et les afficher au chargement de la page
+    const [dispoValidee, setDispoValidee] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+
+    useEffect(() => {
+      fetch(`http://192.168.1.46:3000/aidantUsers/dispos/${user.token}`)
+        .then(response => response.json())
+        .then(data => {
+          //console.log(data.UserDispos);
+          //console.log(user.token)
+          if (data.result) {
+            setDispoValidee(data);
+            console.log(dispoValidee.UserDispos[0].endingDay)
+          }
+          
+        });
+    }, []);
+
+
+  //useEffect(() => {
+ // console.log({ infosDispos: dispoValidee });
+//}, []);
 
 
   //////////////date de début
@@ -134,13 +156,14 @@ export default function CalendarScreen1() {
   };
 
 
-
   return (
 <SafeAreaView style={styles.container}>
   <ScrollView contentContainerStyle={styles.scrollContainer}>
       <TouchableOpacity style={styles.buttonPurple} onPress={openModal}>
         <Text style={styles.buttonText}>+ Date de disponibilité</Text>
       </TouchableOpacity>
+
+      <Text >Hello</Text>
 
       <Modal visible={modalVisible} onRequestClose={closeModal} animationType="slide" transparent>
           <View style={styles.modalContainer}>
@@ -224,6 +247,7 @@ export default function CalendarScreen1() {
 </SafeAreaView>
   )
 }
+
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
