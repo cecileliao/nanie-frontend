@@ -1,6 +1,7 @@
-import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions, StatusBar } from 'react-native'
+import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions, StatusBar, FlatList } from 'react-native'
 import React, { useState, useEffect }  from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import Disponibilite from '../components/Disponibilite';
 import moment from 'moment';
 import 'moment/locale/fr';
 
@@ -61,28 +62,39 @@ export default function CalendarScreen1() {
 
   ///////////////Affichage des dates validées
   //stocker les données utilisateur et les afficher au chargement de la page
-    const [dispoValidee, setDispoValidee] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [Dispo, setDispo] = useState(null);
 
 
-    useEffect(() => {
-      fetch(`http://192.168.1.46:3000/aidantUsers/dispos/${user.token}`)
-        .then(response => response.json())
-        .then(data => {
-          //console.log(data.UserDispos);
-          //console.log(user.token)
-          if (data.result) {
-            setDispoValidee(data);
-            console.log(dispoValidee.UserDispos[0].endingDay)
-          }
-          
+
+
+useEffect(() => {
+  fetch(`http://192.168.1.46:3000/aidantUsers/dispos/${user.token}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.result) {
+            // const endingDates = data.UserDispos.map(dispo => dispo.endingDay);
+            // const startingDates = data.UserDispos.map(dispo => dispo.startingDay);
+            // const endingHour = data.UserDispos.map(dispo => dispo.endingHour);
+            // const startingHour = data.UserDispos.map(dispo => dispo.startingHour);
+            //console.log(endingDates);
+        const Dispo = data.UserDispos.map(data => {
+          return (
+            <Disponibilite
+              startingDay={data.startingDay}
+              startingHour={data.startingHour}
+              endingDay={data.endingDay}
+              endingHour={data.endingHour}
+            />
+          );
         });
-    }, []);
+        setDispo(Dispo);
+      }
+    });
+}, [Dispo]);
 
 
-  //useEffect(() => {
- // console.log({ infosDispos: dispoValidee });
-//}, []);
+
+
 
 
   //////////////date de début
@@ -164,6 +176,9 @@ export default function CalendarScreen1() {
       </TouchableOpacity>
 
       <Text >Hello</Text>
+      <View>
+      {Dispo !== null ? <View style={styles.dispoContainerContainer}>{Dispo}</View> : <View></View>}
+      </View>
 
       <Modal visible={modalVisible} onRequestClose={closeModal} animationType="slide" transparent>
           <View style={styles.modalContainer}>
@@ -206,7 +221,7 @@ export default function CalendarScreen1() {
               <TouchableOpacity style={styles.startEndContainer} onPress={showEndDatePicker}>
                   <View style={styles.startButton}> 
                   <Text style={styles.startEndTextButton}>Fin</Text>
-                  </View>
+                  </View >
                   {endSelectedDate && (
                   //affiche la date que si une date a déjà été sélectionnée
                   <Text style={styles.startEndTextDate}>
@@ -249,6 +264,7 @@ export default function CalendarScreen1() {
 }
 
 
+
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
@@ -258,9 +274,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   scrollContainer: {
-    flex: 1,
+    flexGrow: 1, // Utilisez flexGrow pour permettre au contenu de se développer en hauteur
     alignItems: 'center',
     justifyContent: 'center',
+    minHeight: Dimensions.get('window').height, // Ajoutez une hauteur minimale pour permettre le défilement vertical
   },
   dateContainer: {
     borderWidth: 1.2,
@@ -374,5 +391,6 @@ validateButton: {
   width: windowWidth * 0.3,
     alignItems: "center"
 },
+
 
   })
