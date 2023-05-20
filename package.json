@@ -28,6 +28,7 @@
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
     "install": "^0.13.0",
+    "luxon": "^3.3.0",
     "moment": "^2.29.4",
     "react": "18.2.0",
     "react-native": "0.71.8",

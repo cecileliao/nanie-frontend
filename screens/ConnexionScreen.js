@@ -53,7 +53,7 @@ export default function ConnexionScreen({ navigation }) {
   const handleConnexion = () => {
     if (isParent) {
       if (EMAIL_REGEX.test(email)) {
-        fetch('http://192.168.10.153:3000/parentUsers/signin', {
+        fetch('http://192.168.1.46:3000/parentUsers/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -76,7 +76,7 @@ export default function ConnexionScreen({ navigation }) {
 
     else if (isAidant) {
       if (EMAIL_REGEX.test(email)) {
-        fetch('http://192.168.10.153:3000/aidantUsers/signin', {
+        fetch('http://192.168.1.46:3000/aidantUsers/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

@@ -1,10 +1,15 @@
 import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions, StatusBar } from 'react-native'
 import React, { useState, useEffect }  from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
+import 'moment/locale/fr';
 
 //importation de la modale pour récupérer date et heure de la disponibilité
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export default function CalendarScreen1() {
+  //récupération du token dans le store quand l'utilisateur se connecte
+  const user = useSelector((state) => state.user.value);
 
   //afficher (ou fermer) une modal quand on clique sur le bouton date de dispo
   const [modalVisible, setModalVisible] = useState(false);
@@ -16,6 +21,47 @@ export default function CalendarScreen1() {
   const closeModal = () => {
     setModalVisible(false);
   };
+
+  const validateModal = () => {
+
+      if (startSelectedDate && endSelectedDate) {
+        // Création de variables pour les dates et les heures
+        const startingDay = startSelectedDate.toISOString();
+        }
+
+
+        const date = moment(startSelectedDate); // Remplacez `startSelectedDate` avec votre variable contenant la date récupérée de datetimepickermodal
+
+        const isoDate = date.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        
+        console.log(isoDate);
+      //const startingDay = DateTime.fromFormat(startSelectedDate, "dd-MM-yyyy")
+      //console.log(startingDay)
+      // const endingDay = endSelectedDate;
+      // const startingHour = startSelectedDate;
+      // const endingHour = endSelectedDate;
+  
+      // Récupération via route POST des dates et heures de disponibilités
+      // fetch(`http://192.168.1.46:3000/aidantUsers/dispos/${user.token}`, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({
+      //     startingDay: startingDay,
+      //     endingDay: endingDay,
+      //     startingHour: startingHour,
+      //     endingHour: endingHour
+      //   }),
+      // }).then(response => response.json())
+      //   .then(data => {
+      //     console.log(data);
+      //     if (data.result) {
+      //       console.log(data.result);
+      //       setModalVisible(false);
+      //     }
+      //   });
+    //}
+  };
+
 
   //////////////date de début
 
@@ -88,6 +134,7 @@ export default function CalendarScreen1() {
   };
 
 
+
   return (
 <SafeAreaView style={styles.container}>
   <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -99,8 +146,8 @@ export default function CalendarScreen1() {
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               {/* Contenu de la modale */}
-              <Text style={styles.modalText}>Nouvelle disponibilité</Text>
-              <Text style={{fontFamily: "Manrope", fontSize: 15, marginBottom: 10, marginTop: 10}}>Sélection des dates et heures</Text>
+              <Text style={styles.modalText}>Ajout d'une nouvelle disponibilité</Text>
+              <Text style={{fontFamily: "Manrope", color: "#868686", fontSize: 14, marginBottom: 10, marginTop: 10}}>Sélection ou modification des dates et heures</Text>
 
               {/* Choix de la date de début */}
 
@@ -159,7 +206,7 @@ export default function CalendarScreen1() {
               />
 
               <View style={styles.smallmodalContainer}>
-                <TouchableOpacity style={styles.validateButton}>
+                <TouchableOpacity style={styles.validateButton} onPress={validateModal}>
                   <Text style={styles.textcloseButton}>Valider</Text>
                 </TouchableOpacity>
 
@@ -281,8 +328,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   modalText: {
-    fontFamily: 'Recoleta',
-    fontSize: 22,
+    fontFamily: 'Manrope',
+    fontSize: 20,
     marginBottom: 10,
 },
   closeButton: {

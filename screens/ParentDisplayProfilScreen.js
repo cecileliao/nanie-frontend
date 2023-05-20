@@ -15,7 +15,7 @@ export default function ParentDisplayProfilScreen({navigation}) {
 
 
   useEffect(() => {
-    fetch(`http://192.168.10.153:3000/parentUsers/Infos/${user.token}`)
+    fetch(`http://192.168.1.46:3000/parentUsers/Infos/${user.token}`)
       .then(response => response.json())
       .then(data => {
         if (data.result) {
