@@ -20,6 +20,7 @@ const initialState = {
       talents: {},
       //AIDANT
       aidant: {},
+      availabilities: {},
       // ratebyHour: null,
       // car: false,
       // abilitiesAidant: null,

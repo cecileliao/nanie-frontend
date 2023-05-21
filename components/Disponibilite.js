@@ -25,24 +25,35 @@ const Disponibilite = (props) => {
 
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
+    //récupération des dispos depuis le reducer
+    const availabilities = useSelector((state) => state.user.availabilities);
+    
 
-  const deleteAvailability = (token, availabilityId) => {
-  console.log(user)
-  fetch(`http://192.168.1.46:3000/aidantUsers/deleteDispo/${user.token}/${user.availabilities.availabilityId}`, {
-    method: 'DELETE',
-  })
-    .then(response => {
-      if (response.ok) {
-        // La disponibilité a été supprimée avec succès
-        // Mettez à jour l'état ou effectuez d'autres actions nécessaires
+    const deleteAvailability = (token, availabilityId) => {
+      console.log('Availability ID to delete:', availabilityId);
+      console.log('User availabilities:', user.availabilities);
+
+      const availability = user.availabilities.find(item => item.availabilityId === availabilityId);
+      console.log('Found availability:', availability);
+      if (availability) {
+        fetch(`http://192.168.1.46:3000/aidantUsers/deleteDispo/${user.token}/${availability.availabilityId}`, {
+          method: 'DELETE',
+        })
+          .then(response => {
+            if (response.ok) {
+              // La disponibilité a été supprimée avec succès
+              // Mettez à jour l'état ou effectuez d'autres actions nécessaires
+            } else {
+              // La requête a échoué avec un statut d'erreur
+              return response.json().then(errorData => {
+                console.log('Erreur lors de la suppression de la disponibilité :', errorData.error);
+              });
+            }
+          });
       } else {
-        // La requête a échoué avec un statut d'erreur
-        return response.json().then(errorData => {
-          console.log('Erreur lors de la suppression de la disponibilité :', errorData.error);
-        });
+        console.log("Disponibilité introuvable");
       }
-    })
-  }
+    };
 
    
 
@@ -62,7 +73,7 @@ const Disponibilite = (props) => {
                 <Text style={styles.textEndHour}>{formatTime(props.endingHour)}</Text>
             </View>
         </View>
-          <TouchableOpacity onPress={deleteAvailability}>
+          <TouchableOpacity onPress={() => deleteAvailability(user.token, props.availabilityId)}>
                   <Image
                         source={require("../assets/delete.png")}
                         style={{width: windowWidth * 0.1, height: windowHeight * 0.06, marginLeft: 25 }}/>

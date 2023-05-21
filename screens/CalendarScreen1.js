@@ -12,8 +12,10 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 export default function CalendarScreen1() {
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
+  //console.log(user.availabilities)
 
-  //récupération info user au moment d'appuyer sur le bouton suivant
+
+  //récupération info user du reducer
   const dispatch = useDispatch();
 
   //afficher (ou fermer) une modal quand on clique sur le bouton date de dispo
@@ -57,13 +59,22 @@ export default function CalendarScreen1() {
           //console.log(data);
           if (data.result) {
             //console.log(data.result);
-            //console.log(data.UserDispos)            
-
+            //console.log(data.UserDispos)
+            const updatedAvailabilities = data.UserDispos.map(dispoData => ({
+              startingDay: dispoData.startingDay,
+              endingDay: dispoData.endingDay,
+              startingHour: dispoData.startingHour,
+              endingHour: dispoData.endingHour,
+              availabilityId: dispoData._id
+          }));  
+            
+             // Mise à jour des disponibilités de l'utilisateur via le reducer
+            dispatch(updateUser({ availabilities: updatedAvailabilities }));
+            
             //la modale se referme après avoir récupérer les infos de dispos
             setModalVisible(false);
           }
         });
-
   };
 
 
@@ -73,13 +84,13 @@ export default function CalendarScreen1() {
 
 
 
-
 useEffect(() => {
   fetch(`http://192.168.1.46:3000/aidantUsers/dispos/${user.token}`)
     .then(response => response.json())
     .then(data => {
       if (data.result) {
-        //envoi dans le reducer de la nouvelle disponibilité
+        console.log(data)
+        //envoi dans le reducer des disponibilités
         //besoind'itérer sur data.UserDispos pour créer un tableau d'objets
         //permet de créer un tableau updatedAvailabilities qui contient tous les objets de disponibilité avec les propriétés requises
         const updatedAvailabilities = data.UserDispos.map(dispoData => ({
@@ -91,6 +102,7 @@ useEffect(() => {
       }));
                     
       dispatch(updateUser({ availabilities: updatedAvailabilities }));
+      //console.log(user.availabilities)
 
         const Dispo = data.UserDispos.map(dispoData => {
           return (
@@ -100,10 +112,12 @@ useEffect(() => {
               startingHour={dispoData.startingHour}
               endingDay={dispoData.endingDay}
               endingHour={dispoData.endingHour}
+              availabilityId={dispoData._id}
             />
           );
         });
         setDispo(Dispo);
+        //console.log(Dispo)
       }
     });
 }, []);
