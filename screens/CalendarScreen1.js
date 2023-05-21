@@ -1,6 +1,7 @@
-import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions, StatusBar, FlatList } from 'react-native'
+import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native'
 import React, { useState, useEffect }  from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../reducers/users';
 import Disponibilite from '../components/Disponibilite';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -11,6 +12,9 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 export default function CalendarScreen1() {
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
+
+  //récupération info user au moment d'appuyer sur le bouton suivant
+  const dispatch = useDispatch();
 
   //afficher (ou fermer) une modal quand on clique sur le bouton date de dispo
   const [modalVisible, setModalVisible] = useState(false);
@@ -25,6 +29,7 @@ export default function CalendarScreen1() {
 
   const validateModal = () => {
 
+      /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
         const startdate = moment(startSelectedDate); 
         const enddate = moment(endSelectedDate);
         const startingDay = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
@@ -37,7 +42,7 @@ export default function CalendarScreen1() {
         //console.log({starH:startingHour});
         //console.log({endH:endingHour});
 
-      // Récupération via route POST des dates et heures de disponibilités
+//////// Récupération via route POST des dates et heures de disponibilités
       fetch(`http://192.168.1.46:3000/aidantUsers/addDispo/${user.token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -52,7 +57,9 @@ export default function CalendarScreen1() {
           //console.log(data);
           if (data.result) {
             //console.log(data.result);
-            //console.log(data.UserDispos)
+            //console.log(data.UserDispos)            
+
+            //la modale se referme après avoir récupérer les infos de dispos
             setModalVisible(false);
           }
         });
@@ -72,32 +79,41 @@ useEffect(() => {
     .then(response => response.json())
     .then(data => {
       if (data.result) {
-            // const endingDates = data.UserDispos.map(dispo => dispo.endingDay);
-            // const startingDates = data.UserDispos.map(dispo => dispo.startingDay);
-            // const endingHour = data.UserDispos.map(dispo => dispo.endingHour);
-            // const startingHour = data.UserDispos.map(dispo => dispo.startingHour);
-            //console.log(endingDates);
-        const Dispo = data.UserDispos.map(data => {
+        //envoi dans le reducer de la nouvelle disponibilité
+        //besoind'itérer sur data.UserDispos pour créer un tableau d'objets
+        //permet de créer un tableau updatedAvailabilities qui contient tous les objets de disponibilité avec les propriétés requises
+        const updatedAvailabilities = data.UserDispos.map(dispoData => ({
+          startingDay: dispoData.startingDay,
+          endingDay: dispoData.endingDay,
+          startingHour: dispoData.startingHour,
+          endingHour: dispoData.endingHour,
+          availabilityId: dispoData._id
+      }));
+                    
+      dispatch(updateUser({ availabilities: updatedAvailabilities }));
+
+        const Dispo = data.UserDispos.map(dispoData => {
           return (
             <Disponibilite
-              startingDay={data.startingDay}
-              startingHour={data.startingHour}
-              endingDay={data.endingDay}
-              endingHour={data.endingHour}
+              key={dispoData.id}
+              startingDay={dispoData.startingDay}
+              startingHour={dispoData.startingHour}
+              endingDay={dispoData.endingDay}
+              endingHour={dispoData.endingHour}
             />
           );
         });
         setDispo(Dispo);
       }
     });
-}, [Dispo]);
+}, []);
+//mise à jour de la page à chaque ajout d'une dispo
 
 
 
 
 
-
-  //////////////date de début
+  //////////////date de début via DatePickerModal
 
   //etat pour récupérer dates de début DateTimePicker (initialisé pour récupérer une nouvelle date)
   const [startSelectedDate, setStartSelectedDate] = useState(undefined);
@@ -128,7 +144,7 @@ useEffect(() => {
 
 
 
-  ///////////////////////date de fin 
+  ///////////////////////date de fin via DatePickerModal
 
   //etat pour récupérer date de fin DateTimePicker (initialisé pour récupérer une nouvelle date)
   const [endSelectedDate, setEndSelectedDate] = useState(undefined);
@@ -155,7 +171,7 @@ useEffect(() => {
   };
 
 
-  ///////////////////////formatage date
+  ///////////////////////formatage date pour l'affichage
   //formatage de la date pour l'afficher sous format DD/MM/YYYYY
   const formatDate = (date) => {
     return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });

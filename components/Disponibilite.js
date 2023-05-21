@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity} from 'react-native';
+import { useSelector} from 'react-redux';
 import moment from 'moment';
 import 'moment/locale/fr';
 
@@ -13,14 +14,42 @@ const Disponibilite = (props) => {
 
   //formatage de l'heure pour ne pas afficher les secondes
   const formatTime = (date) => {
-    return moment(date).format('HH:mm');
+    // Soustraire 2 heures à la date donnée
+    const newDate = moment(date).subtract(2, 'hours');
+  
+    // Formater la nouvelle date
+    return newDate.format('HH:mm');
   };
+
+///////suppression d'une disponibilité
+
+  //récupération du token dans le store quand l'utilisateur se connecte
+  const user = useSelector((state) => state.user.value);
+
+  const deleteAvailability = (token, availabilityId) => {
+  console.log(user)
+  fetch(`http://192.168.1.46:3000/aidantUsers/deleteDispo/${user.token}/${user.availabilities.availabilityId}`, {
+    method: 'DELETE',
+  })
+    .then(response => {
+      if (response.ok) {
+        // La disponibilité a été supprimée avec succès
+        // Mettez à jour l'état ou effectuez d'autres actions nécessaires
+      } else {
+        // La requête a échoué avec un statut d'erreur
+        return response.json().then(errorData => {
+          console.log('Erreur lors de la suppression de la disponibilité :', errorData.error);
+        });
+      }
+    })
+  }
 
    
 
   return (
 
-<View contentContainerStyle={styles.scrollContainer}>
+<View contentContainerStyle={styles.container}>
+  <View style={styles.dispodeletecontainer}>
         <View style={styles.dispocontainer}>
             <View style={styles.debutfincontainer}>
                 <Text style={styles.text}>Debut</Text>
@@ -33,6 +62,12 @@ const Disponibilite = (props) => {
                 <Text style={styles.textEndHour}>{formatTime(props.endingHour)}</Text>
             </View>
         </View>
+          <TouchableOpacity onPress={deleteAvailability}>
+                  <Image
+                        source={require("../assets/delete.png")}
+                        style={{width: windowWidth * 0.1, height: windowHeight * 0.06, marginLeft: 25 }}/>
+          </TouchableOpacity>
+  </View> 
 </View>
   );
 };
@@ -48,6 +83,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dispocontainer: {
+    margin: 10,
+  },
+  dispodeletecontainer: {
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1.5,
     borderRadius: 4,
     borderColor: "#5ABAB6",
@@ -58,7 +98,9 @@ const styles = StyleSheet.create({
   debutfincontainer: {
     flexDirection: "row",
     alignItems: 'center',
-    margin: 13,
+    marginLeft: 15,
+    marginBottom: 15,
+    marginTop: 10,
   },
   text: {
     fontSize: 17,
