@@ -25,8 +25,8 @@ export default function AidantDisplayProfilScreen({navigation}) {
             //besoin de l'appeler pour afficher données 
             //console.log({ infos: userAidant.Aidantinfos.aidant })
             //console.log({ infos: userAidant.Aidantinfos.photo })
+            setIsLoading(false);
           }
-          setIsLoading(false);
         });
     }, []);
     
@@ -121,7 +121,8 @@ if (!isLoading) {
           </ScrollView>
       </SafeAreaView>
     )
-}}
+  }
+}
 
 //mise en place méthode Dimension pour mettre en % pour faire fonctionner le KeyboardAvoidingView
 const windowHeight = Dimensions.get('window').height;

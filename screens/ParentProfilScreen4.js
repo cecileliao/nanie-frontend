@@ -56,10 +56,11 @@ export default function ParentProfilScreen3({navigation}) {
     }));
   }, [switchesState]);
 
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
 
   const handleValidate = () => {
 
-    fetch('http://192.168.10.153:3000/parentUsers/signup', {
+    fetch(`http://${BACKEND_ADDRESS}/parentUsers/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
@@ -68,6 +69,7 @@ export default function ParentProfilScreen3({navigation}) {
         console.log(data)
         if(data.result) {
           dispatch(updateUser({token: data.token}))
+          console.log(data)
           navigation.navigate('TabNavigator', { screen: 'Profil' });
         }
         

@@ -5,135 +5,139 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function ParentDisplayProfilScreen({navigation}) {
 
-  // //stocker les données utilisateur et les afficher au chargement de la page
-  // const [userParent, setUserParent] = useState(null);
-  // const [isLoading, setIsLoading] = useState(true);
+  //stocker les données utilisateur et les afficher au chargement de la page
+  const [userParent, setUserParent] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // //récupération du token dans le store quand l'utilisateur se connecte
-  // const user = useSelector((state) => state.user.value);
-  // //console.log({user: user})
+  //récupération du token dans le store quand l'utilisateur se connecte
+  const user = useSelector((state) => state.user.value);
+  //console.log({user: user})
 
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
 
-  // useEffect(() => {
-  //   fetch(`http://192.168.10.153:3000/parentUsers/Infos/${user.token}`)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       if (data.result) {
-  //         setUserParent(data);
-  //         //console.log({ infosData: data });
-  //         //Parentinfos vient de la route GET
-  //         //besoin de l'appeler pour afficher données 
-  //         //console.log({ infos: userParent.Parentinfos.parent })
-  //         //console.log({ infos: userParent.Parentinfos.photo })
-  //       }
-  //       setIsLoading(false);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${user.token}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          setUserParent(data);
+          //console.log({ infosData: data });
+          //Parentinfos vient de la route GET
+          //besoin de l'appeler pour afficher données 
+          console.log({ infos: userParent.Parentinfos })
+          //console.log({ infos: userParent.Parentinfos.photo })
+        }
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.log('Error:', error);
+        setIsLoading(false);
+      })
+  }, []);
   
 
-  // //coeurs avec note moyenne
-  // const averageHearts = [];
-  // for (let i = 0; i < 5; i++) {
-  //     averageHearts.push(<FontAwesome key={i} name={"heart"} size={15} color={"#868686"}/>)
-  // }
+  //coeurs avec note moyenne
+  const averageHearts = [];
+  for (let i = 0; i < 5; i++) {
+      averageHearts.push(<FontAwesome key={i} name={"heart"} size={15} color={"#868686"}/>)
+  }
 
-  // //date au format DD/MM/YYYY
-  // const date = new Date(userParent?.Parentinfos?.signup);
+  //date au format DD/MM/YYYY
+  const date = new Date(userParent?.Parentinfos?.signup);
 
-  // if (!isLoading) {
+  if (!isLoading) {
     return (
-     <Text> profil parent</Text>
-      // <SafeAreaView style={styles.container}>
-      //   <ScrollView>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
 
-      //     <View style={styles.pictureprofilcontainer}>
+          <View style={styles.pictureprofilcontainer}>
 
-      //       <View style={{ justifyContent: "center", alignItems: "center"}}>
-      //         <Image 
-      //           source={{ uri: userParent?.Parentinfos?.photo }} 
-      //           style={styles.imageProfil} />
-      //       </View>
+            <View style={{ justifyContent: "center", alignItems: "center"}}>
+              <Image 
+                source={{ uri: userParent?.Parentinfos?.photo }} 
+                style={styles.imageProfil} />
+            </View>
 
-      //       <View style={styles.profilcontainer}>
-      //         <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userParent?.Parentinfos?.firstName} {userParent?.Parentinfos?.name}</Text>
-      //         <Text style={styles.text}>{userParent?.Parentinfos?.introBio}</Text>
-      //         <Text style={styles.text}>🏠 {userParent?.Parentinfos?.zip} {userParent?.Parentinfos?.city}</Text>
-      //         <Text style={styles.text}>Membre depuis le {date}</Text>
-      //         <Text style={styles.text}>Avis : 4,8</Text>
-      //         <View style={styles.averageHearts}>
-      //           {averageHearts}
-      //           <TouchableOpacity onPress={() => navigation.navigate('ParentAvisScreen')}>
-      //               <Text style={styles.textAvis}>Lire les avis</Text>
-      //           </TouchableOpacity>
-      //         </View>
-      //       </View>
-      //     </View>
+            <View style={styles.profilcontainer}>
+              <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userParent?.Parentinfos?.firstName} {userParent?.Parentinfos?.name}</Text>
+              <Text style={styles.text}>{userParent?.Parentinfos?.introBio}</Text>
+              <Text style={styles.text}>🏠 {userParent?.Parentinfos?.zip} {userParent?.Parentinfos?.city}</Text>
+              <Text style={styles.text}>Membre depuis le {date.toLocaleDateString()}</Text>
+              <Text style={styles.text}>Avis : 4,8</Text>
+              <View style={styles.averageHearts}>
+                {averageHearts}
+                <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')}>
+                    <Text style={styles.textAvis}>Lire les avis</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
           
-      //     <View style={styles.inputcontainer}>
-      //       <Text style={styles.title}>Mon parent adoré </Text>
-      //       <Text style={styles.text}>
-      //         {userParent?.Parentinfos?.longBio} 
-      //       </Text>
-      //     </View>
+          <View style={styles.inputcontainer}>
+            <Text style={styles.title}>Mon parent adoré </Text>
+            <Text style={styles.text}>
+              {userParent?.Parentinfos?.longBio} 
+            </Text>
+          </View>
 
-      //     <View style={styles.talentscontainer}>
-      //       <Text style={{fontFamily: "Recoleta",fontSize:20, marginLeft: 20, marginTop: 10,}}>Talents recherchés</Text>
-      //       <View style={styles.doubleTalents}>
-      //         <Image
-      //         source={require("../assets/person-cane-solid.png")}
-      //         style={[
-      //           styles.imageMobility,
-      //           { tintColor: userParent?.Parentinfos?.talents.mobility ? '#5ABAB6' : '#868686' }
-      //         ]}/>
-      //         <Text style={styles.textAbilities}>Mobilité</Text>
-      //         <Image
-      //         source={require("../assets/carrot-solid.png")}
-      //         style={[
-      //           styles.imageAlimentation,
-      //           { tintColor: userParent?.Parentinfos?.talents.cooking ? '#5ABAB6' : '#868686' }
-      //         ]}/>
-      //         <Text style={styles.textAbilities}>Alimentation</Text>
-      //       </View>
-      //       <View style={styles.doubleTalents}>
-      //         <Image
-      //           source={require("../assets/pump-soap-solid.png")}
-      //           style={[
-      //             styles.imageHygiene,
-      //             { tintColor: userParent?.Parentinfos?.talents.hygiene ? '#5ABAB6' : '#868686' }
-      //         ]}/>
-      //         <Text style={styles.textAbilities}>Hygiène</Text>
-      //         <Image
-      //           source={require("../assets/music-solid.png")}
-      //           style={[
-      //             styles.imageDivertissement,
-      //             { tintColor: userParent?.Parentinfos?.talents.entertainment ? '#5ABAB6' : '#868686' }
-      //           ]}/>
-      //         <Text style={styles.textAbilities}>Divertissement</Text>
-      //       </View>
-      //     </View>
+          <View style={styles.talentscontainer}>
+            <Text style={{fontFamily: "Recoleta",fontSize:20, marginLeft: 20, marginTop: 10,}}>Talents recherchés</Text>
+            <View style={styles.doubleTalents}>
+              <Image
+              source={require("../assets/person-cane-solid.png")}
+              style={[
+                styles.imageMobility,
+                { tintColor: userParent?.Parentinfos?.talents.mobility ? '#5ABAB6' : '#868686' }
+              ]}/>
+              <Text style={styles.textAbilities}>Mobilité</Text>
+              <Image
+              source={require("../assets/carrot-solid.png")}
+              style={[
+                styles.imageAlimentation,
+                { tintColor: userParent?.Parentinfos?.talents.cooking ? '#5ABAB6' : '#868686' }
+              ]}/>
+              <Text style={styles.textAbilities}>Alimentation</Text>
+            </View>
+            <View style={styles.doubleTalents}>
+              <Image
+                source={require("../assets/pump-soap-solid.png")}
+                style={[
+                  styles.imageHygiene,
+                  { tintColor: userParent?.Parentinfos?.talents.hygiene ? '#5ABAB6' : '#868686' }
+              ]}/>
+              <Text style={styles.textAbilities}>Hygiène</Text>
+              <Image
+                source={require("../assets/music-solid.png")}
+                style={[
+                  styles.imageDivertissement,
+                  { tintColor: userParent?.Parentinfos?.talents.entertainment ? '#5ABAB6' : '#868686' }
+                ]}/>
+              <Text style={styles.textAbilities}>Divertissement</Text>
+            </View>
+          </View>
 
-      //     <View style={styles.inputcontainer}>
-      //       <Text style={styles.title}>La perle rare recherchée</Text>
-      //       <Text style={styles.text}>
-      //         {userParent?.Parentinfos?.parent.gemProfil} 
-      //       </Text>
-      //     </View>
+          <View style={styles.inputcontainer}>
+            <Text style={styles.title}>La perle rare recherchée</Text>
+            <Text style={styles.text}>
+              {userParent?.Parentinfos?.parent.gemProfil} 
+            </Text>
+          </View>
 
-      //     <View style={styles.inputcontainer}>
-      //       <Text style={styles.title}>Contact{'('}s{')'}</Text>
-      //       <Text style={styles.text}>
-      //       {userParent?.Parentinfos?.parent.nameParent} {userParent?.Parentinfos?.parent.firstNameParent}, 
-      //       </Text>
-      //       <Text style={styles.text}>
-      //         {userParent?.Parentinfos?.parent.firstNameParent}
-      //       </Text>
-      //     </View>
+          <View style={styles.inputcontainer}>
+            <Text style={styles.title}>Contact{'('}s{')'}</Text>
+            <Text style={styles.text}>
+            {userParent?.Parentinfos?.parent.nameParent} {userParent?.Parentinfos?.parent.firstNameParent}, 
+            </Text>
+            <Text style={styles.text}>
+              {userParent?.Parentinfos?.parent.shortBio}
+            </Text>
+          </View>
 
-      //   </ScrollView>
-      // </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
     )
   }
-// }
+}
 
 //mise en place méthode Dimension pour mettre en % pour faire fonctionner le KeyboardAvoidingView
 const windowHeight = Dimensions.get('window').height;

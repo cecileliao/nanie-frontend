@@ -38,7 +38,7 @@ export default function ParentProfilScreen1({ navigation }) {
       });
       // check if user canceled the image selection // selectedImage state updated with uri
       if (!result.canceled) {
-        setphoto(result.uri)
+        setphoto(result.assets[0].uri)
       }
     };
 

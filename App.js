@@ -66,6 +66,7 @@ const store = configureStore({
 // définir les variables pour le tab et la navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const BACKEND_ADDRESS = '192.168.1.21:3000';
 
 //Tabnavigator
 const TabNavigator = () => {
@@ -74,37 +75,37 @@ const TabNavigator = () => {
   // console.log("coucou", userData);
   const [isParent, setIsParent] = useState(false);
 
-useEffect(() => {
-  if (userData.token){
-    // console.log('token', userData.token)
-    fetch(`http://192.168.1.21:3000/parentUsers/Infos/${userData.token}`)
-      .then(response => response.json())
-      .then(data => {
-        // console.log('data', data)
-        if (data.result && data.Parentinfos.token) {
-          console.log({ infosDataParent: data });
-          setIsParent(true)
-          //Parentinfos vient de la route GET
-          //besoin de l'appeler pour afficher données 
-          //console.log({ infos: data.Parentinfos.token })
-        }         
-        else {
-          fetch(`http://192.168.1.21:3000/aidantUsers/Infos/${userData.token}`)
-          .then(response => response.json())
-          .then(data => {
-            if (data.result && data.Parentinfos.token) {
-              console.log({ infosDataAidant: data });
-              setIsParent(false)
-              //Parentinfos vient de la route GET
-              //besoin de l'appeler pour afficher données 
-              //console.log({ infos: userParent.Parentinfos.parent })
-            }
-         })
-        }
-      })
-  }
-}, []);
-console.log('isParent', isParent)
+  useEffect(() => {
+    if (userData.token){
+      // console.log('token', userData.token)
+      fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${userData.token}`)
+        .then(response => response.json())
+        .then(data => {
+          // console.log('data', data)
+          if (data.result && data.Parentinfos.token) {
+            console.log({ infosDataParent: data });
+            setIsParent(true)
+            //Parentinfos vient de la route GET
+            //besoin de l'appeler pour afficher données 
+            //console.log({ infos: data.Parentinfos.token })
+          }         
+          else {
+            fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${userData.token}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.result && data.Parentinfos.token) {
+                // console.log({ infosDataAidant: data });
+                setIsParent(false)
+                //Parentinfos vient de la route GET
+                //besoin de l'appeler pour afficher données 
+                //console.log({ infos: userParent.Parentinfos.parent })
+              }
+          })
+          }
+        })
+    }
+  }, []);
+  // console.log('isParent', isParent)
 
   return (
     <Tab.Navigator
