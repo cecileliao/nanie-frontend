@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity} from 'react-native';
-import { useSelector} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
+import { removeDispo} from '../reducers/users';
 import moment from 'moment';
 import 'moment/locale/fr';
 
 const Disponibilite = (props) => {
-
+  const dispatch = useDispatch()
       ///////////////////////formatage date
   //formatage de la date pour l'afficher sous format DD/MM/YYYYY
   const formatDate = (date) => {
@@ -34,31 +35,28 @@ const Disponibilite = (props) => {
 }));
     
 
-    const deleteAvailability = (token, availabilityId) => {
-      console.log('Availability ID to delete:', availabilityId);
-      console.log('User availabilities:', user.availabilities);
+    const deleteAvailability = () => {
 
-      const availability = user.availabilities.find(item => item.availabilityId === availabilityId);
-      console.log('Found availability:', availability);
-      if (availability) {
-        fetch(`http://192.168.10.177:3000/aidantUsers/deleteDispo/${user.token}/${availability.availabilityId}`, {
+      console.log({ token: user.token, availabilityId: props.availabilityId });
+        fetch(`http://192.168.10.177:3000/aidantUsers/deleteDispo`, {
           method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: user.token, availabilityId: props.availabilityId }),
         })
-          .then(response => {
-            if (response.ok) {
+        .then(res => res.json())
+          .then(data => {
+            if (data.result) {
               // La disponibilité a été supprimée avec succès
               // Mettez à jour l'état ou effectuez d'autres actions nécessaires
+     
+              dispatch(removeDispo(props.availabilityId))
+
             } else {
               // La requête a échoué avec un statut d'erreur
-              return response.json().then(errorData => {
-                console.log('Erreur lors de la suppression de la disponibilité :', errorData.error);
-              });
+                console.log("eereur ");
             }
           });
-      } else {
-        console.log("Disponibilité introuvable");
-      }
-    };
+      } 
 
    
 
@@ -78,7 +76,7 @@ const Disponibilite = (props) => {
                 <Text style={styles.textEndHour}>{formatTime(props.endingHour)}</Text>
             </View>
         </View>
-          <TouchableOpacity onPress={() => deleteAvailability(user.token, props.availabilityId)}>
+          <TouchableOpacity onPress={() => deleteAvailability()}>
                   <Image
                         source={require("../assets/delete.png")}
                         style={{width: windowWidth * 0.1, height: windowHeight * 0.06, marginLeft: 25 }}/>

@@ -1,7 +1,7 @@
 import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native'
 import React, { useState, useEffect }  from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser } from '../reducers/users';
+import { updateUser, addDispo,updateDispo } from '../reducers/users';
 import Disponibilite from '../components/Disponibilite';
 import moment from 'moment';
 import 'moment/locale/fr';
@@ -18,9 +18,7 @@ export default function CalendarScreen1() {
   //récupération info user du reducer
   const dispatch = useDispatch();
 
-  //stocker les données utilisateur et les afficher au chargement de la page
-  const [Dispo, setDispo] = useState([]);
-  console.log(Dispo)
+  //console.log(Dispo)
 
   //afficher (ou fermer) une modal quand on clique sur le bouton date de dispo
   const [modalVisible, setModalVisible] = useState(false);
@@ -65,37 +63,16 @@ export default function CalendarScreen1() {
 
             
             //console.log(data.UserDispos)
-            const updatedAvailabilities = data.UserDispos.map(dispoData => ({
+            const updatedAvailabilities = data.UserDispos.map((dispoData,i) => ({
+              key: i,
               startingDay: dispoData.startingDay,
               endingDay: dispoData.endingDay,
               startingHour: dispoData.startingHour,
               endingHour: dispoData.endingHour,
               availabilityId: dispoData._id
           }));  
-          //console.log(updatedAvailabilities);
-
           // Mise à jour des disponibilités de l'utilisateur via le reducer
-          dispatch(updateUser({ availabilities: updatedAvailabilities }));
-          
-      
-         //création du composant newDispo qui récupère de ma route les infos de la nouvelle dispo
-              //console.log({newdata: data.UserDispos.startingDay})
-              //console.log({newdata: data.UserDispos})
-
-              // const newDispo = {
-              //   startingDay: data.NewAvailability.startingDay,
-              //   startingHour: data.NewAvailability.startingHour,
-              //   endingDay: data.NewAvailability.endingDay,
-              //   endingHour: data.NewAvailability.endingHour,
-              // };
-
-              const newDispo = (
-                <Disponibilite availabilityId={user.availabilities[user.availabilities.length - 1].availabilityId} endingDay="2023-05-25T09:12:00.000Z" endingHour="2023-05-25T11:12:00.000Z" startingDay="2023-05-17T09:12:00.000Z" startingHour="2023-05-17T11:12:00.000Z" />
-              )
-              console.log({newDispo: newDispo})
-              //console.log({dispo: Dispo})
-            //utilisation du spread operator pour ajouter à dispo la nouvelle dispo
-            setDispo( [...Dispo, newDispo] );
+          dispatch(updateDispo(updatedAvailabilities ));
             
             //la modale se referme après avoir récupérer les infos de dispos
             setModalVisible(false);
@@ -115,6 +92,7 @@ useEffect(() => {
     .then(data => {
       if (data.result) {
 
+        //console.log(data.UserDispos)
         //envoi dans le reducer des disponibilités
         //besoind'itérer sur data.UserDispos pour créer un tableau d'objets
         //permet de créer un tableau updatedAvailabilities qui contient tous les objets de disponibilité avec les propriétés requises
@@ -125,31 +103,32 @@ useEffect(() => {
           endingHour: dispoData.endingHour,
           availabilityId: dispoData._id
       }));
+
                     
-      dispatch(updateUser({ availabilities: updatedAvailabilities }));
+      dispatch(updateDispo( updatedAvailabilities));
       //console.log(user.availabilities)
 
-        const Dispo = data.UserDispos.map(dispoData => {
-          return (
-            <Disponibilite
-              key={dispoData.id}
-              startingDay={dispoData.startingDay}
-              startingHour={dispoData.startingHour}
-              endingDay={dispoData.endingDay}
-              endingHour={dispoData.endingHour}
-              availabilityId={dispoData._id}
-            />
-          );
-        });
-        setDispo(Dispo);
-        //console.log(Dispo)
+
+        // setDispo(Dispo);
+        //console.log("Dispo", Dispo)
       }
     });
 }, []);
 
+//console.log("Dispo2", Dispo)
 
-
-
+const Dispo = user.availabilities.map((dispoData, i) => {
+  return (
+    <Disponibilite
+      key = {i}
+      startingDay={dispoData.startingDay}
+      startingHour={dispoData.startingHour}
+      endingDay={dispoData.endingDay}
+      endingHour={dispoData.endingHour}
+      availabilityId={dispoData.availabilityId}
+    />
+  );
+});
 
 
   //////////////date de début via DatePickerModal

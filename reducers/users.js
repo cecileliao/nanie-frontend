@@ -20,7 +20,7 @@ const initialState = {
       talents: {},
       //AIDANT
       aidant: {},
-      availabilities: {},
+      availabilities: [],
       // ratebyHour: null,
       // car: false,
       // abilitiesAidant: null,
@@ -50,7 +50,17 @@ reducers: {
         ...state.value,
         ...action.payload
       }
-      },
+    },
+    updateDispo: (state, action) => {
+      state.value.availabilities = action.payload
+    },
+    addDispo: (state, action) => {
+      state.value.availabilities.push(action.payload)
+    },
+    removeDispo: (state, action) => {
+      console.log('state.value.availabilities => ',state.value.availabilities);
+      state.value.availabilities = state.value.availabilities.filter(e => e.availabilityId !== action.payload);
+    },
     addPhoto: (state, action) => {
       state.value.photo = action.payload;
       },
@@ -60,5 +70,5 @@ reducers: {
 },
 });
 
-export const { login, logout, updateUser, addPhoto, removePhoto } = userSlice.actions;
+export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo} = userSlice.actions;
 export default userSlice.reducer;
