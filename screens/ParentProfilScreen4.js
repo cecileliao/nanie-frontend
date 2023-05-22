@@ -56,7 +56,7 @@ export default function ParentProfilScreen3({navigation}) {
     }));
   }, [switchesState]);
 
-  const BACKEND_ADDRESS = '192.168.1.21:3000';
+  const BACKEND_ADDRESS = '192.168.10.136:3000';
 
   const handleValidate = () => {
 
