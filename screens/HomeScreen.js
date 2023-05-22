@@ -15,7 +15,7 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('Inscription')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>Inscription</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('MissionScreen1')} style={styles.button} activeOpacity={0.8}>
+      {/* <TouchableOpacity onPress={() => navigation.navigate('MissionScreen1')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>MissionScreen1</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('MissionScreen2')} style={styles.button} activeOpacity={0.8}>
@@ -32,7 +32,7 @@ export default function HomeScreen({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('ConversationScreen')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>ConversationScreen</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       </View>
     </View>
   )
