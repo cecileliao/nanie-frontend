@@ -19,6 +19,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 // Grabbed from emailregex.com
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+const BACKEND_ADDRESS = '192.168.10.177:3000';
 
 export default function ConnexionScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -53,7 +54,7 @@ export default function ConnexionScreen({ navigation }) {
   const handleConnexion = () => {
     if (isParent) {
       if (EMAIL_REGEX.test(email)) {
-        fetch('http://192.168.1.46:3000/parentUsers/signin', {
+        fetch(`http://${BACKEND_ADDRESS}/parentUsers/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -76,7 +77,7 @@ export default function ConnexionScreen({ navigation }) {
 
     else if (isAidant) {
       if (EMAIL_REGEX.test(email)) {
-        fetch('http://192.168.1.46:3000/aidantUsers/signin', {
+        fetch(`http://${BACKEND_ADDRESS}/aidantUsers/signin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

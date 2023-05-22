@@ -66,42 +66,46 @@ const store = configureStore({
 // définir les variables pour le tab et la navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const BACKEND_ADDRESS = '192.168.10.136:3000';
 
 //Tabnavigator
 const TabNavigator = () => {
 
   const userData = useSelector((state) => state.user.value);
   // console.log("coucou", userData);
-  const [isParent, setParent] = useState(false);
-  console.log('isParent', isParent)
-  if (userData.token){
-    // console.log('token', userData.token)
-    fetch(`http://192.168.10.153:3000/parentUsers/Infos/${userData.token}`)
-      .then(response => response.json())
-      .then(data => {
-        console.log('data', data)
-        if (data.result && data.Parentinfos.token) {
-          // console.log({ infosDataParent: data });
-          setParent(true)
-          //Parentinfos vient de la route GET
-          //besoin de l'appeler pour afficher données 
-          //console.log({ infos: data.Parentinfos.token })
-        } 
-        else {
-          fetch(`http://192.168.10.153:3000/aidantUsers/Infos/${userData.token}`)
-          .then(response => response.json())
-          .then(data => {
-            if (data.result && data.Parentinfos.token) {
-              // console.log({ infosDataAidant: data });
-              setParent(false)
-              //Parentinfos vient de la route GET
-              //besoin de l'appeler pour afficher données 
-              //console.log({ infos: userParent.Parentinfos.parent })
-            }
-         })
-        }
-      })
-  }
+  const [isParent, setIsParent] = useState(false);
+
+  useEffect(() => {
+    if (userData.token){
+      // console.log('token', userData.token)
+      fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${userData.token}`)
+        .then(response => response.json())
+        .then(data => {
+          // console.log('data', data)
+          if (data.result && data.Parentinfos.token) {
+            console.log({ infosDataParent: data });
+            setIsParent(true)
+            //Parentinfos vient de la route GET
+            //besoin de l'appeler pour afficher données 
+            //console.log({ infos: data.Parentinfos.token })
+          }         
+          else {
+            fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${userData.token}`)
+            .then(response => response.json())
+            .then(data => {
+              if (data.result && data.Parentinfos.token) {
+                // console.log({ infosDataAidant: data });
+                setIsParent(false)
+                //Parentinfos vient de la route GET
+                //besoin de l'appeler pour afficher données 
+                //console.log({ infos: userParent.Parentinfos.parent })
+              }
+          })
+          }
+        })
+    }
+  }, []);
+  // console.log('isParent', isParent)
 
   return (
     <Tab.Navigator
@@ -135,40 +139,55 @@ const TabNavigator = () => {
         headerShown: false,
       })}
     >
-      {isParent ? <Tab.Screen name="Recherche" component={RechercheScreen1} /> 
-        : <Tab.Screen name="Calendar" component={CalendarScreen1} />}
+
+      {isParent ? ( // si c'est un parent, afficher la page recherche
+        <>
+          <Tab.Screen name="Recherche" component={RechercheScreen1} /> 
+        </>
+      ) : ( // sinon, afficher la page calendrier
+        <>
+          <Tab.Screen name="Calendar" component={CalendarScreen1} />
+        </>
+      )}
+
       <Tab.Screen name="Message" component={MessageScreen} />
       <Tab.Screen name="Mission" component={MissionScreen1} />
-      {isParent ? 
-        <Tab.Screen name="Profil" component={ParentDisplayProfilScreen}
+
+      {isParent ? ( // si c'est un parent afficher la page profil parent
+        <>
+          <Tab.Screen name="Profil" component={ParentDisplayProfilScreen}
+            options={({ navigation }) => ({
+              headerRight: () => (
+                <TouchableOpacity onPress={() => navigation.navigate('ParentProfilScreen1')}>
+                  {/* remplir les champs de la page modif */}
+                  <View style={styles.button}>
+                    <Text style={styles.buttonTxt}>Editer</Text>
+                  </View>
+                </TouchableOpacity>
+              ),
+            })
+          }        
+          /> 
+        </>
+      ) : ( // sinon, afficher la page profil aidant
+        <>
+          <Tab.Screen name="Profil" component={AidantDisplayProfilScreen}
           options={({ navigation }) => ({
             headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate('ParentProfilScreen1')}>
+              <TouchableOpacity onPress={() => navigation.navigate('AidantProfilScreen1')}>
                 {/* remplir les champs de la page modif */}
                 <View style={styles.button}>
                   <Text style={styles.buttonTxt}>Editer</Text>
                 </View>
               </TouchableOpacity>
             ),
-          })} 
-        /> :  
-        <Tab.Screen name="Profil" component={AidantDisplayProfilScreen}
-        options={({ navigation }) => ({
-          headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('AidantProfilScreen1')}>
-                              {/* remplir les champs de la page modif */}
-              <View style={styles.button}>
-                <Text style={styles.buttonTxt}>Editer</Text>
-              </View>
-            </TouchableOpacity>
-          ),
-        })}
-        /> 
-      }
+          })}
+          />
+        </>
+      )}
     </Tab.Navigator>
   );
 };
-
 
 
 // bouton back du header
@@ -189,7 +208,7 @@ const CustomBackButton = ({ onPress }) => {
 
 export default function App() {
 
-  // ajout du font Recoleta
+  // ajout du font Recoleta et Manrope
   const [fontsLoaded] = useFonts({
     Recoleta: require("./assets/fonts/Recoleta.ttf"),
     RecoletaBold: require("./assets/fonts/RecoletaAlt-Bold.ttf"),
@@ -239,7 +258,7 @@ export default function App() {
         <Stack.Screen name="ParentProfilScreen3" component={ParentProfilScreen3} options={{ title: 'Créer le profil de ma famille' }}/>
         <Stack.Screen name="ParentProfilScreen4" component={ParentProfilScreen4} options={{ title: 'Créer le profil de ma famille' }}/>
         <Stack.Screen name="AvisScreen" component={AvisScreen} options={{ title: 'Mes avis' }}/>
-        <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Evaluation' }}/>
+        <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Évaluation' }}/>
         <Stack.Screen name="RechercheScreen2" component={RechercheScreen2} options={{ title: 'Ma recherche' }}/>
         <Stack.Screen name="CalendarScreen2" component={CalendarScreen2} options={{ title: 'Mon calendrier' }}/>
         <Stack.Screen name="ConversationScreen" 

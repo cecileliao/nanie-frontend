@@ -13,9 +13,10 @@ export default function AidantDisplayProfilScreen({navigation}) {
     const user = useSelector((state) => state.user.value);
     //console.log({user: user})
 
+    const BACKEND_ADDRESS = '192.168.10.177:3000';
 
     useEffect(() => {
-      fetch(`http://192.168.1.46:3000/aidantUsers/Infos/${user.token}`)
+      fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${user.token}`)
         .then(response => response.json())
         .then(data => {
           if (data.result) {
@@ -25,8 +26,8 @@ export default function AidantDisplayProfilScreen({navigation}) {
             //besoin de l'appeler pour afficher données 
             //console.log({ infos: userAidant.Aidantinfos.aidant })
             //console.log({ infos: userAidant.Aidantinfos.photo })
+            setIsLoading(false);
           }
-          setIsLoading(false);
         });
     }, []);
     
@@ -121,7 +122,8 @@ if (!isLoading) {
           </ScrollView>
       </SafeAreaView>
     )
-}}
+  }
+}
 
 //mise en place méthode Dimension pour mettre en % pour faire fonctionner le KeyboardAvoidingView
 const windowHeight = Dimensions.get('window').height;

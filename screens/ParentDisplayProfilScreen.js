@@ -13,9 +13,10 @@ export default function ParentDisplayProfilScreen({navigation}) {
   const user = useSelector((state) => state.user.value);
   //console.log({user: user})
 
+  const BACKEND_ADDRESS = '192.168.10.177:3000';
 
   useEffect(() => {
-    fetch(`http://192.168.1.46:3000/parentUsers/Infos/${user.token}`)
+    fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${user.token}`)
       .then(response => response.json())
       .then(data => {
         if (data.result) {
@@ -23,11 +24,15 @@ export default function ParentDisplayProfilScreen({navigation}) {
           //console.log({ infosData: data });
           //Parentinfos vient de la route GET
           //besoin de l'appeler pour afficher données 
-          //console.log({ infos: userParent.Parentinfos.parent })
+          console.log({ infos: userParent.Parentinfos })
           //console.log({ infos: userParent.Parentinfos.photo })
         }
         setIsLoading(false);
-      });
+      })
+      .catch(error => {
+        console.log('Error:', error);
+        setIsLoading(false);
+      })
   }, []);
   
 
@@ -57,11 +62,11 @@ export default function ParentDisplayProfilScreen({navigation}) {
               <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userParent?.Parentinfos?.firstName} {userParent?.Parentinfos?.name}</Text>
               <Text style={styles.text}>{userParent?.Parentinfos?.introBio}</Text>
               <Text style={styles.text}>🏠 {userParent?.Parentinfos?.zip} {userParent?.Parentinfos?.city}</Text>
-              <Text style={styles.text}>Membre depuis le {date}</Text>
+              <Text style={styles.text}>Membre depuis le {date.toLocaleDateString()}</Text>
               <Text style={styles.text}>Avis : 4,8</Text>
               <View style={styles.averageHearts}>
                 {averageHearts}
-                <TouchableOpacity onPress={() => navigation.navigate('ParentAvisScreen')}>
+                <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')}>
                     <Text style={styles.textAvis}>Lire les avis</Text>
                 </TouchableOpacity>
               </View>
@@ -124,7 +129,7 @@ export default function ParentDisplayProfilScreen({navigation}) {
             {userParent?.Parentinfos?.parent.nameParent} {userParent?.Parentinfos?.parent.firstNameParent}, 
             </Text>
             <Text style={styles.text}>
-              {userParent?.Parentinfos?.parent.firstNameParent}
+              {userParent?.Parentinfos?.parent.shortBio}
             </Text>
           </View>
 

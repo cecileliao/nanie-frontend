@@ -18,6 +18,10 @@ export default function CalendarScreen1() {
   //récupération info user du reducer
   const dispatch = useDispatch();
 
+  //stocker les données utilisateur et les afficher au chargement de la page
+  const [Dispo, setDispo] = useState([]);
+  console.log(Dispo)
+
   //afficher (ou fermer) une modal quand on clique sur le bouton date de dispo
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -44,8 +48,8 @@ export default function CalendarScreen1() {
         //console.log({starH:startingHour});
         //console.log({endH:endingHour});
 
-//////// Récupération via route POST des dates et heures de disponibilités
-      fetch(`http://192.168.1.46:3000/aidantUsers/addDispo/${user.token}`, {
+//////// Ajout d'un disponibilité d'une disponibilite via route POST
+      fetch(`http://192.168.10.177:3000/aidantUsers/addDispo/${user.token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -56,9 +60,10 @@ export default function CalendarScreen1() {
         }),
       }).then(response => response.json())
         .then(data => {
-          //console.log(data);
+
           if (data.result) {
-            //console.log(data.result);
+
+            
             //console.log(data.UserDispos)
             const updatedAvailabilities = data.UserDispos.map(dispoData => ({
               startingDay: dispoData.startingDay,
@@ -67,29 +72,49 @@ export default function CalendarScreen1() {
               endingHour: dispoData.endingHour,
               availabilityId: dispoData._id
           }));  
-            
-             // Mise à jour des disponibilités de l'utilisateur via le reducer
-            dispatch(updateUser({ availabilities: updatedAvailabilities }));
+          //console.log(updatedAvailabilities);
+
+          // Mise à jour des disponibilités de l'utilisateur via le reducer
+          dispatch(updateUser({ availabilities: updatedAvailabilities }));
+          
+      
+         //création du composant newDispo qui récupère de ma route les infos de la nouvelle dispo
+              //console.log({newdata: data.UserDispos.startingDay})
+              //console.log({newdata: data.UserDispos})
+
+              // const newDispo = {
+              //   startingDay: data.NewAvailability.startingDay,
+              //   startingHour: data.NewAvailability.startingHour,
+              //   endingDay: data.NewAvailability.endingDay,
+              //   endingHour: data.NewAvailability.endingHour,
+              // };
+
+              const newDispo = (
+                <Disponibilite availabilityId={user.availabilities[user.availabilities.length - 1].availabilityId} endingDay="2023-05-25T09:12:00.000Z" endingHour="2023-05-25T11:12:00.000Z" startingDay="2023-05-17T09:12:00.000Z" startingHour="2023-05-17T11:12:00.000Z" />
+              )
+              console.log({newDispo: newDispo})
+              //console.log({dispo: Dispo})
+            //utilisation du spread operator pour ajouter à dispo la nouvelle dispo
+            setDispo( [...Dispo, newDispo] );
             
             //la modale se referme après avoir récupérer les infos de dispos
             setModalVisible(false);
+            
           }
         });
   };
 
 
   ///////////////Affichage des dates validées
-  //stocker les données utilisateur et les afficher au chargement de la page
-    const [Dispo, setDispo] = useState(null);
 
 
 
 useEffect(() => {
-  fetch(`http://192.168.1.46:3000/aidantUsers/dispos/${user.token}`)
+  fetch(`http://192.168.10.177:3000/aidantUsers/dispos/${user.token}`)
     .then(response => response.json())
     .then(data => {
       if (data.result) {
-        console.log(data)
+
         //envoi dans le reducer des disponibilités
         //besoind'itérer sur data.UserDispos pour créer un tableau d'objets
         //permet de créer un tableau updatedAvailabilities qui contient tous les objets de disponibilité avec les propriétés requises
@@ -121,7 +146,7 @@ useEffect(() => {
       }
     });
 }, []);
-//mise à jour de la page à chaque ajout d'une dispo
+
 
 
 
@@ -205,9 +230,9 @@ useEffect(() => {
         <Text style={styles.buttonText}>+ Date de disponibilité</Text>
       </TouchableOpacity>
 
-      <Text >Hello</Text>
+
       <View>
-      {Dispo !== null ? <View style={styles.dispoContainerContainer}>{Dispo}</View> : <View></View>}
+      {Dispo.length > 0 ? <View style={styles.dispoContainerContainer}>{Dispo}</View> : <View><Text style={styles.text}>Renseigner votre première disponibilité</Text></View>}
       </View>
 
       <Modal visible={modalVisible} onRequestClose={closeModal} animationType="slide" transparent>

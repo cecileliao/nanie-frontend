@@ -25,8 +25,13 @@ const Disponibilite = (props) => {
 
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
-    //récupération des dispos depuis le reducer
-    const availabilities = useSelector((state) => state.user.availabilities);
+  const userupdatedAvailabilities = user.availabilities.map(data => ({
+    startingDay: data.startingDay,
+    endingDay: data.endingDay,
+    startingHour: data.startingHour,
+    endingHour: data.endingHour,
+    availabilityId: data._id
+}));
     
 
     const deleteAvailability = (token, availabilityId) => {
@@ -36,7 +41,7 @@ const Disponibilite = (props) => {
       const availability = user.availabilities.find(item => item.availabilityId === availabilityId);
       console.log('Found availability:', availability);
       if (availability) {
-        fetch(`http://192.168.1.46:3000/aidantUsers/deleteDispo/${user.token}/${availability.availabilityId}`, {
+        fetch(`http://192.168.10.177:3000/aidantUsers/deleteDispo/${user.token}/${availability.availabilityId}`, {
           method: 'DELETE',
         })
           .then(response => {
