@@ -34,11 +34,11 @@ export default function AidantProfilScreen3({navigation}) {
     const user = useSelector((state) => state.user.value)
 
     //gérer l'état des toggles - initialisés à false
-  const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
+    const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
     // fonction appelée au changement du toggle. Prends en paramètre l'index du toggle
   
-      // copie de l'état avec spread opérateur
-      const newState = [...switchesState];
+    // copie de l'état avec spread opérateur
+    const newState = [...switchesState];
     const toggleSwitch = (index) => {
 
     //inverser l'état du toggle entre activé et désactivé
@@ -47,6 +47,8 @@ export default function AidantProfilScreen3({navigation}) {
     setSwitchesState(newState);
   };
 
+
+  const BACKEND_ADDRESS = '192.168.10.136:3000';
 
   useEffect(() => {
     dispatch(updateUser({
@@ -64,7 +66,7 @@ export default function AidantProfilScreen3({navigation}) {
 
     //console.log(user.isParent)
 
-    fetch('http://192.168.10.135:3000/aidantUsers/signup', {
+    fetch(`http://${BACKEND_ADDRESS}/aidantUsers/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
