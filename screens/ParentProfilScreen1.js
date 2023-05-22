@@ -17,15 +17,26 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function ParentProfilScreen1({ navigation }) {
 
+  const BACKEND_ADDRESS = '192.168.10.128:3000';
+
   //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value)
+
+    const [hasPermission, setHasPermission] = useState(false);
 
   //Set les états
     const [nameParent, setNameParent] = useState(null);
     const [firstNameParent, setFirstNameParent] = useState(null);
     const [phone, setPhone] = useState(null);
     const [photo, setphoto] = useState("");
+
+    useEffect(() => {
+      (async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        setHasPermission(status === 'granted');
+      })();
+    }, []);
 
   //Image upload from device library w/ ImagePickerExpo
     const handleImageUpload = async () => {
@@ -37,10 +48,36 @@ export default function ParentProfilScreen1({ navigation }) {
         quality: 1,
       });
       // check if user canceled the image selection // selectedImage state updated with uri
-      if (!result.canceled) {
-        setphoto(result.assets[0].uri)
-      }
+      // if (!result.canceled) {
+        // setphoto(result.uri);
+        console.log(result);
+        const photo = result.assets[0].uri
+        // console.log('photo', result.uri);
+
+        const formData = new FormData();
+        formData.append('photoFromFront', {
+          uri: photo,
+          name: 'photo.jpg',
+          type: 'image/jpeg',
+        });
+
+        fetch(`http://${BACKEND_ADDRESS}/upload`, {
+          method: 'POST',
+          body: formData,
+        }).then((response) => response.json())
+          .then((data) => {
+            console.log('upload', data)
+            data.result && dispatch(addPhoto(data.url));
+          });
+      // }
+
     };
+
+
+  // if (!hasPermission) {
+  //   return <View />;
+  // }
+
 
   //Afficher erreur si mauvaise structure
     const [phoneError, setPhoneError] = useState(false);

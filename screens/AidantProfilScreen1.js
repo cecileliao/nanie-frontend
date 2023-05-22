@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/users';
+import { addPhoto, removePhoto } from '../reducers/users';
 import { KeyboardAvoidingView, 
   TouchableOpacity, 
   Switch, View, Text, TextInput, Dimensions,
@@ -10,9 +11,13 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function AidantProfilScreen1({ navigation }) {
 
+  const BACKEND_ADDRESS = '192.168.10.128:3000';
+
   //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.value)
+
+    const [hasPermission, setHasPermission] = useState(false);
 
     const [name, setName] = useState(null);
     const [firstName, setFirstName] = useState(null);
@@ -37,6 +42,13 @@ export default function AidantProfilScreen1({ navigation }) {
   //Gestion de la photo de profil
     const [photo, setphoto] = useState("");
 
+    useEffect(() => {
+      (async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        setHasPermission(status === 'granted');
+      })();
+    }, []);
+
   //Image upload from device library w/ ImagePickerExpo
     const handleImageUpload = async () => {
 
@@ -47,10 +59,36 @@ export default function AidantProfilScreen1({ navigation }) {
         quality: 1,
       });
       // check if user canceled the image selection // selectedImage state updated with uri
-      if (!result.canceled) {
-        setphoto(result.uri)
-      }
+      // if (!result.canceled) {
+        // setphoto(result.uri);
+        console.log(result);
+        const photo = result.assets[0].uri
+        // console.log('photo', result.uri);
+
+        const formData = new FormData();
+        formData.append('photoFromFront', {
+          uri: photo,
+          name: 'photo.jpg',
+          type: 'image/jpeg',
+        });
+
+        fetch(`http://${BACKEND_ADDRESS}/upload`, {
+          method: 'POST',
+          body: formData,
+        }).then((response) => response.json())
+          .then((data) => {
+            console.log('upload', data)
+            data.result && dispatch(addPhoto(data.url));
+          });
+      // }
+
     };
+
+
+  // if (!hasPermission) {
+  //   return <View />;
+  // }
+
 
   //etat pour afficher erreur si mauvaise structure
     const [phoneError, setPhoneError] = useState(false);

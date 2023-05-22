@@ -53,7 +53,7 @@ export default function ConnexionScreen({ navigation }) {
   const handleConnexion = () => {
     if (isParent) {
       if (EMAIL_REGEX.test(email)) {
-        fetch('http://192.168.1.21:3000/parentUsers/signin', {
+        fetch('http://192.168.10.128:3000/parentUsers/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

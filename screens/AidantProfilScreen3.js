@@ -64,7 +64,7 @@ export default function AidantProfilScreen3({navigation}) {
 
     //console.log(user.isParent)
 
-    fetch('http://192.168.10.135:3000/aidantUsers/signup', {
+    fetch('http://192.168.10.128:3000/aidantUsers/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),

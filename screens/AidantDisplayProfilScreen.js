@@ -15,7 +15,7 @@ export default function AidantDisplayProfilScreen({navigation}) {
 
 
     useEffect(() => {
-      fetch(`http://192.168.10.135:3000/aidantUsers/Infos/${user.token}`)
+      fetch(`http://192.168.10.128:3000/aidantUsers/Infos/${user.token}`)
         .then(response => response.json())
         .then(data => {
           if (data.result) {
