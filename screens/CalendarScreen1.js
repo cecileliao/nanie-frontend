@@ -1,10 +1,26 @@
-import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions, StatusBar } from 'react-native'
+import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native'
 import React, { useState, useEffect }  from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../reducers/users';
+import Disponibilite from '../components/Disponibilite';
+import moment from 'moment';
+import 'moment/locale/fr';
 
 //importation de la modale pour récupérer date et heure de la disponibilité
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 export default function CalendarScreen1() {
+  //récupération du token dans le store quand l'utilisateur se connecte
+  const user = useSelector((state) => state.user.value);
+  //console.log(user.availabilities)
+
+
+  //récupération info user du reducer
+  const dispatch = useDispatch();
+
+  //stocker les données utilisateur et les afficher au chargement de la page
+  const [Dispo, setDispo] = useState([]);
+  console.log(Dispo)
 
   //afficher (ou fermer) une modal quand on clique sur le bouton date de dispo
   const [modalVisible, setModalVisible] = useState(false);
@@ -17,7 +33,126 @@ export default function CalendarScreen1() {
     setModalVisible(false);
   };
 
-  //////////////date de début
+  const validateModal = () => {
+
+      /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
+        const startdate = moment(startSelectedDate); 
+        const enddate = moment(endSelectedDate);
+        const startingDay = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        const startingHour = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+        const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+        //console.log({starD: startingDay});
+        //console.log({endD: endingDay});
+        //console.log({starH:startingHour});
+        //console.log({endH:endingHour});
+
+//////// Ajout d'un disponibilité d'une disponibilite via route POST
+      fetch(`http://192.168.10.177:3000/aidantUsers/addDispo/${user.token}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          startingDay,
+          endingDay,
+          startingHour,
+          endingHour,
+        }),
+      }).then(response => response.json())
+        .then(data => {
+
+          if (data.result) {
+
+            
+            //console.log(data.UserDispos)
+            const updatedAvailabilities = data.UserDispos.map(dispoData => ({
+              startingDay: dispoData.startingDay,
+              endingDay: dispoData.endingDay,
+              startingHour: dispoData.startingHour,
+              endingHour: dispoData.endingHour,
+              availabilityId: dispoData._id
+          }));  
+          //console.log(updatedAvailabilities);
+
+          // Mise à jour des disponibilités de l'utilisateur via le reducer
+          dispatch(updateUser({ availabilities: updatedAvailabilities }));
+          
+      
+         //création du composant newDispo qui récupère de ma route les infos de la nouvelle dispo
+              //console.log({newdata: data.UserDispos.startingDay})
+              //console.log({newdata: data.UserDispos})
+
+              // const newDispo = {
+              //   startingDay: data.NewAvailability.startingDay,
+              //   startingHour: data.NewAvailability.startingHour,
+              //   endingDay: data.NewAvailability.endingDay,
+              //   endingHour: data.NewAvailability.endingHour,
+              // };
+
+              const newDispo = (
+                <Disponibilite availabilityId={user.availabilities[user.availabilities.length - 1].availabilityId} endingDay="2023-05-25T09:12:00.000Z" endingHour="2023-05-25T11:12:00.000Z" startingDay="2023-05-17T09:12:00.000Z" startingHour="2023-05-17T11:12:00.000Z" />
+              )
+              console.log({newDispo: newDispo})
+              //console.log({dispo: Dispo})
+            //utilisation du spread operator pour ajouter à dispo la nouvelle dispo
+            setDispo( [...Dispo, newDispo] );
+            
+            //la modale se referme après avoir récupérer les infos de dispos
+            setModalVisible(false);
+            
+          }
+        });
+  };
+
+
+  ///////////////Affichage des dates validées
+
+
+
+useEffect(() => {
+  fetch(`http://192.168.10.177:3000/aidantUsers/dispos/${user.token}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.result) {
+
+        //envoi dans le reducer des disponibilités
+        //besoind'itérer sur data.UserDispos pour créer un tableau d'objets
+        //permet de créer un tableau updatedAvailabilities qui contient tous les objets de disponibilité avec les propriétés requises
+        const updatedAvailabilities = data.UserDispos.map(dispoData => ({
+          startingDay: dispoData.startingDay,
+          endingDay: dispoData.endingDay,
+          startingHour: dispoData.startingHour,
+          endingHour: dispoData.endingHour,
+          availabilityId: dispoData._id
+      }));
+                    
+      dispatch(updateUser({ availabilities: updatedAvailabilities }));
+      //console.log(user.availabilities)
+
+        const Dispo = data.UserDispos.map(dispoData => {
+          return (
+            <Disponibilite
+              key={dispoData.id}
+              startingDay={dispoData.startingDay}
+              startingHour={dispoData.startingHour}
+              endingDay={dispoData.endingDay}
+              endingHour={dispoData.endingHour}
+              availabilityId={dispoData._id}
+            />
+          );
+        });
+        setDispo(Dispo);
+        //console.log(Dispo)
+      }
+    });
+}, []);
+
+
+
+
+
+
+  //////////////date de début via DatePickerModal
 
   //etat pour récupérer dates de début DateTimePicker (initialisé pour récupérer une nouvelle date)
   const [startSelectedDate, setStartSelectedDate] = useState(undefined);
@@ -48,7 +183,7 @@ export default function CalendarScreen1() {
 
 
 
-  ///////////////////////date de fin 
+  ///////////////////////date de fin via DatePickerModal
 
   //etat pour récupérer date de fin DateTimePicker (initialisé pour récupérer une nouvelle date)
   const [endSelectedDate, setEndSelectedDate] = useState(undefined);
@@ -75,7 +210,7 @@ export default function CalendarScreen1() {
   };
 
 
-  ///////////////////////formatage date
+  ///////////////////////formatage date pour l'affichage
   //formatage de la date pour l'afficher sous format DD/MM/YYYYY
   const formatDate = (date) => {
     return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -95,12 +230,17 @@ export default function CalendarScreen1() {
         <Text style={styles.buttonText}>+ Date de disponibilité</Text>
       </TouchableOpacity>
 
+
+      <View>
+      {Dispo.length > 0 ? <View style={styles.dispoContainerContainer}>{Dispo}</View> : <View><Text style={styles.text}>Renseigner votre première disponibilité</Text></View>}
+      </View>
+
       <Modal visible={modalVisible} onRequestClose={closeModal} animationType="slide" transparent>
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               {/* Contenu de la modale */}
-              <Text style={styles.modalText}>Nouvelle disponibilité</Text>
-              <Text style={{fontFamily: "Manrope", fontSize: 15, marginBottom: 10, marginTop: 10}}>Sélection des dates et heures</Text>
+              <Text style={styles.modalText}>Ajout d'une nouvelle disponibilité</Text>
+              <Text style={{fontFamily: "Manrope", color: "#868686", fontSize: 14, marginBottom: 10, marginTop: 10}}>Sélection ou modification des dates et heures</Text>
 
               {/* Choix de la date de début */}
 
@@ -136,7 +276,7 @@ export default function CalendarScreen1() {
               <TouchableOpacity style={styles.startEndContainer} onPress={showEndDatePicker}>
                   <View style={styles.startButton}> 
                   <Text style={styles.startEndTextButton}>Fin</Text>
-                  </View>
+                  </View >
                   {endSelectedDate && (
                   //affiche la date que si une date a déjà été sélectionnée
                   <Text style={styles.startEndTextDate}>
@@ -159,7 +299,7 @@ export default function CalendarScreen1() {
               />
 
               <View style={styles.smallmodalContainer}>
-                <TouchableOpacity style={styles.validateButton}>
+                <TouchableOpacity style={styles.validateButton} onPress={validateModal}>
                   <Text style={styles.textcloseButton}>Valider</Text>
                 </TouchableOpacity>
 
@@ -178,6 +318,8 @@ export default function CalendarScreen1() {
   )
 }
 
+
+
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
@@ -187,9 +329,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   scrollContainer: {
-    flex: 1,
+    flexGrow: 1, // Utilisez flexGrow pour permettre au contenu de se développer en hauteur
     alignItems: 'center',
     justifyContent: 'center',
+    minHeight: Dimensions.get('window').height, // Ajoutez une hauteur minimale pour permettre le défilement vertical
   },
   dateContainer: {
     borderWidth: 1.2,
@@ -281,8 +424,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   modalText: {
-    fontFamily: 'Recoleta',
-    fontSize: 22,
+    fontFamily: 'Manrope',
+    fontSize: 20,
     marginBottom: 10,
 },
   closeButton: {
@@ -303,5 +446,6 @@ validateButton: {
   width: windowWidth * 0.3,
     alignItems: "center"
 },
+
 
   })
