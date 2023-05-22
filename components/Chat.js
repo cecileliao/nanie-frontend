@@ -25,16 +25,16 @@ const handleSendMessage = () => {
     content: newMessage,
 };
 
-  // fetch(`http://192.168.10.124:3000/aidantUsers/message/`, {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({messageData}),
-  //   })
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     console.log(data)
+  fetch(`http://192.168.10.128:3000/aidantUsers/message/`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({messageData}),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
       
-  //     });
+      });
  };
 
 

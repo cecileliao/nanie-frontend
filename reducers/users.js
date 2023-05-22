@@ -27,7 +27,7 @@ const initialState = {
       parent: {},
       //dans contact: nameParent, firstNameParent, shortBio, gemProfil
       isParent: false
-
+    
       
     },
   };
@@ -50,9 +50,14 @@ reducers: {
         ...action.payload
       }
       },
-
+    addPhoto: (state, action) => {
+      state.value.photo = action.payload;
+      },
+    removePhoto: (state, action) => {
+        state.value.photo = null;
+      },
 },
 });
 
-export const { login, logout, updateUser } = userSlice.actions;
+export const { login, logout, updateUser, addPhoto, removePhoto } = userSlice.actions;
 export default userSlice.reducer;
