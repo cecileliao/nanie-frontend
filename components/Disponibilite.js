@@ -6,8 +6,12 @@ import moment from 'moment';
 import 'moment/locale/fr';
 
 const Disponibilite = (props) => {
+
+  
+  const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch()
-      ///////////////////////formatage date
+  
+///////////////////////formatage date
   //formatage de la date pour l'afficher sous format DD/MM/YYYYY
   const formatDate = (date) => {
     return moment(date).format('DD/MM/YYYY');
@@ -24,20 +28,13 @@ const Disponibilite = (props) => {
 
 ///////suppression d'une disponibilité
 
-  //récupération du token dans le store quand l'utilisateur se connecte
-  const user = useSelector((state) => state.user.value);
-  const userupdatedAvailabilities = user.availabilities.map(data => ({
-    startingDay: data.startingDay,
-    endingDay: data.endingDay,
-    startingHour: data.startingHour,
-    endingHour: data.endingHour,
-    availabilityId: data._id
-}));
     
+  //fonction de suppression appelée quand je clique sur mon bouton de croix
+  //token et id de la dispo récupéré via le body 
+  // via le store pour le token et via Dispo du CalendarScreen1
+    
+  const deleteAvailability = () => {
 
-    const deleteAvailability = () => {
-
-      console.log({ token: user.token, availabilityId: props.availabilityId });
         fetch(`http://192.168.10.177:3000/aidantUsers/deleteDispo`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
@@ -47,13 +44,12 @@ const Disponibilite = (props) => {
           .then(data => {
             if (data.result) {
               // La disponibilité a été supprimée avec succès
-              // Mettez à jour l'état ou effectuez d'autres actions nécessaires
      
-              dispatch(removeDispo(props.availabilityId))
+              dispatch(removeDispo(props.availabilityId)) //suppression dans le store
 
             } else {
-              // La requête a échoué avec un statut d'erreur
-                console.log("eereur ");
+              // La disponibilité n'a pas été supprimée 
+                console.log("erreur ");
             }
           });
       } 

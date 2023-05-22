@@ -27,7 +27,6 @@ import ParentProfilScreen4 from "./screens/ParentProfilScreen4";
 import AvisScreen from "./screens/AvisScreen";
 import EvaluationScreen from "./screens/EvaluationScreen";
 import CalendarScreen1 from "./screens/CalendarScreen1";
-import CalendarScreen2 from "./screens/CalendarScreen2"
 //ajout des modules pour importer les fonts
 import { useEffect, useState } from "react";
 import { useSelector} from 'react-redux';
@@ -260,7 +259,6 @@ export default function App() {
         <Stack.Screen name="AvisScreen" component={AvisScreen} options={{ title: 'Mes avis' }}/>
         <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Évaluation' }}/>
         <Stack.Screen name="RechercheScreen2" component={RechercheScreen2} options={{ title: 'Ma recherche' }}/>
-        <Stack.Screen name="CalendarScreen2" component={CalendarScreen2} options={{ title: 'Mon calendrier' }}/>
         <Stack.Screen name="ConversationScreen" 
         component={ConversationScreen}
         options={({ navigation }) => ({

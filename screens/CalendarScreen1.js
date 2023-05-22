@@ -1,4 +1,4 @@
-import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native'
+import { Modal, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native'
 import React, { useState, useEffect }  from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser, addDispo,updateDispo } from '../reducers/users';
@@ -12,13 +12,11 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 export default function CalendarScreen1() {
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
-  //console.log(user.availabilities)
 
 
   //récupération info user du reducer
   const dispatch = useDispatch();
 
-  //console.log(Dispo)
 
   //afficher (ou fermer) une modal quand on clique sur le bouton date de dispo
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,6 +29,7 @@ export default function CalendarScreen1() {
     setModalVisible(false);
   };
 
+///////////ajout d'une disponibilité quand on appuie sur le boutton valider
   const validateModal = () => {
 
       /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
@@ -41,12 +40,8 @@ export default function CalendarScreen1() {
         const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
         const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
-        //console.log({starD: startingDay});
-        //console.log({endD: endingDay});
-        //console.log({starH:startingHour});
-        //console.log({endH:endingHour});
 
-//////// Ajout d'un disponibilité d'une disponibilite via route POST
+      // Ajout d'un disponibilité d'une disponibilite via route POST
       fetch(`http://192.168.10.177:3000/aidantUsers/addDispo/${user.token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -60,9 +55,8 @@ export default function CalendarScreen1() {
         .then(data => {
 
           if (data.result) {
-
-            
-            //console.log(data.UserDispos)
+            //si création de dispo besoin de l'envoyer dans le reducer
+            //besoin de maper car on souhaite récupérer notre nouvelle dispo et son id crée par MongoDB
             const updatedAvailabilities = data.UserDispos.map((dispoData,i) => ({
               key: i,
               startingDay: dispoData.startingDay,
@@ -92,10 +86,8 @@ useEffect(() => {
     .then(data => {
       if (data.result) {
 
-        //console.log(data.UserDispos)
         //envoi dans le reducer des disponibilités
-        //besoind'itérer sur data.UserDispos pour créer un tableau d'objets
-        //permet de créer un tableau updatedAvailabilities qui contient tous les objets de disponibilité avec les propriétés requises
+        //créer un tableau updatedAvailabilities qui contient tous les objets de disponibilité avec les propriétés requises
         const updatedAvailabilities = data.UserDispos.map(dispoData => ({
           startingDay: dispoData.startingDay,
           endingDay: dispoData.endingDay,
@@ -106,16 +98,12 @@ useEffect(() => {
 
                     
       dispatch(updateDispo( updatedAvailabilities));
-      //console.log(user.availabilities)
 
-
-        // setDispo(Dispo);
-        //console.log("Dispo", Dispo)
       }
     });
 }, []);
 
-//console.log("Dispo2", Dispo)
+//Création de Dispo en dehors du useEffect pour pouvoir le récupérer via le props dans le composant Disponibilité
 
 const Dispo = user.availabilities.map((dispoData, i) => {
   return (
