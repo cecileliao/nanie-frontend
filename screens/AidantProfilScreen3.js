@@ -48,7 +48,7 @@ export default function AidantProfilScreen3({navigation}) {
   };
 
 
-  const BACKEND_ADDRESS = '192.168.10.136:3000';
+  const BACKEND_ADDRESS = '192.168.10.128:3000';
 
   useEffect(() => {
     dispatch(updateUser({
