@@ -70,19 +70,19 @@ reducers: {
       state.value.searchDate = null
     },
     addSearchResult: (state, action) => {
-      state.value.searchResult.push(action.payload)
+      state.value.searchResult = action.payload
     },
     // filterDispo: (state, action) => {
     //   console.log('filterDispo', startingDay, endingDay)
       // state.value.availabilities = state.value.availabilities.filter(e => (e.startingDay === action.payload.startingDay) && (e.endingDay === action.payload.endingDay));
       // console.log(`e`, e)
     // },
-    addPhoto: (state, action) => {
-      state.value.photo = action.payload;
-      },
-    removePhoto: (state, action) => {
-        state.value.photo = null;
-      },
+    // addPhoto: (state, action) => {
+    //   state.value.photo = action.payload;
+    //   },
+    // removePhoto: (state, action) => {
+    //     state.value.photo = null;
+    //   },
 
 },
 });

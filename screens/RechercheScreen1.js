@@ -188,6 +188,8 @@ const [sexe, setSexe] = useState(null);
 //Passer sur la page de recherche
   const handleResearch = () => {
 
+  const BACKEND_ADDRESS = '172.20.10.2:3000';
+
       /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
   const startdate = moment(startSelectedDate); 
   const enddate = moment(endSelectedDate);
@@ -196,7 +198,7 @@ const [sexe, setSexe] = useState(null);
   const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
   const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
-    fetch(`http://192.168.10.139:3000/aidantUsers/search/${startingDay}/${endingDay}`)
+    fetch(`http://${BACKEND_ADDRESS}/aidantUsers/search/${startingDay}/${endingDay}`)
     .then(response => response.json())
     .then(data => {
 
@@ -208,7 +210,8 @@ const [sexe, setSexe] = useState(null);
         availabilities: [{
           startingDay: item.availabilities.startingDay,
           endingDay: item.availabilities.endingDay
-        }]
+        }],
+        missions: item.missions.length
       }));
   
       dispatch(addSearchResult(searchResults));

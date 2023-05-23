@@ -32,6 +32,7 @@ export default function AidantProfilScreen3({navigation}) {
     const dispatch = useDispatch();
     //récupérer infos du réducer pour user
     const user = useSelector((state) => state.user.value)
+    console.log(user.photo);
 
     //gérer l'état des toggles - initialisés à false
     const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
@@ -64,7 +65,7 @@ export default function AidantProfilScreen3({navigation}) {
 
   const handleValidate = () => {
 
-    //console.log(user.isParent)
+    // console.log('test',user.isParent)
 
     fetch(`http://${BACKEND_ADDRESS}/aidantUsers/signup`, {
       method: 'POST',
@@ -72,13 +73,14 @@ export default function AidantProfilScreen3({navigation}) {
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        //console.log(data)
+        console.log(data)
         if(data.result) {
           dispatch(updateUser({token: data.token}))
           navigation.navigate('TabNavigator' , { screen: 'Profil' });
         }
         
-      });
+      })
+      .catch(err => console.log(err))
   };
     
     
@@ -113,8 +115,8 @@ export default function AidantProfilScreen3({navigation}) {
         </View>
       ))}
     
-      <TouchableOpacity style={styles.button} >
-        <Text style={styles.buttonText} onPress={handleValidate}>Valider</Text>
+      <TouchableOpacity style={styles.button}  onPress={() => handleValidate()}>
+        <Text style={styles.buttonText}>Valider</Text>
       </TouchableOpacity>
     </View>
   );

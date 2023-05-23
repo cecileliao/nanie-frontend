@@ -59,7 +59,7 @@ const store = configureStore({
 // const persistor = persistStore(store);
 
 
-//Fetch get find data.type; if data.result, setIsParent(true)
+//Fetch get find data.type; if data.result, setIsParent(true
 
 
 // définir les variables pour le tab et lav navigation stack

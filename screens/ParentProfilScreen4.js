@@ -109,8 +109,8 @@ export default function ParentProfilScreen3({navigation}) {
         </View>
       ))}
     
-      <TouchableOpacity style={styles.button} >
-        <Text style={styles.buttonText} onPress={handleValidate}>Valider</Text>
+      <TouchableOpacity style={styles.button} onPress={() => handleValidate()}>
+        <Text style={styles.buttonText}>Valider</Text>
       </TouchableOpacity>
     </View>
   );

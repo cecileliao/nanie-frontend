@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/users';
-import { addPhoto, removePhoto } from '../reducers/users';
 import { KeyboardAvoidingView, 
   TouchableOpacity, 
   Switch, View, Text, TextInput, Dimensions,
@@ -78,7 +77,7 @@ export default function AidantProfilScreen1({ navigation }) {
         }).then((response) => response.json())
           .then((data) => {
             console.log('upload', data)
-            data.result && dispatch(addPhoto(data.url));
+            data.result && dispatch(updateUser({photo: data.url}));
           });
       }
 
