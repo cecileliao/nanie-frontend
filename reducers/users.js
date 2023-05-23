@@ -24,7 +24,9 @@ const initialState = {
       // ratebyHour: null,
       // car: false,
       // abilitiesAidant: null,
-      //PARENT
+      //PARENT,
+      searchDate: {},
+      searchResult:[],
       parent: {},
       //dans contact: nameParent, firstNameParent, shortBio, gemProfil
       isParent: false
@@ -61,14 +63,26 @@ reducers: {
       //console.log('state.value.availabilities => ',state.value.availabilities);
       state.value.availabilities = state.value.availabilities.filter(e => e.availabilityId !== action.payload);
     },
+    addSearchDate: (state, action) => {
+      state.value.searchDate = action.payload
+    },
+    addSearchResult: (state, action) => {
+      state.value.searchResult.push(action.payload)
+    },
+    // filterDispo: (state, action) => {
+    //   console.log('filterDispo', startingDay, endingDay)
+      // state.value.availabilities = state.value.availabilities.filter(e => (e.startingDay === action.payload.startingDay) && (e.endingDay === action.payload.endingDay));
+      // console.log(`e`, e)
+    // },
     addPhoto: (state, action) => {
       state.value.photo = action.payload;
       },
     removePhoto: (state, action) => {
         state.value.photo = null;
       },
+
 },
 });
 
-export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo} = userSlice.actions;
+export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo, addSearchDate, addSearchResult} = userSlice.actions;
 export default userSlice.reducer;

@@ -82,7 +82,7 @@ const TabNavigator = () => {
         .then(data => {
           // console.log('data', data)
           if (data.result && data.Parentinfos.token) {
-            console.log({ infosDataParent: data });
+            // console.log({ infosDataParent: data });
             setIsParent(true)
             //Parentinfos vient de la route GET
             //besoin de l'appeler pour afficher données 

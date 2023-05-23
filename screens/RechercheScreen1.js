@@ -1,7 +1,7 @@
 import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native'
 import React, { useState, useEffect }  from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUser, addDispo,updateDispo } from '../reducers/users';
+import { addSearchDate, addSearchResult } from '../reducers/users';
 //importation de la modale pour récupérer date et heure de la disponibilité
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -11,8 +11,11 @@ import Slider from '@react-native-community/slider';
 
 export default function RechercheScreen1({ navigation }) {
 
+    const BACKEND_ADDRESS = '192.168.10.142:3000';
+
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
+
 
       ///////////////////////formatage date pour l'affichage
   //formatage de la date pour l'afficher sous format DD/MM/YYYYY
@@ -40,46 +43,22 @@ export default function RechercheScreen1({ navigation }) {
 const validateModal = () => {
 
   /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
-    const startdate = moment(startSelectedDate); 
-    const enddate = moment(endSelectedDate);
-    const startingDay = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-    const startingHour = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-    const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-    const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+  const startdate = moment(startSelectedDate); 
+  const enddate = moment(endSelectedDate);
+  const startingDay = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+  const startingHour = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+  const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+  const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
-
-  // faire une recherche via route POST
-  fetch(`http://192.168.10.128:3000/aidantUsers/addDispo/${user.token}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      startingDay,
-      endingDay,
-      startingHour,
-      endingHour,
-    }),
-  }).then(response => response.json())
-    .then(data => {
-
-      if (data.result) {
-        //si création de dispo besoin de l'envoyer dans le reducer
-        //besoin de maper car on souhaite récupérer notre nouvelle dispo et son id crée par MongoDB
-        const researchAvailabilities = data.UserDispos.map((dispoData,i) => ({
-          key: i,
-          startingDay: dispoData.startingDay,
-          endingDay: dispoData.endingDay,
-          startingHour: dispoData.startingHour,
-          endingHour: dispoData.endingHour,
-          availabilityId: dispoData._id
-      }));  
-      // Mise à jour des disponibilités de l'utilisateur via le reducer
-      dispatch(updateDispo(updatedAvailabilities ));
-        
-        //la modale se referme après avoir récupérer les infos de dispos
-        setModalVisible(false);
-        
+    dispatch(addSearchDate({
+      searchDate: {
+        startingDay,
+        endingDay,
       }
-    });
+    }))
+
+    //la modale se referme après avoir récupérer les infos de dispos
+    setModalVisible(false);
 };
 
   //////////////date de début via DatePickerModal
@@ -187,8 +166,58 @@ const [sexe, setSexe] = useState(null);
 
 //Passer sur la page de recherche
   const handleResearch = () => {
+
+      /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
+  const startdate = moment(startSelectedDate); 
+  const enddate = moment(endSelectedDate);
+  const startingDay = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+  const startingHour = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+  const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+  const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+
+    fetch(`http://192.168.10.142:3000/aidantUsers/search/${startingDay}/${endingDay}`)
+    .then(response => response.json())
+    .then(data => {
+
+      const searchResults = data.dispos.map(item => ({
+        name: item.name,
+        firstName: item.firstName,
+        aidant: { rate: item.aidant.rate },
+        photo: item.photo,
+        availabilities: [{
+          startingDay: item.availabilities.startingDay,
+          endingDay: item.availabilities.endingDay
+        }]
+      }));
+  
+      dispatch(addSearchResult(searchResults));
+      console.log(dispatch(addSearchResult(searchResults)));
+
+      // for (let i=0; i< data.length; i++){
+      //   console.log('coucou')
+      //   console.log('data', data)
+      //   dispatch(addSearchResult({
+      //     name: data.dispos[i].name,
+      //     fistName: data.dispos[i].firstName,
+      //     aidant: {rate: data.dispos[i].aidant.rate},
+      //     averageNote: data.dispos[0].averageNote,
+      //     photo: data.dispos[i].photo,
+      //     availabilities: [{startingDay: data.dispos[i].availabilities.startingDay, endingDay: data.dispos[i].availabilities.endingDay}]
+      //   }))
+      //   console.log('filtre',  dispatch(addSearchResult({
+      //     name: data.dispos[i].name,
+      //     fistName: data.dispos[i].firstName,
+      //     aidant: {rate: data.dispos[i].aidant.rate},
+      //     averageNote: data.dispos[i].averageNote,
+      //     photo: data.dispos[i].photo,
+      //     availabilities: [{startingDay: data.dispos[i].availabilities.startingDay, endingDay: data.dispos[i].availabilities.endingDay}]
+      //   })))
+      //   dispatch(filterDispo({startingDay, endingDay}));
+      })
+    
       navigation.navigate('RechercheScreen2');
-    };
+
+  };
 
   return (
     <SafeAreaView style={styles.container}>
