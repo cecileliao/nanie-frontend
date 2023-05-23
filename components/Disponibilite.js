@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity} from 'react-native';
 import { useDispatch, useSelector} from 'react-redux';
-import { removeDispo} from '../reducers/users';
-import moment from 'moment';
+import { removeDispo, removeSearchDate} from '../reducers/users';
+import moment from 'moment-timezone';
 import 'moment/locale/fr';
 
 const Disponibilite = (props) => {
@@ -19,8 +19,8 @@ const Disponibilite = (props) => {
 
   //formatage de l'heure pour ne pas afficher les secondes
   const formatTime = (date) => {
-    // Soustraire 2 heures à la date donnée
-    const newDate = moment(date).subtract(2, 'hours');
+    // Set l'heure à l'heure de la bonne timezone
+    const newDate = moment(date).tz('Europe/Paris');
   
     // Formater la nouvelle date
     return newDate.format('HH:mm');
@@ -34,7 +34,10 @@ const Disponibilite = (props) => {
   // via le store pour le token et via Dispo du CalendarScreen1
     
   const deleteAvailability = () => {
+    //suppression des dates de recherche pour le parent
+        dispatch(removeSearchDate())
 
+    //suppression de la disponibilité pour l'aidant
         fetch(`http://192.168.10.139:3000/aidantUsers/deleteDispo`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
@@ -54,7 +57,7 @@ const Disponibilite = (props) => {
           });
       } 
 
-   
+      
 
   return (
 

@@ -53,6 +53,7 @@ const handleSendMessage = () => {
           <TextInput
             style={styles.chatInput}
             placeholder="Ecrire un message"
+            placeholderTextColor="#868686"
             value={newMessage}
             onChangeText={setNewMessage}
           />
@@ -79,21 +80,21 @@ const styles = StyleSheet.create({
     },
     chatContainer: {
       flex: 1,
-      padding: 16,
     },
     familleChat: {
       width: '85%',
       alignSelf: 'flex-start',
-      borderRadius: 8,
+      borderRadius: 5,
       borderWidth: 1,
       borderColor: '#5ABAB6',
-      marginBottom: 8,
+      marginBottom: 15,
+      marginTop: 15,
       padding: 8,
     },
     aidantChat: {
-      width: '90%',
+      width: '85%',
       alignSelf: 'flex-end',
-      borderRadius: 8,
+      borderRadius: 5,
       borderWidth: 1,
       borderColor: '#785C83',
       marginBottom: 8,
@@ -120,14 +121,14 @@ const styles = StyleSheet.create({
         height: 40,
         borderWidth: 1,
         borderColor: '#ccc',
-        borderRadius: 8,
+        borderRadius: 5,
         paddingHorizontal: 8,
         marginRight: 8,
       },
       sendButton: {
-        backgroundColor: '#5ABAB6',
+        backgroundColor: '#785C83',
         padding: 10,
-        borderRadius: 8,
+        borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',
         width: windowWidth * 0.25,

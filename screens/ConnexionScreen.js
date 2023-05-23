@@ -19,7 +19,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 // Grabbed from emailregex.com
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const BACKEND_ADDRESS = '192.168.10.142:3000';
+const BACKEND_ADDRESS = '192.168.10.139:3000';
 
 export default function ConnexionScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -115,11 +115,12 @@ export default function ConnexionScreen({ navigation }) {
           </View>
 
           <View style={styles.centerContainer}>
-            <DropDownPicker style={{width: 120, marginLeft: 15, borderColor: '#5ABAB6'}} placeholderStyle={{color: "grey"}} disabledStyle={{opacity: 0.5}}
+            <DropDownPicker style={{width: 120, marginLeft: 15, borderColor: '#5ABAB6'}} placeholderStyle={{color: "#868686"}} disabledStyle={{opacity: 0.5}}
               open={open}
               value={value}
               items={items}
               placeholder="Profil"
+              placeholderTextColor="#868686"
               setOpen={setOpen}
               setValue={setValue}
               setItems={setItems}
@@ -139,6 +140,7 @@ export default function ConnexionScreen({ navigation }) {
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="Email"
+                placeholderTextColor="#868686"
                 autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
                 keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
                 textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
@@ -155,6 +157,7 @@ export default function ConnexionScreen({ navigation }) {
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="Mot de passe"
+                placeholderTextColor="#868686"
                 secureTextEntry={true}
                 onChangeText={(value) => setPassword(value)}
                 value={password}

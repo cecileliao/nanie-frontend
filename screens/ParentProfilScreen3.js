@@ -71,6 +71,7 @@ export default function ParentProfilScreen3({ navigation }) {
               value={longBio}
               onChangeText={value => setlongBio(value)} 
               placeholder="Description de mon aîné, de ses interêts, sa personnalité, ses besoins ..."
+              placeholderTextColor="#868686"
               textAlignVertical="top" //sur android pour center le placeholder en haut
               multiline={true} //sur ios pour center le placeholder en haut
               maxLength={300} //taille max de la phrase
@@ -88,6 +89,7 @@ export default function ParentProfilScreen3({ navigation }) {
               value={gemProfil}
               onChangeText={value => setgemProfil(value)} 
               placeholder="Description du profil de personne recherché ..."
+              placeholderTextColor="#868686"
               textAlignVertical="top" //sur android pour center le placeholder en haut
               multiline={true} //sur ios pour center le placeholder en haut
               maxLength={300} //taille max de la phrase

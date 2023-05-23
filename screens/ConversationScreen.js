@@ -1,16 +1,16 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Platform, KeyboardAvoidingView } from 'react-native'
 import React from 'react'
 import Mission from "../components/Mission";
 import Chat from "../components/Chat";
 
 export default function ConversationScreen() {
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
     <ScrollView>
       <Mission/>
       <Chat/>
     </ScrollView>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   )}
 
   const styles = StyleSheet.create({

@@ -17,7 +17,7 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function ParentProfilScreen1({ navigation }) {
 
-  const BACKEND_ADDRESS = '192.168.10.142:3000';
+  const BACKEND_ADDRESS = '192.168.10.139:3000';
 
   //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();
@@ -139,7 +139,8 @@ export default function ParentProfilScreen1({ navigation }) {
               style={styles.input} 
               value={nameParent}
               onChangeText={value => setNameParent(value)} 
-              placeholder="Nom" />
+              placeholder="Nom"
+              placeholderTextColor="#868686" />
         </View>
         {/* prénom du Parent */}
         <View style={styles.containerInput}>
@@ -148,7 +149,8 @@ export default function ParentProfilScreen1({ navigation }) {
               style={styles.input} 
               value={firstNameParent}
               onChangeText={value => setFirstNameParent(value)} 
-              placeholder="Prénom" />
+              placeholder="Prénom"
+              placeholderTextColor="#868686" />
         </View>
         {/* téléphone du parent */}
         <View style={styles.containerInput}>
@@ -157,7 +159,8 @@ export default function ParentProfilScreen1({ navigation }) {
               style={styles.input}
               value={phone}
               onChangeText={value => setPhone(value)} 
-              placeholder="Téléphone"/>
+              placeholder="Téléphone"
+              placeholderTextColor="#868686"/>
         </View>
         {phoneError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Téléphone non valide</Text>}
 
@@ -169,6 +172,7 @@ export default function ParentProfilScreen1({ navigation }) {
               value={shortBio}
               onChangeText={value => setShortbio(value)}
               placeholder="Description de mes liens et ma relation avec l’aîné ..."
+              placeholderTextColor="#868686"
               textAlignVertical="top" //sur android pour center le placeholder en haut
               multiline={true} //sur ios pour center le placeholder en haut
               maxLength={300} //taille max de la phrase

@@ -2,6 +2,7 @@ import { Modal, Image, View, Text, TouchableOpacity, StyleSheet, SafeAreaView, S
 import React, { useState, useEffect }  from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { addSearchDate, addSearchResult } from '../reducers/users';
+import Disponibilite from '../components/Disponibilite';
 //importation de la modale pour récupérer date et heure de la disponibilité
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -11,10 +12,11 @@ import Slider from '@react-native-community/slider';
 
 export default function RechercheScreen1({ navigation }) {
 
-    const BACKEND_ADDRESS = '192.168.10.142:3000';
+    const BACKEND_ADDRESS = '192.168.10.139:3000';
 
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
+
 
 
       ///////////////////////formatage date pour l'affichage
@@ -50,16 +52,29 @@ const validateModal = () => {
   const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
   const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
-    dispatch(addSearchDate({
-      searchDate: {
+    dispatch(addSearchDate(
+      {
         startingDay,
         endingDay,
+        startingHour,
+        endingHour,
       }
-    }))
-
+    ))
+    
     //la modale se referme après avoir récupérer les infos de dispos
     setModalVisible(false);
 };
+
+const DispoSearch = () => {
+  return (
+    <Disponibilite
+    startingDay={user.searchDate.startingDay}
+    startingHour={user.searchDate.startingHour}
+    endingDay={user.searchDate.endingDay}
+    endingHour={user.searchDate.endingHour}
+    />
+  );
+}
 
   //////////////date de début via DatePickerModal
 
@@ -181,7 +196,7 @@ const [sexe, setSexe] = useState(null);
   const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
   const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
-    fetch(`http://192.168.10.142:3000/aidantUsers/search/${startingDay}/${endingDay}`)
+    fetch(`http://192.168.10.139:3000/aidantUsers/search/${startingDay}/${endingDay}`)
     .then(response => response.json())
     .then(data => {
 
@@ -238,6 +253,14 @@ const [sexe, setSexe] = useState(null);
         <TouchableOpacity style={styles.buttonPurple} onPress={openModal}>
             <Text style={styles.buttonText}>+ Dates de recherche</Text>
         </TouchableOpacity>
+      </View>
+
+      <View>
+      {user.searchDate && (
+          <View style={styles.DateResumeContainer}>
+            <DispoSearch />
+          </View>
+        )}
       </View>
 
       {/* Modal de date */}
@@ -460,6 +483,10 @@ const windowWidth = Dimensions.get('window').width;
       alignItems: "center",
       marginTop: 25,
       marginBottom: 25,
+    },
+    DateResumeContainer:{
+      justifyContent: 'center',
+      alignItems: "center",
     },
     filterSexeContainer: {
       justifyContent: 'center',

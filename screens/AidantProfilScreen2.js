@@ -86,6 +86,7 @@ const handleNext = () => {
                 value={introBio}
                 onChangeText={value => setintroBio(value)} 
                 placeholder="Ma phrase d’introduction"
+                placeholderTextColor="#868686"
                 textAlignVertical="top" //sur android pour center le placeholder en haut
                 multiline={true} //sur ios pour center le placeholder en haut
                 maxLength={100} //taille max de la phrase
@@ -103,6 +104,7 @@ const handleNext = () => {
                 value={longBio}
                 onChangeText={value => setlongBio(value)} 
                 placeholder="Présentation détaillée de ta personnalité"
+                placeholderTextColor="#868686"
                 textAlignVertical="top" //sur android pour center le placeholder en haut
                 multiline={true} //sur ios pour center le placeholder en haut
                 maxLength={300} //taille max de la phrase
@@ -120,6 +122,7 @@ const handleNext = () => {
                 value={abilities}
                 onChangeText={value => setabilities(value)} 
                 placeholder="Description de mes compétences, diplômes, expérience ..."
+                placeholderTextColor="#868686"
                 textAlignVertical="top" //sur android pour center le placeholder en haut
                 multiline={true} //sur ios pour center le placeholder en haut
                 maxLength={300} //taille max de la phrase

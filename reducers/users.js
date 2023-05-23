@@ -66,6 +66,9 @@ reducers: {
     addSearchDate: (state, action) => {
       state.value.searchDate = action.payload
     },
+    removeSearchDate: (state, action) => {
+      state.value.searchDate = null
+    },
     addSearchResult: (state, action) => {
       state.value.searchResult.push(action.payload)
     },
@@ -84,5 +87,5 @@ reducers: {
 },
 });
 
-export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo, addSearchDate, addSearchResult} = userSlice.actions;
+export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo, addSearchDate, addSearchResult, removeSearchDate} = userSlice.actions;
 export default userSlice.reducer;

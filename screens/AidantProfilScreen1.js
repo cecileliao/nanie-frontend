@@ -11,7 +11,7 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function AidantProfilScreen1({ navigation }) {
 
-  const BACKEND_ADDRESS = '192.168.10.142:3000';
+  const BACKEND_ADDRESS = '192.168.10.139:3000';
 
   //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();
@@ -177,7 +177,8 @@ export default function AidantProfilScreen1({ navigation }) {
           style={styles.input} 
           value={name}
           onChangeText={value => setName(value)} 
-          placeholder="Nom" />
+          placeholder="Nom"
+          placeholderTextColor="#868686" />
       </View>
 
       {/* prénom de l'aidant */}
@@ -187,7 +188,8 @@ export default function AidantProfilScreen1({ navigation }) {
           style={styles.input} 
           value={firstName}
           onChangeText={value => setFirstName(value)} 
-          placeholder="Prénom" />
+          placeholder="Prénom"
+          placeholderTextColor="#868686" />
       </View>
 
       {/* téléphone de l'aidant */}
@@ -197,7 +199,8 @@ export default function AidantProfilScreen1({ navigation }) {
             style={styles.input}
             value={phone}
             onChangeText={value => setPhone(value)} 
-            placeholder="Téléphone"/>
+            placeholder="Téléphone"
+            placeholderTextColor="#868686"/>
       </View>
       {phoneError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Téléphone non valide</Text>}
 
@@ -207,7 +210,8 @@ export default function AidantProfilScreen1({ navigation }) {
         <TextInput style={styles.input} 
           value={address}
           onChangeText={value => setAddress(value)} 
-          placeholder="Adresse" />
+          placeholder="Adresse"
+          placeholderTextColor="#868686" />
       </View>
 
 
@@ -218,7 +222,8 @@ export default function AidantProfilScreen1({ navigation }) {
           <TextInput style={styles.codePostal} 
             value={zip}
             onChangeText={value => setZip(value)} 
-            placeholder="CP" />
+            placeholder="CP"
+            placeholderTextColor="#868686" />
         </View>
 
         {/* ville de l'aidant */}
@@ -227,7 +232,8 @@ export default function AidantProfilScreen1({ navigation }) {
           <TextInput style={styles.city} 
             value={city}
             onChangeText={value => setCity(value)} 
-            placeholder="Ville" />
+            placeholder="Ville"
+            placeholderTextColor="#868686" />
         </View>
     </View>
         {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
@@ -239,19 +245,21 @@ export default function AidantProfilScreen1({ navigation }) {
         <TextInput style={styles.smallinput}
           value={age}
           onChangeText={value => setAge(value)} 
-          placeholder="AAAA" />
+          placeholder="AAAA"
+          placeholderTextColor="#868686" />
       </View>
       
       {/* sexe de l'aidant */}
       <View style={styles.smallcontainerInput}>
           <Text>Sexe</Text>
           <DropDownPicker style={{width: 120, marginLeft: 15, borderColor: '#5ABAB6'}} 
-            placeholderStyle={{color: "grey"}} 
+            placeholderStyle={{color: "#868686"}} 
             disabledStyle={{opacity: 0.5}}
             open={open}
             value={value}
             items={items}
             placeholder="Sexe"
+            placeholderTextColor="#868686"
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
@@ -269,7 +277,8 @@ export default function AidantProfilScreen1({ navigation }) {
       <TextInput style={styles.city} 
         value={rate}
         onChangeText={value => setRate(value)} 
-        placeholder="Taux horaire" />
+        placeholder="Taux horaire"
+        placeholderTextColor="#868686" />
     </View>
 
     {/* permis l'aidant */}

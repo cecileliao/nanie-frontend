@@ -107,7 +107,8 @@ export default function ParentProfilScreen2({ navigation }) {
               style={styles.input} 
               value={name}
               onChangeText={value => setName(value)} 
-              placeholder="Nom" />
+              placeholder="Nom"
+              placeholderTextColor="#868686" />
           </View>
 
           {/* prénom de l'aîné */}
@@ -117,7 +118,8 @@ export default function ParentProfilScreen2({ navigation }) {
               style={styles.input} 
               value={firstName}
               onChangeText={value => setFirstName(value)} 
-              placeholder="Prénom" />
+              placeholder="Prénom"
+              placeholderTextColor="#868686" />
           </View>
 
           {/* adresse de l'aîné */}
@@ -126,7 +128,8 @@ export default function ParentProfilScreen2({ navigation }) {
             <TextInput style={styles.input} 
               value={address}
               onChangeText={value => setAddress(value)} 
-              placeholder="Adresse" />
+              placeholder="Adresse"
+              placeholderTextColor="#868686" />
           </View>
 
           <View style={styles.doubleInput}>
@@ -136,7 +139,8 @@ export default function ParentProfilScreen2({ navigation }) {
               <TextInput style={styles.codePostal} 
                 value={zip}
                 onChangeText={value => setZip(value)} 
-                placeholder="CP" />
+                placeholder="CP"
+                placeholderTextColor="#868686" />
             </View>
 
             {/* ville de l'aîné */}
@@ -145,7 +149,8 @@ export default function ParentProfilScreen2({ navigation }) {
               <TextInput style={styles.city} 
                 value={city}
                 onChangeText={value => setCity(value)} 
-                placeholder="Ville" />
+                placeholder="Ville"
+                placeholderTextColor="#868686" />
             </View>
           </View>
           {zipError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Code postal non valide</Text>}
@@ -157,19 +162,21 @@ export default function ParentProfilScreen2({ navigation }) {
               <TextInput style={styles.smallinput}
                 value={age}
                 onChangeText={value => setAge(value)} 
-                placeholder="AAAA" />
+                placeholder="AAAA"
+                placeholderTextColor="#868686" />
             </View>
             
             {/* sexe de l'aîné */}
             <View style={styles.smallcontainerInput}>
               <Text>Sexe</Text>
               <DropDownPicker style={{width: 120, marginLeft: 15, borderColor: '#5ABAB6'}} 
-                placeholderStyle={{color: "grey"}} 
+                placeholderStyle={{color: "#868686"}} 
                 disabledStyle={{opacity: 0.5}}
                 open={open}
                 value={value}
                 items={items}
                 placeholder="Sexe"
+                placeholderTextColor="#868686"
                 setOpen={setOpen}
                 setValue={setValue}
                 setItems={setItems}
@@ -191,6 +198,7 @@ export default function ParentProfilScreen2({ navigation }) {
               value={introBio}
               onChangeText={value => setintroBio(value)} 
               placeholder="Phrase d’introduction sur votre aîné ..."
+              placeholderTextColor="#868686"
               textAlignVertical="top" //sur android pour center le placeholder en haut
               multiline={true} //sur ios pour center le placeholder en haut
               maxLength={100} //taille max de la phrase

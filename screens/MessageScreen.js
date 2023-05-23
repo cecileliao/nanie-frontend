@@ -1,5 +1,6 @@
 import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Dimensions } from 'react-native'
 import React from 'react'
+import OnGoingChat from '../components/OnGoingChat';
 
 export default function MessageScreen() {
   return (
@@ -9,6 +10,7 @@ export default function MessageScreen() {
         source={require("../assets/pasdeMessage.png")}
                       style={{width: windowWidth * 0.92, height: windowHeight * 0.31}}/>
       <Text style={styles.text}>Vous n’avez pas de conversation en cours</Text>
+      <OnGoingChat />
   </ScrollView>
 </SafeAreaView>
   )

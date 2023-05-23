@@ -2,23 +2,27 @@ import React , { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image, TextInput, Button, Platform } from 'react-native';
 // import { moment } from 'moment'; 
 
-const start = '12-07-2023 09:00';
-const end = '14-07-2023 21:00';
 
 export default function Mission() {
 
   return (
     <View style={styles.container}>
       <View style={styles.block}>
-          <View style={styles.left}>
-            <Text style={styles.text}>Début</Text>
-            <Text style={styles.text2}>{start}</Text>
-            <Text style={styles.text}>Fin</Text>
-            <Text style={styles.text2}>{end}</Text>
+      <View style={styles.dispocontainer}>
+          <View style={styles.debutfincontainer}>
+                <Text style={styles.textDebutFin}>Debut</Text>
+                <Text style={styles.textStart}>12-07-2023</Text>
+                <Text style={styles.textStartHour}>09:00</Text>
           </View>
+          <View style={styles.debutfincontainer}>
+                <Text style={styles.textDebutFin}>Fin</Text>
+                <Text style={styles.textEndDay}>14-07-2023</Text>
+                <Text style={styles.textEndHour}>21:00</Text>
+          </View> 
+      </View>   
           <View style={styles.right}>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Suivant</Text>
+              <Text style={styles.buttonText}>Valider</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonRed}>
               <Text style={styles.buttonText}>Refuser</Text>
@@ -29,6 +33,7 @@ export default function Mission() {
   );
 }
 
+const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
@@ -38,7 +43,8 @@ const styles = StyleSheet.create({
           alignItems: 'center',
         },
         block: {
-          width: '90%',
+          width: windowWidth * 0.9,
+          height: windowHeight * 0.13,
           borderRadius: 8,
           borderWidth: 1,
           borderColor: '#5ABAB6',
@@ -49,13 +55,18 @@ const styles = StyleSheet.create({
           alignItems: 'center',
           justifyContent: 'space-between',
         },
-    left: {
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-    },
+  debutfincontainer: {
+          flexDirection: "row",
+          alignItems: 'center',
+          marginBottom: 15,
+          marginTop: 10,
+  },
+  dispocontainer: {
+          margin: 10,
+  },
     right: {
-      flexDirection: 'column',
-      alignItems: 'flex-end',
+      alignItems: 'center',
+      marginRight: 5
     },
     text: {
       fontFamily: 'Manrope',
@@ -66,12 +77,36 @@ const styles = StyleSheet.create({
       marginBottom: 4,
       textAlign: 'center',
     },
+    textDebutFin: {
+      fontSize: 17,
+      fontFamily: 'Manrope',
+      color: "#868686"
+    },
+    textStart: {
+      fontSize: 17,
+      fontFamily: 'Manrope',
+      marginLeft: 12,
+    },
+    textEndDay: {
+      fontSize: 17,
+      fontFamily: 'Manrope',
+      marginLeft: 36,
+    },
+    textEndHour: {
+      fontSize: 17,
+      fontFamily: 'Manrope',
+      marginLeft: 20,
+    },
+    textStartHour: {
+      fontSize: 17,
+      fontFamily: 'Manrope',
+      marginLeft: 20,
+    },
     button: {
       backgroundColor: '#5ABAB6',
       padding: 10,
-      borderRadius: 8,
-      marginTop: 8,
-      width: windowWidth * 0.25,
+      borderRadius: 5,
+      width: windowWidth * 0.22,
       textAlign: 'center',
       alignItems: 'center',
       justifyContent: 'center',
@@ -82,9 +117,9 @@ const styles = StyleSheet.create({
     buttonRed: {
       backgroundColor: '#C8716E',
       padding: 10,
-      borderRadius: 8,
-      marginTop: 8,
-      width: windowWidth * 0.25,
+      borderRadius: 5,
+      marginTop: 12,
+      width: windowWidth * 0.22,
       textAlign: 'center',
       alignItems: 'center',
       justifyContent: 'center',

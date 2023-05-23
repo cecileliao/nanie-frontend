@@ -87,6 +87,7 @@ export default function InscriptionScreen({ navigation }) {
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="Email"
+                placeholderTextColor="#868686"
                 autoCapitalize="none" // https://reactnative.dev/docs/textinput#autocapitalize
                 keyboardType="email-address" // https://reactnative.dev/docs/textinput#keyboardtype
                 textContentType="emailAddress" // https://reactnative.dev/docs/textinput#textcontenttype-ios
@@ -102,6 +103,7 @@ export default function InscriptionScreen({ navigation }) {
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="Mot de passe"
+                placeholderTextColor="#868686"
                 secureTextEntry={true}
                 value={password}
                 onChangeText={value => setPassword(value)}
