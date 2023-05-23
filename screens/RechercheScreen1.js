@@ -178,26 +178,43 @@ const [sexe, setSexe] = useState(null);
     fetch(`http://192.168.10.142:3000/aidantUsers/search/${startingDay}/${endingDay}`)
     .then(response => response.json())
     .then(data => {
-      console.log('coucou')
-      console.log('data', data)
-      dispatch(addSearchResult({
-        name: data.dispos.name,
-        fistName: data.dispos.firstName,
-        aidant: {rate: data.dispos.aidant.rate},
-        averageNote: data.dispos.averageNote,
-        photo: data.dispos.photo,
-        availabilities: {startingDay: data.dispos.availabilities.startingDay, endingDay: data.dispos.availabilities.endingDay}
-      }))
-      // dispatch(filterDispo({startingDay, endingDay}));
-      console.log('filtre',  dispatch(addSearchResult({
-        name: data.dispos.name,
-        fistName: data.dispos.firstName,
-        aidant: {rate: data.dispos.aidant.rate},
-        averageNote: data.dispos.averageNote,
-        photo: data.dispos.photo,
-        availabilities: {startingDay: data.dispos.availabilities.startingDay, endingDay: data.dispos.availabilities.endingDay}
-      })))
-    });
+
+      const searchResults = data.dispos.map(item => ({
+        name: item.name,
+        firstName: item.firstName,
+        aidant: { rate: item.aidant.rate },
+        photo: item.photo,
+        availabilities: [{
+          startingDay: item.availabilities.startingDay,
+          endingDay: item.availabilities.endingDay
+        }]
+      }));
+  
+      dispatch(addSearchResult(searchResults));
+      console.log(dispatch(addSearchResult(searchResults)));
+
+      // for (let i=0; i< data.length; i++){
+      //   console.log('coucou')
+      //   console.log('data', data)
+      //   dispatch(addSearchResult({
+      //     name: data.dispos[i].name,
+      //     fistName: data.dispos[i].firstName,
+      //     aidant: {rate: data.dispos[i].aidant.rate},
+      //     averageNote: data.dispos[0].averageNote,
+      //     photo: data.dispos[i].photo,
+      //     availabilities: [{startingDay: data.dispos[i].availabilities.startingDay, endingDay: data.dispos[i].availabilities.endingDay}]
+      //   }))
+      //   console.log('filtre',  dispatch(addSearchResult({
+      //     name: data.dispos[i].name,
+      //     fistName: data.dispos[i].firstName,
+      //     aidant: {rate: data.dispos[i].aidant.rate},
+      //     averageNote: data.dispos[i].averageNote,
+      //     photo: data.dispos[i].photo,
+      //     availabilities: [{startingDay: data.dispos[i].availabilities.startingDay, endingDay: data.dispos[i].availabilities.endingDay}]
+      //   })))
+      //   dispatch(filterDispo({startingDay, endingDay}));
+      })
+    
       navigation.navigate('RechercheScreen2');
 
   };
