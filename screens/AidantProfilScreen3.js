@@ -32,6 +32,7 @@ export default function AidantProfilScreen3({navigation}) {
     const dispatch = useDispatch();
     //récupérer infos du réducer pour user
     const user = useSelector((state) => state.user.value)
+    console.log(user.photo);
 
     //gérer l'état des toggles - initialisés à false
     const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    

@@ -74,12 +74,12 @@ reducers: {
       // state.value.availabilities = state.value.availabilities.filter(e => (e.startingDay === action.payload.startingDay) && (e.endingDay === action.payload.endingDay));
       // console.log(`e`, e)
     // },
-    addPhoto: (state, action) => {
-      state.value.photo = action.payload;
-      },
-    removePhoto: (state, action) => {
-        state.value.photo = null;
-      },
+    // addPhoto: (state, action) => {
+    //   state.value.photo = action.payload;
+    //   },
+    // removePhoto: (state, action) => {
+    //     state.value.photo = null;
+    //   },
 
 },
 });

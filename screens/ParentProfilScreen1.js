@@ -67,7 +67,7 @@ export default function ParentProfilScreen1({ navigation }) {
         }).then((response) => response.json())
           .then((data) => {
             console.log('upload', data)
-            data.result && dispatch(addPhoto(data.url));
+            data.result && dispatch(updateUser({photo: data.url}));
           });
      }
 
