@@ -47,7 +47,7 @@ export default function CalendarScreen1() {
         //console.log({endH:endingHour});
 
 //////// Ajout d'un disponibilité d'une disponibilite via route POST
-      fetch(`http://192.168.10.177:3000/aidantUsers/addDispo/${user.token}`, {
+      fetch(`http://192.168.10.128:3000/aidantUsers/addDispo/${user.token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -87,7 +87,7 @@ export default function CalendarScreen1() {
 
 
 useEffect(() => {
-  fetch(`http://192.168.10.177:3000/aidantUsers/dispos/${user.token}`)
+  fetch(`http://192.168.10.128:3000/aidantUsers/dispos/${user.token}`)
     .then(response => response.json())
     .then(data => {
       if (data.result) {
