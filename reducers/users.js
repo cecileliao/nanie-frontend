@@ -67,7 +67,7 @@ reducers: {
       state.value.searchDate = action.payload
     },
     addSearchResult: (state, action) => {
-      state.value.searchResult.push(action.payload)
+      state.value.searchResult = action.payload
     },
     // filterDispo: (state, action) => {
     //   console.log('filterDispo', startingDay, endingDay)

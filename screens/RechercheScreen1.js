@@ -11,7 +11,7 @@ import Slider from '@react-native-community/slider';
 
 export default function RechercheScreen1({ navigation }) {
 
-    const BACKEND_ADDRESS = '192.168.10.142:3000';
+    const BACKEND_ADDRESS = '192.168.10.128:3000';
 
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
@@ -191,7 +191,7 @@ const [sexe, setSexe] = useState(null);
       }));
   
       dispatch(addSearchResult(searchResults));
-      console.log(dispatch(addSearchResult(searchResults)));
+      // console.log(dispatch(addSearchResult(searchResults)));
 
       // for (let i=0; i< data.length; i++){
       //   console.log('coucou')
