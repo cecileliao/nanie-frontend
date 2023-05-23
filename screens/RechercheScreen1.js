@@ -49,7 +49,7 @@ const validateModal = () => {
 
 
   // faire une recherche via route POST
-  fetch(`http://192.168.10.177:3000/aidantUsers/addDispo/${user.token}`, {
+  fetch(`http://192.168.10.139:3000/aidantUsers/addDispo/${user.token}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

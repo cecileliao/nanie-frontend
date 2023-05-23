@@ -25,7 +25,7 @@ const handleSendMessage = () => {
     content: newMessage,
 };
 
-  fetch(`http://192.168.10.128:3000/aidantUsers/message/`, {
+  fetch(`http://192.168.10.139:3000/aidantUsers/message/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({messageData}),
