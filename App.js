@@ -59,13 +59,13 @@ const store = configureStore({
 // const persistor = persistStore(store);
 
 
-//Fetch get find data.type; if data.result, setIsParent(true)
+//Fetch get find data.type; if data.result, setIsParent(true
 
 
 // définir les variables pour le tab et lav navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const BACKEND_ADDRESS = '192.168.10.128:3000';
+const BACKEND_ADDRESS = '172.20.10.2:3000';
 
 //Tabnavigator
 const TabNavigator = () => {

@@ -7,6 +7,7 @@ import 'moment/locale/fr';
 
 const Disponibilite = (props) => {
 
+  const BACKEND_ADDRESS = '172.20.10.2:3000';
   
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch()
@@ -35,7 +36,7 @@ const Disponibilite = (props) => {
     
   const deleteAvailability = () => {
 
-        fetch(`http://192.168.10.128:3000/aidantUsers/deleteDispo`, {
+        fetch(`http://${BACKEND_ADDRESS}/aidantUsers/deleteDispo`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token: user.token, availabilityId: props.availabilityId }),

@@ -13,7 +13,8 @@ export default function CalendarScreen1() {
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
 
-
+  const BACKEND_ADDRESS = '172.20.10.2:3000';
+  
   //récupération info user du reducer
   const dispatch = useDispatch();
 
@@ -42,7 +43,7 @@ export default function CalendarScreen1() {
 
 
       // Ajout d'un disponibilité d'une disponibilite via route POST
-      fetch(`http://192.168.10.128:3000/aidantUsers/addDispo/${user.token}`, {
+      fetch(`http://${BACKEND_ADDRESS}/aidantUsers/addDispo/${user.token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -80,7 +81,7 @@ export default function CalendarScreen1() {
 
 
 useEffect(() => {
-  fetch(`http://192.168.10.128:3000/aidantUsers/dispos/${user.token}`)
+  fetch(`http://${BACKEND_ADDRESS}/aidantUsers/dispos/${user.token}`)
     .then(response => response.json())
     .then(data => {
       if (data.result) {

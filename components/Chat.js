@@ -6,6 +6,8 @@ import { StyleSheet, View, Text, TouchableOpacity, KeyboardAvoidingView, Dimensi
 const start = '12-07-2023 09:00';
 const end = '14-07-2023 21:00';
 
+const BACKEND_ADDRESS = '172.20.10.2:3000';
+
 const conversation = [
     {sender: 'famille', message: 'Bonjour Emma, votre profil sérieux a attiré mon attention! J’aurais besoin d’un peu d’aide pour ma maman la semaine prochaine (du mardi 12 au jeudi 14 inclus). Seriez vous disponible ces jours?'},
     {sender: 'aidant', message: 'Bonsoir Léa, Oui, bien-sûr, je serais ravie de veiller sur Ginette pendant votre absence ! Je suis disponible ces jours à toute heure. Souhaitez vous discuter par téléphone ? Si votre maman a des envies particulières, n’hésitez pas à m’en faire part.'},
@@ -25,7 +27,7 @@ const handleSendMessage = () => {
     content: newMessage,
 };
 
-  fetch(`http://192.168.10.128:3000/aidantUsers/message/`, {
+  fetch(`http://${BACKEND_ADDRESS}/aidantUsers/message/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({messageData}),

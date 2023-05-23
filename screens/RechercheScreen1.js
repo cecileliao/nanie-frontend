@@ -11,7 +11,7 @@ import Slider from '@react-native-community/slider';
 
 export default function RechercheScreen1({ navigation }) {
 
-    const BACKEND_ADDRESS = '192.168.10.128:3000';
+    const BACKEND_ADDRESS = '172.20.10.2:3000';
 
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
@@ -173,6 +173,8 @@ const [sexe, setSexe] = useState(null);
 //Passer sur la page de recherche
   const handleResearch = () => {
 
+  const BACKEND_ADDRESS = '172.20.10.2:3000';
+
       /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
   const startdate = moment(startSelectedDate); 
   const enddate = moment(endSelectedDate);
@@ -181,7 +183,7 @@ const [sexe, setSexe] = useState(null);
   const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
   const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
 
-    fetch(`http://192.168.10.142:3000/aidantUsers/search/${startingDay}/${endingDay}`)
+    fetch(`http://${BACKEND_ADDRESS}/aidantUsers/search/${startingDay}/${endingDay}`)
     .then(response => response.json())
     .then(data => {
 

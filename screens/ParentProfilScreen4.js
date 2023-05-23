@@ -45,7 +45,7 @@ export default function ParentProfilScreen3({navigation}) {
     setSwitchesState(newState);
   };
 
-  const BACKEND_ADDRESS = '192.168.10.128:3000';
+  const BACKEND_ADDRESS = '172.20.10.2:3000';
   
   useEffect(() => {
     dispatch(updateUser({
@@ -109,8 +109,8 @@ export default function ParentProfilScreen3({navigation}) {
         </View>
       ))}
     
-      <TouchableOpacity style={styles.button} >
-        <Text style={styles.buttonText} onPress={handleValidate}>Valider</Text>
+      <TouchableOpacity style={styles.button} onPress={() => handleValidate()}>
+        <Text style={styles.buttonText}>Valider</Text>
       </TouchableOpacity>
     </View>
   );

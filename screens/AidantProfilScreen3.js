@@ -48,7 +48,7 @@ export default function AidantProfilScreen3({navigation}) {
   };
 
 
-  const BACKEND_ADDRESS = '192.168.10.128:3000';
+  const BACKEND_ADDRESS = '172.20.10.2:3000';
 
   useEffect(() => {
     dispatch(updateUser({
@@ -64,7 +64,7 @@ export default function AidantProfilScreen3({navigation}) {
 
   const handleValidate = () => {
 
-    //console.log(user.isParent)
+    // console.log('test',user.isParent)
 
     fetch(`http://${BACKEND_ADDRESS}/aidantUsers/signup`, {
       method: 'POST',
@@ -72,13 +72,14 @@ export default function AidantProfilScreen3({navigation}) {
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        //console.log(data)
+        console.log(data)
         if(data.result) {
           dispatch(updateUser({token: data.token}))
           navigation.navigate('TabNavigator' , { screen: 'Profil' });
         }
         
-      });
+      })
+      .catch(err => console.log(err))
   };
     
     
@@ -113,8 +114,8 @@ export default function AidantProfilScreen3({navigation}) {
         </View>
       ))}
     
-      <TouchableOpacity style={styles.button} >
-        <Text style={styles.buttonText} onPress={handleValidate}>Valider</Text>
+      <TouchableOpacity style={styles.button}  onPress={() => handleValidate()}>
+        <Text style={styles.buttonText}>Valider</Text>
       </TouchableOpacity>
     </View>
   );
