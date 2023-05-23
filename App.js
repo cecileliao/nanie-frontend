@@ -65,7 +65,7 @@ const store = configureStore({
 // définir les variables pour le tab et la navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const BACKEND_ADDRESS = '192.168.10.177:3000';
+const BACKEND_ADDRESS = '192.168.10.139:3000';
 
 //Tabnavigator
 const TabNavigator = () => {
