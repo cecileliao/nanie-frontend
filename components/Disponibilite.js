@@ -35,7 +35,7 @@ const Disponibilite = (props) => {
     
   const deleteAvailability = () => {
 
-        fetch(`http://192.168.10.139:3000/aidantUsers/deleteDispo`, {
+        fetch(`http://192.168.10.128:3000/aidantUsers/deleteDispo`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token: user.token, availabilityId: props.availabilityId }),
