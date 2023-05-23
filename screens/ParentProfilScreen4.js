@@ -45,6 +45,8 @@ export default function ParentProfilScreen3({navigation}) {
     setSwitchesState(newState);
   };
 
+  const BACKEND_ADDRESS = '192.168.10.128:3000';
+  
   useEffect(() => {
     dispatch(updateUser({
       talents: {

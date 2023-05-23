@@ -81,7 +81,7 @@ export default function CalendarScreen1() {
 
 
 useEffect(() => {
-  fetch(`http://192.168.10.177:3000/aidantUsers/dispos/${user.token}`)
+  fetch(`http://192.168.10.128:3000/aidantUsers/dispos/${user.token}`)
     .then(response => response.json())
     .then(data => {
       if (data.result) {

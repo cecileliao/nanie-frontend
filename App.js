@@ -62,7 +62,7 @@ const store = configureStore({
 //Fetch get find data.type; if data.result, setIsParent(true)
 
 
-// définir les variables pour le tab et la navigation stack
+// définir les variables pour le tab et lav navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const BACKEND_ADDRESS = '192.168.10.139:3000';
@@ -149,7 +149,7 @@ const TabNavigator = () => {
         </>
       )}
 
-      <Tab.Screen name="Message" component={MessageScreen} />
+      <Tab.Screen name="Message" component={MessageScreen} options={{title: 'Massages'}}/>
       <Tab.Screen name="Mission" component={MissionScreen1} />
 
       {isParent ? ( // si c'est un parent afficher la page profil parent

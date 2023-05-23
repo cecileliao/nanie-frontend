@@ -59,8 +59,8 @@ export default function AidantProfilScreen1({ navigation }) {
         quality: 1,
       });
       // check if user canceled the image selection // selectedImage state updated with uri
-      // if (!result.canceled) {
-        // setphoto(result.uri);
+      if (!result.canceled) {
+        setphoto(result.uri);
         console.log(result);
         const photo = result.assets[0].uri
         // console.log('photo', result.uri);
@@ -80,7 +80,7 @@ export default function AidantProfilScreen1({ navigation }) {
             console.log('upload', data)
             data.result && dispatch(addPhoto(data.url));
           });
-      // }
+      }
 
     };
 
