@@ -25,14 +25,12 @@ const searchDispo = user.searchResult.map((data, index) => {
           <View style={styles.content}>
             <View style={styles.infos}>
               <Text style={styles.title}>{data.firstName} {data.name}</Text>
-              {/* <Text style={styles.text}>Membre depuis : {signupDate}</Text> */}
+              <Text style={styles.text}>{data.missions} missions Nanie</Text>
               <Text style={styles.text}>Avis: {data.averageNote}    </Text>
               <Text style={styles.text}> {showHeart(data.averageHeart)} </Text>
             </View>
             <View>
             <Text style={styles.texteAvis}>{data.aidant.rate}€/hr</Text>
-            {/* <Text style={styles.texteAvis}>du {availabilitiesStart}</Text>
-            <Text style={styles.texteAvis}>au {availabilitiesEnd}</Text> */}
             </View>
           </View>
     </View>

@@ -193,11 +193,12 @@ const [sexe, setSexe] = useState(null);
         availabilities: [{
           startingDay: item.availabilities.startingDay,
           endingDay: item.availabilities.endingDay
-        }]
+        }],
+        missions: item.missions.length
       }));
   
       dispatch(addSearchResult(searchResults));
-      // console.log(dispatch(addSearchResult(searchResults)));
+      console.log(dispatch(addSearchResult(searchResults)));
 
       // for (let i=0; i< data.length; i++){
       //   console.log('coucou')
