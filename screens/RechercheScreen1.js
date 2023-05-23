@@ -148,9 +148,15 @@ const validateModal = () => {
     };
 
 //slider pour le taux horaire
-const [sliderValue, setSliderValue] = useState(0);
+const [sliderValue, setSliderValue] = useState(15);
 const handleSliderChange = (value) => {
   setSliderValue(value);
+};
+
+//slider pour la distance
+const [sliderValueDistance, setSliderValueDistance] = useState(0);
+const handleSliderChangeDistance = (value) => {
+  setSliderValueDistance(value);
 };
     
 
@@ -206,12 +212,16 @@ const [sexe, setSexe] = useState(null);
     <SafeAreaView style={styles.container}>
     <ScrollView>
 
-      <Text style={styles.title}>Filtres</Text>
+      <View style={styles.filterTitleContainer}>
+        <Text style={styles.title}>Filtres</Text>
+      </View>
 
       {/* filtre date */}
-      <TouchableOpacity style={styles.buttonPurple} onPress={openModal}>
-          <Text style={styles.buttonText}>+ Dates de recherche</Text>
-      </TouchableOpacity>
+      <View style={styles.filterDateContainer}>
+        <TouchableOpacity style={styles.buttonPurple} onPress={openModal}>
+            <Text style={styles.buttonText}>+ Dates de recherche</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Modal de date */}
       <Modal visible={modalVisible} onRequestClose={closeModal} animationType="slide" transparent>
@@ -296,39 +306,40 @@ const [sexe, setSexe] = useState(null);
 
                   <Text style={{fontFamily: "Recoleta",fontSize:20, marginLeft: 20, marginTop: 10,}}>Talents recherchés</Text>
                   <View style={styles.doubleTalents}>
-                    <TouchableOpacity onPress={handleImageClickMobility}>
+                    <TouchableOpacity style={styles.talent} onPress={handleImageClickMobility}>
                       <Image
                       source={require("../assets/person-cane-solid.png")}
                       style={[
                         styles.imageMobility,
                         { tintColor: isClickedMobility ? '#5ABAB6' : '#868686' }
                       ]}/>
-                      <Text style={styles.textAbilities}>Mobilité</Text>
+                      <Text style={[styles.textFilterAbilities, { color: isClickedMobility ? '#5ABAB6' : '#000000' }]}>Balade</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={handleImageClickAlimentation}>
+
+                    <TouchableOpacity style={styles.talent} onPress={handleImageClickAlimentation}>
                       <Image
                       source={require("../assets/carrot-solid.png")}
                       style={[
                         styles.imageAlimentation,
                         { tintColor: isClickedAlimentation ? '#5ABAB6' : '#868686' }
                       ]}/>
-                      <Text style={styles.textAbilities}>Alimentation</Text>
+                      <Text style={[styles.textFilterAbilities, { color: isClickedAlimentation ? '#5ABAB6' : '#000000' }]}>Alimentation</Text>
                     </TouchableOpacity>
                   </View>
 
                   <View style={styles.doubleTalents}>
-                        <TouchableOpacity onPress={handleImageClickHygiene}>
+                        <TouchableOpacity style={styles.talent} onPress={handleImageClickHygiene}>
                           <Image
                           source={require("../assets/pump-soap-solid.png")}
                           style={[
                             styles.imageHygiene,
                             { tintColor: isClickedHygiene ? '#5ABAB6' : '#868686' }
                           ]}/>
-                          <Text style={styles.textAbilities}>Hygiène</Text>
+                          <Text style={[styles.textFilterAbilities, { color: isClickedHygiene ? '#5ABAB6' : '#000000' }]}>Hygiène</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={handleImageClickDivertissement}>
+                        <TouchableOpacity style={styles.talent} onPress={handleImageClickDivertissement}>
                           <Image
                             source={require("../assets/music-solid.png")}
                             style={[
@@ -336,31 +347,52 @@ const [sexe, setSexe] = useState(null);
                               { tintColor: isClickedDivertissement ? '#5ABAB6' : '#868686' }
                             ]}
                           />
-                          <Text style={styles.textAbilities}>Divertissement</Text>
+                          <Text style={[styles.textFilterAbilities, { color: isClickedDivertissement ? '#5ABAB6' : '#000000' }]}>Divertissement</Text>
                         </TouchableOpacity>
                         
                   </View>
       </View>
 
       {/* filtre sur le taux horaire */}
-      <Text>Taux horaire: {sliderValue}</Text>
-      <View style={{ alignItems: 'center' }}>
-        <Slider
-          value={sliderValue}
-          minimumValue={0}
-          maximumValue={100}
-          onValueChange={handleSliderChange}
-          style={{ width: 200 }}
-        />
+      <View style={styles.filterContainer}>
+        <Text style={styles.filterTitle}>Taux horaire</Text>
+        
+        <View style={{ alignItems: 'center' }}>
+          <Slider
+            value={sliderValue}
+            minimumValue={15}
+            maximumValue={80}
+            onValueChange={handleSliderChange}
+            minimumTrackTintColor="#5ABAB6"
+            thumbTintColor="#5ABAB6"
+            style={{ width: 200 }}
+          />
+        </View>
+        {sliderValue !== 15 ?<Text style={styles.textFilter}>{parseInt(sliderValue)} €</Text> : <Text></Text>}
       </View>
 
       {/* filtre sur la distance */}
-      <Text>Distance</Text>
+      <View style={styles.filterContainer}>
+        <Text style={styles.filterTitle}>Distance</Text>
+        
+        <View style={{ alignItems: 'center' }}>
+          <Slider
+            value={sliderValueDistance}
+            minimumValue={0}
+            maximumValue={500}
+            onValueChange={handleSliderChangeDistance}
+            minimumTrackTintColor="#5ABAB6"
+            thumbTintColor="#5ABAB6"
+            style={{ width: 200 }}
+          />
+        </View>
+        {sliderValueDistance !== 0 ? <Text style={styles.textFilter}>{parseInt(sliderValueDistance)}</Text> : <Text></Text>}
+      </View>
 
       {/* filtre sur le sexe */}
-      <View style={styles.sexeInput}>
-          <Text>Sexe</Text>
-          <DropDownPicker style={{width: 120, marginLeft: 15, borderColor: '#5ABAB6'}} 
+      <View style={styles.filterSexeContainer}>
+          <Text style={styles.filterTitle}>Sexe</Text>
+          <DropDownPicker style={{width: 120, borderColor: '#5ABAB6', alignSelf: "center", marginTop: 15}} 
             placeholderStyle={{color: "grey"}} 
             disabledStyle={{opacity: 0.5}}
             open={open}
@@ -370,14 +402,14 @@ const [sexe, setSexe] = useState(null);
             setOpen={setOpen}
             setValue={setValue}
             setItems={setItems}
-            dropDownContainerStyle={{ width: 120, marginLeft: 15, marginBottom: 15, borderColor: '#5ABAB6', backgroundColor: 'white', opacity: 1 }}
+            dropDownContainerStyle={{ width: 120, marginLeft: 15, borderColor: '#5ABAB6', backgroundColor: 'white', opacity: 1, alignSelf: "center", marginTop: 15 }}
             onSelectItem={(item) => {
               setSexe(item.value)}
             }/>
       </View>
 
       {/* Bouton suivant */}
-      <View style={styles.buttonContainer}>
+      <View style={styles.reseatchButton}>
             <TouchableOpacity style={styles.buttonResearch} onPress={handleResearch}>
               <Text style={styles.textButtonResearch}>Recherche</Text>
             </TouchableOpacity>
@@ -396,11 +428,37 @@ const windowWidth = Dimensions.get('window').width;
       justifyContent: 'center',
       backgroundColor: '#ffff'
     },
+    filterContainer: {
+      justifyContent: 'center',
+      alignItems: "center",
+      marginTop: 25,
+    },
+    filterTitleContainer: {
+      justifyContent: 'center',
+      alignItems: "center",
+      marginTop: 15,
+    },
+    filterDateContainer: {
+      justifyContent: 'center',
+      alignItems: "center",
+      marginTop: 25,
+      marginBottom: 25,
+    },
+    filterSexeContainer: {
+      justifyContent: 'center',
+      alignItems: "center",
+      marginTop: 15,
+    },
+    reseatchButton: {
+      justifyContent: 'center',
+      alignItems: "center",
+      marginTop: 30,
+      marginBottom: 30,
+      zIndex: -1,
+    },
   buttonPurple: {
       backgroundColor: '#785C83',
-      padding: 10,
       borderRadius: 8,
-      marginTop: 8,
       width: windowWidth * 0.7,
       height: windowHeight * 0.08,
       alignItems: 'center',
@@ -430,9 +488,15 @@ const windowWidth = Dimensions.get('window').width;
       fontSize: 15,
       marginTop: 25
   },
-  textAbilities:{
+  textFilterAbilities:{
     fontFamily: "Manrope",
     fontSize: 15,
+    marginLeft: 25,
+   },
+   textFilter:{
+    fontFamily: "Manrope",
+    color: '#5ABAB6',
+    fontSize: 18,
    },
   talentscontainer: {
     marginLeft: 10,
@@ -448,10 +512,20 @@ const windowWidth = Dimensions.get('window').width;
     alignItems: "center",
     padding: 10
 },
+  talent:{
+    flexDirection: "row",
+    justifyContent: 'space-around',
+    alignItems: "center",
+    padding: 10
+},
   title: {
     fontFamily: "Recoleta",
-    fontSize: 20,
+    fontSize: 25,
     marginBottom: 10,
+  },
+  filterTitle: {
+    fontFamily: "Recoleta",
+    fontSize: 20,
   },
   imageAlimentation: {
     height: windowHeight * 0.035,
