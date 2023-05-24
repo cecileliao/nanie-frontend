@@ -1,10 +1,14 @@
 import React , { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image, TextInput, Button, Platform } from 'react-native';
 // import { moment } from 'moment'; 
+import { useNavigation } from '@react-navigation/native';
 
 
 export default function Mission() {
-
+  const navigation = useNavigation();
+  const handleValidate = () => {
+    navigation.navigate('MissionScreen2')
+  }
   return (
     <View style={styles.container}>
       <View style={styles.block}>
@@ -21,7 +25,7 @@ export default function Mission() {
           </View> 
       </View>   
           <View style={styles.right}>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleValidate}>
               <Text style={styles.buttonText}>Valider</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonRed}>
