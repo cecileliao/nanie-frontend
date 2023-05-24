@@ -39,7 +39,7 @@ const Disponibilite = (props) => {
         dispatch(removeSearchDate())
 
     //suppression de la disponibilité pour l'aidant
-        fetch(`http://192.168.10.139:3000/aidantUsers/deleteDispo`, {
+        fetch(`http://${BACKEND_ADDRESS}/aidantUsers/deleteDispo`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token: user.token, availabilityId: props.availabilityId }),

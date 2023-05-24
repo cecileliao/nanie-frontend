@@ -72,6 +72,11 @@ reducers: {
     addSearchResult: (state, action) => {
       state.value.searchResult = action.payload
     },
+    displayProfil: (state, action) => {
+      state.value.token = action.payload.token;
+    }
+
+
     // filterDispo: (state, action) => {
     //   console.log('filterDispo', startingDay, endingDay)
       // state.value.availabilities = state.value.availabilities.filter(e => (e.startingDay === action.payload.startingDay) && (e.endingDay === action.payload.endingDay));
@@ -87,5 +92,5 @@ reducers: {
 },
 });
 
-export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo, addSearchDate, addSearchResult, removeSearchDate} = userSlice.actions;
+export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo, addSearchDate, addSearchResult, removeSearchDate, displayProfil} = userSlice.actions;
 export default userSlice.reducer;

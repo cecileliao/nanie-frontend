@@ -203,10 +203,12 @@ const [sexe, setSexe] = useState(null);
     .then(data => {
 
       const searchResults = data.dispos.map(item => ({
+        token: item.token,
         name: item.name,
         firstName: item.firstName,
         aidant: { rate: item.aidant.rate },
         photo: item.photo,
+        averageNote: item.averageNote,
         availabilities: [{
           startingDay: item.availabilities.startingDay,
           endingDay: item.availabilities.endingDay
@@ -215,7 +217,7 @@ const [sexe, setSexe] = useState(null);
       }));
   
       dispatch(addSearchResult(searchResults));
-      console.log(dispatch(addSearchResult(searchResults)));
+      console.log('###',dispatch(addSearchResult(searchResults)));
 
       // for (let i=0; i< data.length; i++){
       //   console.log('coucou')
