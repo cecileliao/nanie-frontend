@@ -285,9 +285,9 @@ export default function App() {
         component={ConversationScreen}
         options={({ navigation }) => ({
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Message')}>
               <View style={styles.button}>
-                <Text style={styles.buttonTxt}>Voir Profil</Text>
+                <Text style={styles.buttonTxt}>Messagerie</Text>
               </View>
             </TouchableOpacity>
           ),
