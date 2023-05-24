@@ -1,14 +1,18 @@
-import { View, Image, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Image, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native'
+import React, { useEffect }  from 'react'
 import { useSelector } from 'react-redux';
 import { showHeart } from '../modules/showHeart';
 import moment from 'moment';
 import 'moment/locale/fr';
 
-export default function RechercheScreen2() {
+export default function RechercheScreen2({navigation}) {
 
+const BACKEND_ADDRESS = '192.168.10.128:3000';
+
+  
 const user = useSelector((state) => state.user.value);
-console.log('Coucou', user.searchResult)
+// console.log('Coucou', user.searchResult)
+// console.log('test', user)
 
 const searchDispo = user.searchResult.map((data, index) => {
 // const signupDate = moment(data.signup)
@@ -18,22 +22,26 @@ const searchDispo = user.searchResult.map((data, index) => {
 
  return (
   <View style={styles.container}>
-    <View style={styles.block} key={index}>
+    <TouchableOpacity style={styles.block} key={index} onPress={() => { navigation.navigate('ShownProfilAidant')}}>
           <View style={styles.image}>
-            <Image source={data.photo} style={{ width: 50, height: 50 }} />
+            <Image source={{url:data.photo}} style={{ width: 50, height: 50, borderRadius: 50 }} />
           </View>
           <View style={styles.content}>
             <View style={styles.infos}>
               <Text style={styles.title}>{data.firstName} {data.name}</Text>
               <Text style={styles.text}>{data.missions} missions Nanie</Text>
-              <Text style={styles.text}>Avis: {data.averageNote}    </Text>
-              <Text style={styles.text}> {showHeart(data.averageHeart)} </Text>
+              <Text style={styles.text}>Avis: {data.averageNote} / 5</Text>
+              <View style={styles.heartsContainer}>
+                  {showHeart(data.averageNote)}
+              </View>
             </View>
-            <View>
-            <Text style={styles.texteAvis}>{data.aidant.rate}€/hr</Text>
-            </View>
+    </View>
+    <View style={styles.contentRight}>
+          <View style={styles.circle}>
+            <Text style={styles.texteRate}>{data.aidant.rate}€/hr</Text>
           </View>
     </View>
+  </TouchableOpacity>
   </View> 
   )
 });
@@ -57,12 +65,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: '#ffff',
   },
-  searchContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
-  block: {
+   block: {
     flexDirection: 'row',
     width: '90%',
     borderRadius: 8,
@@ -72,7 +75,9 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   image: {
-    marginRight: 8,
+    marginTop: 25,
+    marginLeft : 8,
+    marginRight: 25,
   },
   content: {
     flex: 1,
@@ -80,18 +85,39 @@ const styles = StyleSheet.create({
   },
   infos: {
     flex: 1,
-    flexDirection: 'column',
   },
   title: {
-    fontFamily: 'Manrope',
-    marginBottom: 4,
+      fontFamily: "Recoleta",
+      fontSize: 20,
+      color: "#785C83",
+      marginBottom: 5,
   },
   text: {
     fontFamily: 'Manrope',
     marginBottom: 4,
   },
-  texteAvis: {
+  heartsContainer: {
+    flexDirection: 'row',
+    marginBottom: 4,
+  },
+  contentRight: {
+    flexDirection: 'row',
+    marginTop: 25,
+    marginLeft: 15,
+  },
+  circle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#5ABAB6',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 7,
+    marginLeft: 15,
+  },
+  texteRate: {
     marginTop: 8,
     fontFamily: 'Manrope',
+    color: 'white',
   },
 });

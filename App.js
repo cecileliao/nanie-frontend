@@ -24,6 +24,7 @@ import ParentProfilScreen1 from "./screens/ParentProfilScreen1";
 import ParentProfilScreen2 from "./screens/ParentProfilScreen2";
 import ParentProfilScreen3 from "./screens/ParentProfilScreen3";
 import ParentProfilScreen4 from "./screens/ParentProfilScreen4";
+import ShownProfilAidant from "./screens/ShownProfilAidant";
 import AvisScreen from "./screens/AvisScreen";
 import EvaluationScreen from "./screens/EvaluationScreen";
 import CalendarScreen1 from "./screens/CalendarScreen1";
@@ -280,20 +281,17 @@ export default function App() {
         <Stack.Screen name="AvisScreen" component={AvisScreen} options={{ title: 'Mes avis' }}/>
         <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Évaluation' }}/>
         <Stack.Screen name="RechercheScreen2" component={RechercheScreen2} options={{ title: 'Ma recherche' }}/>
-        <Stack.Screen
-          name="ChatScreen"
-          component={ChatScreen}
-          options={({ navigation }) => ({
-            title: 'Conversation',
-            headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate('Profil')}>
-                <View style={styles.button}>
-                  <Text style={styles.buttonTxt}>Voir Profil</Text>
-                </View>
-              </TouchableOpacity>
-            ),
-          })}
-        />
+        <Stack.Screen name="ConversationScreen" 
+        component={ConversationScreen}
+        options={({ navigation }) => ({
+          headerRight: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+              <View style={styles.button}>
+                <Text style={styles.buttonTxt}>Voir Profil</Text>
+              </View>
+            </TouchableOpacity>
+          ),
+        })}/>
       <Stack.Screen 
         name="TabNavigator" 
         component={TabNavigator} 
