@@ -1,5 +1,5 @@
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -65,7 +65,27 @@ const store = configureStore({
 // définir les variables pour le tab et lav navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const BACKEND_ADDRESS = '192.168.10.139:3000';
+const BACKEND_ADDRESS = '192.168.1.21:3000';
+
+function getHeaderTitle(route) {
+  // If the focused route is not found, we need to assume it's the initial screen
+  // This can happen during if there hasn't been any navigation inside the screen
+  // In our case, it's "Feed" as that's the first screen inside the navigator
+  const routeName = getFocusedRouteNameFromRoute(route) ?? 'Message';
+
+  switch (routeName) {
+    case 'Recherche':
+      return 'Ma recherche';
+    case 'Message':
+      return 'Mes messsages';
+    case 'Profil':
+      return 'Mon profil';
+    case 'Calendrier':
+      return 'Mon calendrier';
+    case 'Mission':
+      return 'Mes missions';
+  }
+}
 
 //Tabnavigator
 const TabNavigator = () => {
@@ -127,7 +147,7 @@ const TabNavigator = () => {
             iconName = "envelope";
           } else if (route.name === "Profil") {
             iconName = "user";
-          } else if (route.name === "Calendar") {
+          } else if (route.name === "Calendrier") {
             iconName = "calendar";
           }
 
@@ -145,7 +165,7 @@ const TabNavigator = () => {
         </>
       ) : ( // sinon, afficher la page calendrier
         <>
-          <Tab.Screen name="Calendar" component={CalendarScreen1} />
+          <Tab.Screen name="Calendrier" component={CalendarScreen1} />
         </>
       )}
 
@@ -270,7 +290,13 @@ export default function App() {
             </TouchableOpacity>
           ),
         })}/>
-      <Stack.Screen name="TabNavigator" component={TabNavigator} />
+      <Stack.Screen 
+        name="TabNavigator" 
+        component={TabNavigator} 
+        options={({ route }) => ({
+          headerTitle: getHeaderTitle(route),
+        })}
+      />
     </Stack.Navigator>
   );
 };

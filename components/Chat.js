@@ -6,7 +6,7 @@ import { StyleSheet, View, Text, TouchableOpacity, KeyboardAvoidingView, Dimensi
 const start = '12-07-2023 09:00';
 const end = '14-07-2023 21:00';
 
-const BACKEND_ADDRESS = '172.20.10.2:3000';
+const BACKEND_ADDRESS = '192.168.1.21:3000';
 
 const conversation = [
     {sender: 'famille', message: 'Bonjour Emma, votre profil sérieux a attiré mon attention! J’aurais besoin d’un peu d’aide pour ma maman la semaine prochaine (du mardi 12 au jeudi 14 inclus). Seriez vous disponible ces jours?'},

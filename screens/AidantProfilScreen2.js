@@ -55,7 +55,7 @@ export default function AidantProfilScreen2({ navigation }) {
 const dispatch = useDispatch();
 //récupérer infos du réducer pour user
 const user = useSelector((state) => state.user.value)
-//console.log(user);
+console.log('page 2', user);
 
 
 
