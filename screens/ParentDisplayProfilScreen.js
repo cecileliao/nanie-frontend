@@ -13,7 +13,7 @@ export default function ParentDisplayProfilScreen({navigation}) {
   const user = useSelector((state) => state.user.value);
   //console.log({user: user})
 
-  const BACKEND_ADDRESS = '192.168.10.139:3000';
+  const BACKEND_ADDRESS = '192.168.10.128:3000';
 
   useEffect(() => {
     fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${user.token}`)
