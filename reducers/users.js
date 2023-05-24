@@ -29,8 +29,8 @@ const initialState = {
       searchResult:[],
       parent: {},
       //dans contact: nameParent, firstNameParent, shortBio, gemProfil
-      isParent: false
-    
+      isParent: false,
+      idMission: null,
       
     },
   };
@@ -74,8 +74,10 @@ reducers: {
     },
     displayProfil: (state, action) => {
       state.value.token = action.payload.token;
+    },
+    addIdMission: (state, action) => {
+      state.value.idMission = action.payload.idMission;
     }
-
 
     // filterDispo: (state, action) => {
     //   console.log('filterDispo', startingDay, endingDay)
@@ -88,9 +90,8 @@ reducers: {
     // removePhoto: (state, action) => {
     //     state.value.photo = null;
     //   },
-
 },
 });
 
-export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo, addSearchDate, addSearchResult, removeSearchDate, displayProfil} = userSlice.actions;
+export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo, addSearchDate, addSearchResult, removeSearchDate, displayProfil, addIdMission } = userSlice.actions;
 export default userSlice.reducer;
