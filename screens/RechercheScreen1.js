@@ -217,7 +217,7 @@ const [sexe, setSexe] = useState(null);
       }));
   
       dispatch(addSearchResult(searchResults));
-      console.log('###',dispatch(addSearchResult(searchResults)));
+      // console.log('###',dispatch(addSearchResult(searchResults)));
 
       // for (let i=0; i< data.length; i++){
       //   console.log('coucou')
