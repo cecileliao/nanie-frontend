@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { addIdMission } from '../reducers/users'
 
-export default function ShownProfilAidant() {
+export default function ShownProfilAidant({ navigation }) {
 
 const BACKEND_ADDRESS = '192.168.10.128:3000';
 const user = useSelector((state) => state.user.value);
@@ -39,7 +39,7 @@ const dispatch = useDispatch();
             if(data.result) {
               dispatch(addIdMission({idMission: data._id}))
             //   console.log('hello', dispatch(addIdMission({idMission: data._id})))
-            //   navigation.navigate('TabNavigator' , { screen: 'Message' });
+            navigation.navigate('ConversationScreen');
             }
             
           })
