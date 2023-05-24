@@ -188,6 +188,8 @@ const [sexe, setSexe] = useState(null);
 //Passer sur la page de recherche
   const handleResearch = () => {
 
+  const BACKEND_ADDRESS = '192.168.10.128:3000';
+
       /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
   const startdate = moment(startSelectedDate); 
   const enddate = moment(endSelectedDate);
@@ -201,10 +203,12 @@ const [sexe, setSexe] = useState(null);
     .then(data => {
 
       const searchResults = data.dispos.map(item => ({
+        token: item.token,
         name: item.name,
         firstName: item.firstName,
         aidant: { rate: item.aidant.rate },
         photo: item.photo,
+        averageNote: item.averageNote,
         availabilities: [{
           startingDay: item.availabilities.startingDay,
           endingDay: item.availabilities.endingDay
@@ -213,7 +217,7 @@ const [sexe, setSexe] = useState(null);
       }));
   
       dispatch(addSearchResult(searchResults));
-      console.log(dispatch(addSearchResult(searchResults)));
+      console.log('###',dispatch(addSearchResult(searchResults)));
 
       // for (let i=0; i< data.length; i++){
       //   console.log('coucou')
