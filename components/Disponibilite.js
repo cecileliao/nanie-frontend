@@ -7,7 +7,7 @@ import 'moment/locale/fr';
 
 const Disponibilite = (props) => {
 
-  const BACKEND_ADDRESS = '192.168.10.128:3000';
+  const BACKEND_ADDRESS = '192.168.10.145:3000';
   
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch()
