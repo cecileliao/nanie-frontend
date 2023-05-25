@@ -28,7 +28,6 @@ const searchDispo = user.searchResult.map((data, index) => {
  return (
   <View style={styles.container}>
     <TouchableOpacity style={styles.block} key={index} onPress={() => handleSelect(data.token)}>
-    {/* <TouchableOpacity style={styles.block} key={index} onPress={() => handlePress(data.token)}> */}
           <View style={styles.image}>
             <Image source={{url:data.photo}} style={{ width: 50, height: 50, borderRadius: 50 }} />
           </View>
