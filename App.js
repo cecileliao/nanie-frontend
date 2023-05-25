@@ -1,3 +1,4 @@
+import { LogBox } from 'react-native';
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native'
 import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { Image } from 'react-native';
@@ -44,6 +45,8 @@ import token from './reducers/token';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { persistStore, persistReducer } from 'redux-persist'
 // import { PersistGate } from 'redux-persist/integration/react';
+
+LogBox.ignoreAllLogs();//Ignore all log notifications
 
 // redux sans persist, à supprimer si persist est mis en place
 const store = configureStore({

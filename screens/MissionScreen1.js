@@ -12,46 +12,13 @@ export default function MissionScreen1() {
 
 
   useEffect(() => {
-    // console.log('search', user.searchResult[0].token)
+
     fetch(`http://${BACKEND_ADDRESS}/missionsValidated/${user.token}`)
       .then(response => response.json())
       .then(data => {
-        //console.log('$$$', data); 
         if (data) {
-          console.log("saaa", data)
+          console.log("data front ",data)
           setMissionsInfo(data)
-
-        //   const allMissionsIfParent = data.map((missionData,i) => ({
-        //     key: i,
-        //     startingDay: missionData.startingDay,
-        //     endingDay: missionData.endingDay,
-        //     amount: missionData.amount,
-        //     rate: missionData.rateByHour,
-        //     numberOfHour: missionData.numberOfHour,
-        //     firstNameAidant: missionData.idAidant.firstName,
-        //     nameAidant: missionData.idAidant.name,
-        //     phoneAidant: missionData.idAidant.phone,
-        //     photoAidant: missionData.idAidant.photo,
-        //     cityAidant: missionData.idAidant.city,
-        //     zipAidant: missionData.idAidant.zip,
-        // }));
-
-      //   const allMissionsIfAidant = data.map((missionData,i) => ({
-      //     key: i,
-      //     startingDay: missionData.startingDay,
-      //     endingDay: missionData.endingDay,
-      //     amount: missionData.amount,
-      //     rate: missionData.rateByHour,
-      //     numberOfHour: missionData.numberOfHour,
-      //     firstNameParent: missionData.idParent.firstName,
-      //     nameParent: missionData.idParent.name,
-      //     phoneParent: missionData.idParent.phone,
-      //     photoParent: missionData.idParent.photo,
-      //     addressParent: missionData.idParent.address,
-      //     cityParent: missionData.idParent.city,
-      //     zipParent: missionData.idParent.zip,
-      // }));
-
         }
       });
   }, []);
@@ -59,6 +26,7 @@ export default function MissionScreen1() {
   //Création de Dispo en dehors du useEffect pour pouvoir le récupérer via le props dans le composant Disponibilité
 let EveryMission = [];
   if(user.isParent){
+    console.log("ouiiiii je suis parent",user);
     EveryMission = missionsInfos?.map((missionData, i) => {
     console.log('parent',missionData)
     return (
@@ -110,7 +78,7 @@ if(!user.isParent){
   return (
 <SafeAreaView style={styles.container}>
   <ScrollView contentContainerStyle={styles.scrollContainer}>
-      {missionsInfos != [] ? (
+      {missionsInfos ? (
       <View>
         {EveryMission}
       </View>

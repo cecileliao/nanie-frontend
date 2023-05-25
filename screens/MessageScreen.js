@@ -2,7 +2,7 @@ import { View, Image, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollVi
 import React from 'react'
 import OnGoingChat from '../components/OnGoingChat';
 import { useState, useEffect }  from 'react'
-import { useSelector} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 
 export default function MessageScreen() {
 
@@ -12,6 +12,8 @@ export default function MessageScreen() {
   const BACKEND_ADDRESS = '192.168.10.161:3000';
 
   const [conversation, setConversation] = useState([])
+  const token = useSelector((state) => state.token.value)
+  const dispatch = useDispatch();
 
   // afficher avec le useEffect tous les messages déjà postés en base de données pour cette conversation (mission)
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function MessageScreen() {
   return (
 <SafeAreaView style={styles.container}>
   <ScrollView contentContainerStyle={styles.scrollContainer}>
-  {conversation != [] ? (
+  {conversation ? (
       <View>
         {allConversations}
       </View>
