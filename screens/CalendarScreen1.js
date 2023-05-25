@@ -13,7 +13,7 @@ export default function CalendarScreen1() {
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
 
-  const BACKEND_ADDRESS = '192.168.10.161:3000';
+  const BACKEND_ADDRESS = '192.168.10.126:3000';
   
   //récupération info user du reducer
   const dispatch = useDispatch();

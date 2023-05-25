@@ -5,53 +5,18 @@ import ValidateMission from '../components/ValidateMission';
 
 
 export default function MissionScreen1() {
-  const BACKEND_ADDRESS = '192.168.10.161:3000';
+  const BACKEND_ADDRESS = '192.168.10.126:3000';
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
-  const [missionsInfos, setMissionsInfo] = useState([]);
+  const [missionsInfos, setMissionsInfo] = useState(null);
 
 
   useEffect(() => {
-    // console.log('search', user.searchResult[0].token)
     fetch(`http://${BACKEND_ADDRESS}/missionsValidated/${user.token}`)
       .then(response => response.json())
       .then(data => {
-        //console.log('$$$', data); 
         if (data) {
-          console.log("saaa", data)
           setMissionsInfo(data)
-
-        //   const allMissionsIfParent = data.map((missionData,i) => ({
-        //     key: i,
-        //     startingDay: missionData.startingDay,
-        //     endingDay: missionData.endingDay,
-        //     amount: missionData.amount,
-        //     rate: missionData.rateByHour,
-        //     numberOfHour: missionData.numberOfHour,
-        //     firstNameAidant: missionData.idAidant.firstName,
-        //     nameAidant: missionData.idAidant.name,
-        //     phoneAidant: missionData.idAidant.phone,
-        //     photoAidant: missionData.idAidant.photo,
-        //     cityAidant: missionData.idAidant.city,
-        //     zipAidant: missionData.idAidant.zip,
-        // }));
-
-      //   const allMissionsIfAidant = data.map((missionData,i) => ({
-      //     key: i,
-      //     startingDay: missionData.startingDay,
-      //     endingDay: missionData.endingDay,
-      //     amount: missionData.amount,
-      //     rate: missionData.rateByHour,
-      //     numberOfHour: missionData.numberOfHour,
-      //     firstNameParent: missionData.idParent.firstName,
-      //     nameParent: missionData.idParent.name,
-      //     phoneParent: missionData.idParent.phone,
-      //     photoParent: missionData.idParent.photo,
-      //     addressParent: missionData.idParent.address,
-      //     cityParent: missionData.idParent.city,
-      //     zipParent: missionData.idParent.zip,
-      // }));
-
         }
       });
   }, []);
@@ -79,7 +44,7 @@ let EveryMission = [];
     />
     )})
   } 
-//console.log('user================>',missionsInfos);
+
 if(!user.isParent){
   console.log('aidant',missionsInfos)
  EveryMission = missionsInfos?.map((missionData, i) => {
@@ -110,7 +75,7 @@ if(!user.isParent){
   return (
 <SafeAreaView style={styles.container}>
   <ScrollView contentContainerStyle={styles.scrollContainer}>
-      {missionsInfos != [] ? (
+      {missionsInfos !== null ? (
       <View>
         {EveryMission}
       </View>
