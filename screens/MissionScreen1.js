@@ -8,7 +8,7 @@ export default function MissionScreen1() {
   const BACKEND_ADDRESS = '192.168.10.161:3000';
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
-  const [missionsInfos, setMissionsInfo] = useState(null);
+  const [missionsInfos, setMissionsInfo] = useState([]);
 
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function MissionScreen1() {
       .then(data => {
         //console.log('$$$', data); 
         if (data) {
-
+          console.log("saaa", data)
           setMissionsInfo(data)
 
         //   const allMissionsIfParent = data.map((missionData,i) => ({
@@ -79,8 +79,9 @@ let EveryMission = [];
     />
     )})
   } 
-console.log('user================>',user);
+//console.log('user================>',missionsInfos);
 if(!user.isParent){
+  console.log('aidant',missionsInfos)
  EveryMission = missionsInfos?.map((missionData, i) => {
     console.log('aidant',missionData)
     return (
@@ -109,7 +110,7 @@ if(!user.isParent){
   return (
 <SafeAreaView style={styles.container}>
   <ScrollView contentContainerStyle={styles.scrollContainer}>
-      {missionsInfos != null ? (
+      {missionsInfos != [] ? (
       <View>
         {EveryMission}
       </View>

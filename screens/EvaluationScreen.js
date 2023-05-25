@@ -1,7 +1,10 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView, Dimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
 
-export default function EvaluationScreen() {
+export default function EvaluationScreen({navigation}) {
+  const handleValidate = () => {
+    navigation.navigate('TabNavigator' , { screen: 'Mission' });
+  }
     //evaluation
     const [evaluation, setEvaluation] = useState("");
 
@@ -17,18 +20,18 @@ export default function EvaluationScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Evaluer Hervé Daniel</Text>
+      <Text style={styles.title}>Evaluer votre expérience</Text>
       <TextInput
                 style={styles.input}
                 value={evaluation}
                 onChangeText={value => setEvaluation(value)} 
-                placeholder="Ma phrase d’introduction"
+                placeholder="Evaluer votre expérience"
                 placeholderTextColor="#868686"
                 textAlignVertical="top" //sur android pour center le placeholder en haut
                 multiline={true} //sur ios pour center le placeholder en haut
                 maxLength={300} //taille max de la phrase
       />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleValidate}>
             <Text style={styles.buttonText}>Confirmer</Text>
           </TouchableOpacity>
     </SafeAreaView>
@@ -65,7 +68,8 @@ const styles = StyleSheet.create({
     color: '#785C83',
   },
   input: {
-    height:windowHeight * 0.10,
+    height:windowHeight * 0.30,
+    width:windowWidth * 0.90,
     borderColor: '#5ABAB6',
     borderWidth: 1,
     borderRadius: 5,
@@ -73,6 +77,7 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginLeft:20,
     marginRight:25,
+    marginTop:35,
     marginBottom:25,
     fontFamily: 'Manrope',
   },
