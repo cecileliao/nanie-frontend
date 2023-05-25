@@ -4,12 +4,11 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  StyleSheet, 
-  ScrollView, 
-  Platform, 
-  KeyboardAvoidingView,
+  StyleSheet,  
+  FlatList, // remplace Scrollview pour une liste optimisée qui rend les éléments à mesure qu'ils deviennent visibles à l'écran
   Dimensions,
 } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useSelector, useDispatch } from 'react-redux';
 import { loadMessages, addMessage } from '../reducers/messages';
 import Mission from "../components/Mission";
@@ -38,13 +37,6 @@ export default function ChatScreen() {
   }, [setNewMessage]);
 
   
-  const messagesData = useSelector((state) => state.messages.value);
-
-  const reversedMessages = messagesData ? [...messagesData].reverse() : [];
-  const messages = reversedMessages.map((data, i) => {
-    return <Chat key={i} {...data} />;
-  });
-  
 
   // set un état pour mettre à jour le nouveau message
   const [newMessage, setNewMessage] = useState('');
@@ -71,25 +63,41 @@ export default function ChatScreen() {
       });
   };
 
-  const scrollViewRef = useRef();
 
+  // scrollviewRef + KeyboardAwareScrollView pour voir l'input (remplace KeyboardAvoidingView)
+  const scrollViewRef = useRef();
+  // scroll automatiquement vers le bas pour afficher le dernier message envoyé
   useEffect(() => {
-    // ...
-    // Ajoutez cette ligne pour déclencher le défilement vers le bas après chaque nouveau message
-    scrollViewRef.current.scrollToEnd({ animated: true });
+    handleScrollToEnd();
   }, [messagesData]);
 
-  return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
+  const handleScrollToEnd = () => {
+    scrollViewRef.current.scrollToOffset({ offset: 0, animated: true });
+  };
 
+  // definir les constantes pour les composants de messages (map de composant remplacée par data de flatlist)
+  const messagesData = useSelector((state) => state.messages.value);
+  const messages = messagesData || [];
+
+  return (
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.container}
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      scrollEnabled={true}
+    >
         <View style={styles.missionContainer}>
           <Mission/>
         </View>
 
         <View style={styles.messageContainer}>
-          <ScrollView ref={scrollViewRef}>
-          {messages}
-          </ScrollView>
+          <FlatList
+            ref={scrollViewRef} // accéder à la ScrollView à l'intérieur de FlatList + méthode scrollToEnd() = défile auto liste vers le bas après ajout de message, dernier message reste visible sans avoir à scroller manuellement.
+            data={messages} // tableau des messages (messageData)
+            renderItem={({ item }) => <Chat {...item} />} // renvoi les composants Chat
+            keyExtractor={(item, index) => index.toString()} // indice
+            inverted // afficher les messages les plus récents en bas
+            contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }} // ajuste l'espacement entre les messages lorsqu'ils s'ajoute en bas
+          />
         </View>
 
         <View style={styles.inputContainer}>
@@ -104,8 +112,7 @@ export default function ChatScreen() {
             <Text style={styles.buttonText}>Envoyer</Text>
           </TouchableOpacity>
         </View>
-
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   )}
 
   const windowWidth = Dimensions.get('window').width;
@@ -121,8 +128,12 @@ export default function ChatScreen() {
       height: windowHeight * 0.2
     },
     messageContainer: {
-      height: windowHeight * 0.5,
-      flexDirection: 'row-reverse',
+      flex: 1,
+      flexDirection: 'column-reverse',
+    },
+    messageContent: {
+      flexGrow: 1,
+      justifyContent: 'flex-end',
     },
     inputContainer: {
       flexDirection: 'row',
@@ -130,7 +141,7 @@ export default function ChatScreen() {
       justifyContent: 'space-between',
       margin: 18,
       width: windowWidth * 0.9,
-      height: windowHeight * 0.2,
+      height: windowHeight * 0.15,
     },
     chatInput: {
       flex: 3,

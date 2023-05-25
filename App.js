@@ -281,9 +281,10 @@ export default function App() {
         <Stack.Screen name="AvisScreen" component={AvisScreen} options={{ title: 'Mes avis' }}/>
         <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Évaluation' }}/>
         <Stack.Screen name="RechercheScreen2" component={RechercheScreen2} options={{ title: 'Ma recherche' }}/>
-        <Stack.Screen name="ConversationScreen" 
-        component={ConversationScreen}
+        <Stack.Screen name="ChatScreen" 
+        component={ChatScreen}
         options={({ navigation }) => ({
+          title: 'Conversation',
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Message')}>
               <View style={styles.button}>

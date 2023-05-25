@@ -188,6 +188,8 @@ const [sexe, setSexe] = useState(null);
 //Passer sur la page de recherche
   const handleResearch = () => {
 
+
+
       /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
   const startdate = moment(startSelectedDate); 
   const enddate = moment(endSelectedDate);
