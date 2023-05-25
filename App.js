@@ -281,6 +281,7 @@ export default function App() {
         <Stack.Screen name="AvisScreen" component={AvisScreen} options={{ title: 'Mes avis' }}/>
         <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Évaluation' }}/>
         <Stack.Screen name="RechercheScreen2" component={RechercheScreen2} options={{ title: 'Ma recherche' }}/>
+        <Stack.Screen name="ShownProfilAidant" component={ShownProfilAidant} options={{ title: "Profil de l'aidant" }}/>
         <Stack.Screen name="ChatScreen" 
         component={ChatScreen}
         options={({ navigation }) => ({

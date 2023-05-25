@@ -7,7 +7,7 @@ import { showHeart } from '../modules/showHeart';
 
 export default function ShownProfilAidant({ navigation }) {
 
-const BACKEND_ADDRESS = '192.168.10.126:3000';
+const BACKEND_ADDRESS = '192.168.10.161:3000';
 //stocker les données utilisateur et les afficher au chargement de la page
 const [userAidant, setUserAidant] = useState(null);
 const [isLoading, setIsLoading] = useState(true);
@@ -49,7 +49,7 @@ const dispatch = useDispatch();
             if(data.result) {
               dispatch(addIdMission({idMission: data._id}))
             //   console.log('hello', dispatch(addIdMission({idMission: data._id})))
-            navigation.navigate('ConversationScreen');
+            navigation.navigate('ChatScreen');
             }
             
           })

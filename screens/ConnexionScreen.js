@@ -52,6 +52,7 @@ export default function ConnexionScreen({ navigation }) {
 
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleConnexion = () => {
+    console.log("isParent",isParent,"isAidant",isAidant);
     if (isParent) {
       if (EMAIL_REGEX.test(email)) {
         fetch(`http://${BACKEND_ADDRESS}/parentUsers/signin`, {
@@ -62,7 +63,7 @@ export default function ConnexionScreen({ navigation }) {
         .then(response => response.json())
         .then(data => {
           if (data.result) {
-            dispatch(login({ email, token: data.token }));
+            dispatch(login({ email, token: data.token, isParent : true }));
             setEmail('');
             setPassword('');
             navigation.navigate('TabNavigator', { screen: 'Message' });

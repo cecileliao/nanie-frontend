@@ -5,7 +5,7 @@ import moment from 'moment-timezone';
 import 'moment/locale/fr';
 
 
-export default function MissionScreen2() {
+export default function MissionScreen2({navigation}) {
 
   ///////////////////////formatage date
   //formatage de la date pour l'afficher sous format DD/MM/YYYYY
@@ -30,7 +30,7 @@ export default function MissionScreen2() {
 
   //récupérer infos de la mission
   useEffect(() => {
-    console.log('search', user.idMission)
+    //console.log('search', user.idMission)
     fetch(`http://${BACKEND_ADDRESS}/DetailsMission/${user.idMission}`)
       .then(response => response.json())
       .then(data => {
@@ -40,6 +40,27 @@ export default function MissionScreen2() {
         }
       });
   }, []);
+
+  //validation de la mission
+  handleValidateMission = () => {
+
+    //mise à jour du isValidate dans la collection Mission
+    //console.log('search', user.idMission)
+    fetch(`http://${BACKEND_ADDRESS}/missions/validate/${user.idMission}`, {
+      method: 'PUT',
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Gérer la réponse JSON retournée par le serveur
+        console.log(data); // Afficher la réponse JSON dans la console
+      })
+      .catch(error => {
+        // Gérer les erreurs de requête ou de réponse
+        console.error(error);
+      });
+      
+      navigation.navigate('TabNavigator' , { screen: 'Mission' });
+  }
 
 
 
@@ -114,9 +135,9 @@ export default function MissionScreen2() {
       </View>
     </View>
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleValidateMission}>
             <Text style={styles.buttonText}>Confirmer</Text>
-          </TouchableOpacity>
+      </TouchableOpacity>
 </SafeAreaView>
   )
 }

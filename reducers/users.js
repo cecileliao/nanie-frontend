@@ -42,6 +42,7 @@ reducers: {
     login: (state, action) => {
     state.value.token = action.payload.token;
     state.value.email = action.payload.email;
+    state.value.isParent = action.payload.isParent ? true : false
     },
     logout: (state) => {
     state.value.token = null;

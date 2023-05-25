@@ -1,11 +1,34 @@
 import React, { useState, useEffect }  from 'react'
 import { useSelector} from 'react-redux';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity} from 'react-native';
+import moment from 'moment-timezone';
+import 'moment/locale/fr';
+import { useNavigation } from '@react-navigation/native';
 
 
-const ValidateMission = () => {
+const ValidateMission = (props) => {
+  const navigation = useNavigation();
+  const handleValidate = () => {
+    navigation.navigate('EvaluationScreen')
+  }
     //récupération du token dans le store de l'utilisateur associé à la mission
     const user = useSelector((state) => state.user.value);
+
+      ///////////////////////formatage date
+  //formatage de la date pour l'afficher sous format DD/MM/YYYYY
+  const formatDate = (date) => {
+    return moment(date).format('DD/MM/YYYY');
+  };
+
+  //formatage de l'heure pour ne pas afficher les secondes
+  const formatTime = (date) => {
+    // Set l'heure à l'heure de la bonne timezone
+    const newDate = moment(date).tz('Europe/Paris');
+  
+    // Formater la nouvelle date
+    return newDate.format('HH:mm');
+  };
+
 
   //stocker les données utilisateur et les afficher au chargement de la page
   const [userAidant, setUserAidant] = useState(null);
@@ -23,25 +46,33 @@ const ValidateMission = () => {
         });
     }, []);
 
-//console.log(userAidant)
+console.log('props',props)
       
 
 return (
 <View contentContainerStyle={styles.container}>
     <View style={styles.onGoingChatContainter}>
         <View style={styles.leftContainter}>
-        <Image source={require('../assets/aidant.png')} style={{ width: 70, height: 70, borderRadius: 50, marginBottom: 15 }} />
-        <TouchableOpacity style={styles.button}>
+        <Image source={{ uri: props.photo }} style={{ width: 90, height: 90, borderRadius: 50, marginBottom: 15 }} />
+        <TouchableOpacity style={styles.button} onPress={handleValidate}>
             <Text style={styles.buttonText}>Evaluer</Text>
         </TouchableOpacity>
         </View>
         <View style={styles.textContainer}>
-            <Text style={styles.nameText} >Du 08/05/2023 au 04/02/2023</Text>
-            <Text style={styles.nameText}>Emma Lorrain</Text>
-            <Text style={styles.nameText}>0668908789</Text>
-            <Text style={styles.nameText}>10 rue du Général Poirier</Text>
-            <Text style={styles.nameText}>75001 Paris</Text>
-            <Text style={styles.nameText}>5x20 = 100€</Text>
+            <Text style={styles.nameText} >Du {formatDate(props.startingDay)} à {formatTime(props.startingHour)}</Text>
+            <Text style={styles.nameText} >Au {formatDate(props.endingDay)} à {formatTime(props.endingHour)}</Text>
+            <View style={{flexDirection:"row", marginTop: 5}}>
+              <Text style={styles.nameText}>{props.firstName}</Text>
+              <Text style={styles.nameText}>{props.name}</Text>
+            </View>
+            <Text style={styles.nameText}>{props.phone}</Text>
+            
+            <View style={{flexDirection:"row"}}>
+              <Text style={styles.nameText}>{props.city}</Text>
+              <Text style={styles.nameText}>{props.zip}</Text>
+            </View>
+            <Text style={styles.nameText}>{props.adress}</Text>
+            <Text style={styles.nameText}>Total: {props.numberOfHour}x{props.rate} = {props.amount}€</Text>
         </View>
 
     </View>
@@ -61,6 +92,8 @@ const styles = StyleSheet.create({
   leftContainter: {
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: 10,
+    marginRight: 10,
   },
   onGoingChatContainter: {
     flexDirection: "row",
@@ -69,13 +102,14 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderColor: "#5ABAB6",
     width: windowWidth * 0.95,
-    height: windowHeight * 0.2,
+    height: windowHeight * 0.23,
     margin: 10,
   },
   nameText:{
     fontFamily: 'Manrope',
     fontSize: 15,
-    marginTop: 3
+    marginTop: 5,
+    marginLeft: 5
   },
   textContainer: {
     marginLeft: 20,
@@ -86,6 +120,7 @@ const styles = StyleSheet.create({
     borderRadius: '4%',
     padding: 8,
     marginLeft: 10,
+    marginTop: 10,
     alignItems: 'center',
   },
   buttonText: {
