@@ -25,6 +25,7 @@ import ParentProfilScreen2 from "./screens/ParentProfilScreen2";
 import ParentProfilScreen3 from "./screens/ParentProfilScreen3";
 import ParentProfilScreen4 from "./screens/ParentProfilScreen4";
 import ShownProfilAidant from "./screens/ShownProfilAidant";
+import ShownProfilParent from "./screens//ShownProfilParent";
 import AvisScreen from "./screens/AvisScreen";
 import EvaluationScreen from "./screens/EvaluationScreen";
 import CalendarScreen1 from "./screens/CalendarScreen1";
@@ -38,6 +39,7 @@ import { Provider } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/users';
 import messages from './reducers/messages';
+import token from './reducers/token';
 // mise en place des imports de Redux Persist
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { persistStore, persistReducer } from 'redux-persist'
@@ -45,7 +47,7 @@ import messages from './reducers/messages';
 
 // redux sans persist, à supprimer si persist est mis en place
 const store = configureStore({
-  reducer: { user, messages },
+  reducer: { user, messages, token },
 });
 
 // persist store sur React avec AsyncStorage en plus
@@ -271,25 +273,26 @@ export default function App() {
         <Stack.Screen name="Connexion" component={ConnexionScreen} options={{ title: 'Connexion' }}/>
         <Stack.Screen name="Inscription" component={InscriptionScreen} options={{ title: 'Créer un compte' }}/>
         <Stack.Screen name="MissionScreen2" component={MissionScreen2} options={{ title: 'Détails de la mission' }} />
-        <Stack.Screen name="AidantProfilScreen1" component={AidantProfilScreen1} options={{ title: 'Créer mon Profil' }}/>
-        <Stack.Screen name="AidantProfilScreen2" component={AidantProfilScreen2} options={{ title: 'Créer mon Profil' }}/>
-        <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} options={{ title: 'Créer mon Profil' }}/>
-        <Stack.Screen name="ParentProfilScreen1" component={ParentProfilScreen1} options={{ title: 'Créer le profil de ma famille' }}/>
-        <Stack.Screen name="ParentProfilScreen2" component={ParentProfilScreen2} options={{ title: 'Créer le profil de ma famille' }}/>
-        <Stack.Screen name="ParentProfilScreen3" component={ParentProfilScreen3} options={{ title: 'Créer le profil de ma famille' }}/>
-        <Stack.Screen name="ParentProfilScreen4" component={ParentProfilScreen4} options={{ title: 'Créer le profil de ma famille' }}/>
+        <Stack.Screen name="AidantProfilScreen1" component={AidantProfilScreen1} options={{ title: 'Créer mon Profil    1/3' }}/>
+        <Stack.Screen name="AidantProfilScreen2" component={AidantProfilScreen2} options={{ title: 'Créer mon Profil    2/3' }}/>
+        <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} options={{ title: 'Créer mon Profil    3/3' }}/>
+        <Stack.Screen name="ParentProfilScreen1" component={ParentProfilScreen1} options={{ title: 'Créer le profil de ma famille   1/4' }}/>
+        <Stack.Screen name="ParentProfilScreen2" component={ParentProfilScreen2} options={{ title: 'Créer le profil de ma famille   2/4' }}/>
+        <Stack.Screen name="ParentProfilScreen3" component={ParentProfilScreen3} options={{ title: 'Créer le profil de ma famille   3/4' }}/>
+        <Stack.Screen name="ParentProfilScreen4" component={ParentProfilScreen4} options={{ title: 'Créer le profil de ma famille   4/4' }}/>
         <Stack.Screen name="AvisScreen" component={AvisScreen} options={{ title: 'Mes avis' }}/>
         <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Évaluation' }}/>
         <Stack.Screen name="RechercheScreen2" component={RechercheScreen2} options={{ title: 'Ma recherche' }}/>
         <Stack.Screen name="ShownProfilAidant" component={ShownProfilAidant} options={{ title: "Profil de l'aidant" }}/>
+        <Stack.Screen name="ShownProfilParent" component={ShownProfilParent} options={{ title: "Profil de la famille" }}/>
         <Stack.Screen name="ChatScreen" 
         component={ChatScreen}
         options={({ navigation }) => ({
           title: 'Conversation',
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Message')}>
+            <TouchableOpacity onPress={() => navigation.navigate(isParent ? 'ShownProfilParent' : 'ShownProfilAidant')}>
               <View style={styles.button}>
-                <Text style={styles.buttonTxt}>Messagerie</Text>
+                <Text style={styles.buttonTxt}>Voir profil</Text>
               </View>
             </TouchableOpacity>
           ),

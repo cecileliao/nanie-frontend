@@ -1,30 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect }  from 'react'
+import { useSelector} from 'react-redux';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity} from 'react-native';
+// import moment from 'moment-timezone';
+// import 'moment/locale/fr';
+import { useNavigation } from '@react-navigation/native';
 
 
-const OnGoingChat = () => {
+export default function OnGoingChat(props) {
+  console.log('props', props)
 
 
 
-      
+  const navigation = useNavigation();
+  const handleValidate = () => {
+    navigation.navigate('ChatScreen')
+  }
+
+
+      console.log('props', props)
 
 return (
 <View contentContainerStyle={styles.container}>
+  <TouchableOpacity onPress={()=> handleValidate()}>
+
     <View style={styles.onGoingChatContainter}>
-    <Image source={require('../assets/aidant.png')} style={{ width: 60, height: 60, borderRadius: 50, marginLeft: 5 }} />
+    <Image source={{ uri: props.photo }} style={{ width: 60, height: 60, borderRadius: 50, marginLeft: 5 }} />
     <View style={styles.textContainer}>
-        <Text>08/05/2023 15:02</Text>
-        <Text style={styles.nameText}>A: Emma Lorrain</Text>
+        <Text>{props.dateMsg}</Text>
+        <Text style={styles.nameText}>{props.firstName} {props.name}</Text>
         <Text
         numberOfLines={Math.floor(50 / 16)}
-        style={styles.text}>Merci pour votre confirmation. Je vous confirme l'heure de ma venue mercredi après-midi pour 2 heures
+        style={styles.text}>{props.contentMsg}
         </Text>
     </View>
     <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Supprimer</Text>
       </TouchableOpacity>
+      </View>
 
-    </View>
+  </TouchableOpacity>
 </View>
     );
 };
@@ -78,5 +92,3 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-
-export default OnGoingChat;

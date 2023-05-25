@@ -4,12 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addIdMission } from '../reducers/users'
 import { showHeart } from '../modules/showHeart';
 
-export default function ShownProfilAidant({ navigation }) {
+export default function ShownProfilParent({ navigation }) {
 
-const BACKEND_ADDRESS = '192.168.10.161:3000';
 const BACKEND_ADDRESS = '192.168.10.128:3000';
 //stocker les données utilisateur et les afficher au chargement de la page
-const [userAidant, setUserAidant] = useState(null);
+const [userParent, setUserParent] = useState(null);
 
 const user = useSelector((state) => state.user.value);
 const token = useSelector((state) => state.token.value)
@@ -19,11 +18,11 @@ const dispatch = useDispatch();
 
 useEffect(() => {
 
-  fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${token.token}`)
+  fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${token.token}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.result) {
-        setUserAidant(data.Aidantinfos)
+        setUserParent(data.Parentinfos)
       }
     });
 }, []);
@@ -58,24 +57,23 @@ useEffect(() => {
                 <View style={styles.pictureprofilcontainer}>
                       <View style={{ justifyContent: "center", alignItems: "center"}}>
                       <Image 
-                      source={{ uri: userAidant?.photo }} 
+                      source={{ uri: userParent?.photo }} 
                       style={styles.imageProfil} />
-                          <Text style={styles.text}>💶 {userAidant?.aidant.rate}€/h</Text>
+                          <Text style={styles.text}>💶 {userParent?.parent.rate}€/h</Text>
                       </View>
                     <View style={styles.profilcontainer}>
-                        <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userAidant?.firstName} {userAidant?.name}</Text>
+                        <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userParent?.firstName} {userParent?.name}</Text>
   
-                            <Text style={styles.text}>{userAidant?.introBio}</Text>
+                            <Text style={styles.text}>{userParent?.introBio}</Text>
   
                         <View style={styles.CarandAdress}>
-                            <Text style={styles.text}>🏠 {userAidant?.zip} {userAidant?.city}</Text>
-                            <Text style={styles.text}>🚗 {userAidant?.aidant.car ? 'Permis B' : 'Pas de permis'}</Text>
+                            <Text style={styles.text}>🏠 {userParent?.zip} {userParent?.city}</Text>
                         </View>
                         
                         <Text style={styles.text}>Membre depuis le 01/03/22</Text>
-                        <Text style={styles.text}>Avis : {userAidant?.averageNote}</Text>
+                        <Text style={styles.text}>Avis : {userParent?.averageNote}</Text>
                         <View style={styles.averageHearts}>
-                            {showHeart(userAidant?.averageNote)}
+                            {showHeart(userParent?.averageNote)}
                             <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')}>
                                 <Text style={styles.textAvis}>Lire les avis</Text>
                             </TouchableOpacity>
@@ -83,20 +81,17 @@ useEffect(() => {
                     </View>
                 </View>
                 
-                <TouchableOpacity onPress={handleValidate} style={styles.button}>
-                    <Text style={styles.buttonTxt}>Contacter</Text>
-                </TouchableOpacity>
-                
                 <View style={styles.inputcontainer}>
-                    <Text style={styles.title}>Profil d’une pépite</Text>
+                    <Text style={styles.title}>Mon Parent Adoré</Text>
                     <Text style={styles.text}>
-                    {userAidant?.longBio} 
+                    {userParent?.longBio} 
                     </Text>
                 </View>
                 <View style={styles.inputcontainer}>
-                    <Text style={styles.title}>Mes compétences</Text>
+                    <Text style={styles.title}>Talents recherchés</Text>
                     <Text style={styles.text}>
-                    {userAidant?.aidant.abilities} 
+                    {userParent?.parent.talents} 
+                    {/* /// A CHECKER !!! */}
                     </Text>
                 </View>
                 <View style={styles.talentscontainer}>
@@ -106,14 +101,14 @@ useEffect(() => {
                         source={require("../assets/person-cane-solid.png")}
                         style={[
                           styles.imageMobility,
-                          { tintColor: userAidant?.talents.mobility ? '#5ABAB6' : '#868686' }
+                          { tintColor: userParent?.talents.mobility ? '#5ABAB6' : '#868686' }
                         ]}/>
                         <Text style={styles.textAbilities}>Mobilité</Text>
                         <Image
                         source={require("../assets/carrot-solid.png")}
                         style={[
                           styles.imageAlimentation,
-                          { tintColor: userAidant?.talents.cooking ? '#5ABAB6' : '#868686' }
+                          { tintColor: userParent?.talents.cooking ? '#5ABAB6' : '#868686' }
                         ]}/>
                         <Text style={styles.textAbilities}>Alimentation</Text>
                     </View>
@@ -122,17 +117,23 @@ useEffect(() => {
                         source={require("../assets/pump-soap-solid.png")}
                         style={[
                           styles.imageHygiene,
-                          { tintColor: userAidant?.talents.hygiene ? '#5ABAB6' : '#868686' }
+                          { tintColor: userParent?.talents.hygiene ? '#5ABAB6' : '#868686' }
                         ]}/>
                         <Text style={styles.textAbilities}>Hygiène</Text>
                         <Image
                         source={require("../assets/music-solid.png")}
                         style={[
                           styles.imageDivertissement,
-                          { tintColor: userAidant?.talents.entertainment ? '#5ABAB6' : '#868686' }
+                          { tintColor: userParent?.talents.entertainment ? '#5ABAB6' : '#868686' }
                         ]}/>
                         <Text style={styles.textAbilities}>Divertissement</Text>
                     </View>
+                </View>
+                <View style={styles.inputcontainer}>
+                    <Text style={styles.title}>La perle rare recherchée</Text>
+                    <Text style={styles.text}>
+                    {userParent?.gemProfil} 
+                    </Text>
                 </View>
             </ScrollView>
         </SafeAreaView>

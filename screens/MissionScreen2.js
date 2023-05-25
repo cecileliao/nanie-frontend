@@ -30,11 +30,11 @@ export default function MissionScreen2({navigation}) {
 
   //récupérer infos de la mission
   useEffect(() => {
-    //console.log('search', user.idMission)
+    // console.log('search', user.idMission)
     fetch(`http://${BACKEND_ADDRESS}/DetailsMission/${user.idMission}`)
       .then(response => response.json())
       .then(data => {
-        console.log("missionsinfo", data)
+        // console.log("missionsinfo", data)
         if (data.result) {
           setMissionInfos(data);
         }
