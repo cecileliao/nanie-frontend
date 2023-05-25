@@ -44,10 +44,10 @@ export default function ChatScreen() {
   // user.idMission
 
   const handleSendMessage = () => {
-    fetch(`http://${BACKEND_ADDRESS}/messages/addMessage/646e03c9247b2b21b1ee131a`, {
+    fetch(`http://${BACKEND_ADDRESS}/messages/addMessage/646f7e1da67774e2cdf8d673`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: user.token, idMission: '646e03c9247b2b21b1ee131a', contentMsg: newMessage }),
+      body: JSON.stringify({ token: user.token, idMission: '646f7e1da67774e2cdf8d673', contentMsg: newMessage }),
     }).then(response => response.json())
       .then(data => {
         if (data.result) {
