@@ -9,7 +9,7 @@ export default function MessageScreen() {
   //récupérer infos du réducer pour user
   const user = useSelector((state) => state.user.value)
 
-  const BACKEND_ADDRESS = '192.168.10.126:3000';
+  const BACKEND_ADDRESS = '192.168.10.161:3000';
 
   const [conversation, setConversation] = useState([])
 
