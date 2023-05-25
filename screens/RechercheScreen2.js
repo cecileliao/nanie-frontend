@@ -128,6 +128,6 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     flex: 1,
-    backgroundColor: 'white', // Modifier la couleur de fond ici
+    backgroundColor: 'white',
   },
 });
