@@ -9,8 +9,8 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <Image style={styles.image} source={require('../assets/nanieLogoWhite.png')} />
       <View style={styles.touchContainer}>
-      <TouchableOpacity onPress={() => navigation.navigate('ConversationScreen')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>conversation</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('ChatScreen')} style={styles.button} activeOpacity={0.8}>
+        <Text style={styles.textButton}>Chat</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Connexion', { name: 'Connexion' })} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>Connexion</Text>

@@ -12,7 +12,7 @@ import Slider from '@react-native-community/slider';
 
 export default function RechercheScreen1({ navigation }) {
 
-    const BACKEND_ADDRESS = '192.168.1.46:3000';
+    const BACKEND_ADDRESS = '192.168.10.128:3000';
 
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
