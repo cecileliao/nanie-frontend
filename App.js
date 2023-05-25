@@ -10,7 +10,7 @@ import HomeScreen from "./screens/HomeScreen";
 import ConnexionScreen from "./screens/ConnexionScreen";
 import InscriptionScreen from "./screens/InscriptionScreen";
 import MessageScreen from "./screens/MessageScreen";
-import ConversationScreen from "./screens/ConversationScreen"
+import ChatScreen from "./screens/ChatScreen"
 import MissionScreen1 from "./screens/MissionScreen1";
 import MissionScreen2 from "./screens/MissionScreen2";
 import RechercheScreen1 from "./screens/RechercheScreen1";
@@ -37,6 +37,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { Provider } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/users';
+import messages from './reducers/messages';
 // mise en place des imports de Redux Persist
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { persistStore, persistReducer } from 'redux-persist'
@@ -44,7 +45,7 @@ import user from './reducers/users';
 
 // redux sans persist, à supprimer si persist est mis en place
 const store = configureStore({
-  reducer: { user },
+  reducer: { user, messages },
 });
 
 // persist store sur React avec AsyncStorage en plus
@@ -170,8 +171,8 @@ const TabNavigator = () => {
         </>
       )}
 
-      <Tab.Screen name="Message" component={MessageScreen} options={{title: 'Massages'}}/>
-      <Tab.Screen name="Mission" component={MissionScreen1} />
+      <Tab.Screen name="Message" component={MessageScreen} options={{title: 'Messages'}}/>
+      <Tab.Screen name="Mission" component={MissionScreen1} options={{title: 'Missions'}}/>
 
       {isParent ? ( // si c'est un parent afficher la page profil parent
         <>
@@ -280,7 +281,6 @@ export default function App() {
         <Stack.Screen name="AvisScreen" component={AvisScreen} options={{ title: 'Mes avis' }}/>
         <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Évaluation' }}/>
         <Stack.Screen name="RechercheScreen2" component={RechercheScreen2} options={{ title: 'Ma recherche' }}/>
-        <Stack.Screen name="ShownProfilAidant" component={ShownProfilAidant} options={{ title: "Profil de l'aidant" }}/>
         <Stack.Screen name="ConversationScreen" 
         component={ConversationScreen}
         options={({ navigation }) => ({
