@@ -17,9 +17,7 @@ export default function RechercheScreen1({ navigation }) {
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
 
-
-
-      ///////////////////////formatage date pour l'affichage
+  ///////////////////////formatage date pour l'affichage
   //formatage de la date pour l'afficher sous format DD/MM/YYYYY
   const formatDate = (date) => {
     return date.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -187,8 +185,6 @@ const [sexe, setSexe] = useState(null);
 
 //Passer sur la page de recherche
   const handleResearch = () => {
-
-  const BACKEND_ADDRESS = '192.168.10.128:3000';
 
       /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
   const startdate = moment(startSelectedDate); 

@@ -47,7 +47,7 @@ const dispatch = useDispatch();
             if(data.result) {
               dispatch(addIdMission({idMission: data._id}))
             //   console.log('hello', dispatch(addIdMission({idMission: data._id})))
-            navigation.navigate('ConversationScreen');
+            navigation.navigate('ChatScreen');
             }
             
           })
@@ -76,7 +76,7 @@ const dispatch = useDispatch();
                         </View>
                         
                         <Text style={styles.text}>Membre depuis le 01/03/22</Text>
-                        <Text style={styles.text}>Avis : 4,8</Text>
+                        <Text style={styles.text}>Avis : {userAidant?.Aidantinfos?.averageNote}</Text>
                         <View style={styles.averageHearts}>
                             {showHeart(userAidant?.Aidantinfos?.averageNote)}
                             <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')}>
@@ -86,7 +86,9 @@ const dispatch = useDispatch();
                     </View>
                 </View>
                 
-                
+                <TouchableOpacity onPress={handleValidate} style={styles.button}>
+                    <Text style={styles.buttonTxt}>Contacter</Text>
+                </TouchableOpacity>
                 
                 <View style={styles.inputcontainer}>
                     <Text style={styles.title}>Profil d’une pépite</Text>
@@ -135,9 +137,6 @@ const dispatch = useDispatch();
                         <Text style={styles.textAbilities}>Divertissement</Text>
                     </View>
                 </View>
-                <TouchableOpacity onPress={handleValidate}>
-                    <Text>Contacter HEADER !! Bouton</Text>
-                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
       )
@@ -155,7 +154,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-        justifyContent: 'center', // par défaut justify-content: 'flex-start', pour que le padding du keyboardavoiding fonctionne il faut le mettre sur flex-end ou center
+        justifyContent: 'space-between',
       },
       pictureprofilcontainer: {
         flexDirection: "row",
@@ -241,5 +240,22 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         marginTop: 5
-       }
+       },
+       button: {
+        backgroundColor: '#785C83',
+        padding: 10,
+        borderRadius: 8,
+        marginTop: 8,
+        width: windowWidth * 0.25,
+        alignSelf: 'flex-end',
+        marginRight: 10,
+        textAlign: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center', 
+      },
+      buttonTxt: {
+        color: '#ffff',
+        alignItems: 'center'
+      }
     }); 

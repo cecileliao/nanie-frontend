@@ -2,6 +2,7 @@ import { View, Image, Text, SafeAreaView, ScrollView, StyleSheet, Dimensions, To
 import React, { useState, useEffect }  from 'react';
 import { useSelector} from 'react-redux';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { showHeart } from '../modules/showHeart';
 
 export default function ParentDisplayProfilScreen({navigation}) {
 
@@ -19,6 +20,7 @@ export default function ParentDisplayProfilScreen({navigation}) {
     fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${user.token}`)
       .then(response => response.json())
       .then(data => {
+        console.log('this', data)
         if (data.result) {
           setUserParent(data);
           //console.log({ infosData: data });
@@ -36,11 +38,11 @@ export default function ParentDisplayProfilScreen({navigation}) {
   }, []);
   
 
-  //coeurs avec note moyenne
-  const averageHearts = [];
-  for (let i = 0; i < 5; i++) {
-      averageHearts.push(<FontAwesome key={i} name={"heart"} size={15} color={"#868686"}/>)
-  }
+  // //coeurs avec note moyenne
+  // const averageHearts = [];
+  // for (let i = 0; i < 5; i++) {
+  //     averageHearts.push(<FontAwesome key={i} name={"heart"} size={15} color={"#868686"}/>)
+  // }
 
   //date au format DD/MM/YYYY
   const date = new Date(userParent?.Parentinfos?.signup);
@@ -63,9 +65,9 @@ export default function ParentDisplayProfilScreen({navigation}) {
               <Text style={styles.text}>{userParent?.Parentinfos?.introBio}</Text>
               <Text style={styles.text}>🏠 {userParent?.Parentinfos?.zip} {userParent?.Parentinfos?.city}</Text>
               <Text style={styles.text}>Membre depuis le {date.toLocaleDateString()}</Text>
-              <Text style={styles.text}>Avis : 4,8</Text>
+              <Text style={styles.text}>Avis : {userParent?.Parentinfos?.averageNote}</Text>
               <View style={styles.averageHearts}>
-                {averageHearts}
+              {showHeart(userParent?.Parentinfos?.averageNote)}
                 <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')}>
                     <Text style={styles.textAvis}>Lire les avis</Text>
                 </TouchableOpacity>

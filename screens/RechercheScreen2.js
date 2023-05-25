@@ -53,7 +53,7 @@ const searchDispo = user.searchResult.map((data, index) => {
 
 
   return (
-    <SafeAreaView style={styles.searchContainer}>
+    <SafeAreaView style={styles.safeArea}>
     <ScrollView>
     {searchDispo}
     </ScrollView>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 20,
-    backgroundColor: '#ffff',
+    backgroundColor: 'white',
   },
    block: {
     flexDirection: 'row',
@@ -124,5 +124,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontFamily: 'Manrope',
     color: 'white',
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: 'white', // Modifier la couleur de fond ici
   },
 });
