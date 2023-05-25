@@ -38,6 +38,7 @@ import { Provider } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/users';
 import messages from './reducers/messages';
+import token from './reducers/token';
 // mise en place des imports de Redux Persist
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { persistStore, persistReducer } from 'redux-persist'
@@ -45,7 +46,7 @@ import messages from './reducers/messages';
 
 // redux sans persist, à supprimer si persist est mis en place
 const store = configureStore({
-  reducer: { user, messages },
+  reducer: { user, messages, token },
 });
 
 // persist store sur React avec AsyncStorage en plus
@@ -281,6 +282,7 @@ export default function App() {
         <Stack.Screen name="AvisScreen" component={AvisScreen} options={{ title: 'Mes avis' }}/>
         <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Évaluation' }}/>
         <Stack.Screen name="RechercheScreen2" component={RechercheScreen2} options={{ title: 'Ma recherche' }}/>
+        <Stack.Screen name="ShownProfilAidant" component={ShownProfilAidant} options={{ title: "Profil de l'aidant" }}/>
         <Stack.Screen name="ChatScreen" 
         component={ChatScreen}
         options={({ navigation }) => ({

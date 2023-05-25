@@ -10,24 +10,23 @@ export default function ShownProfilAidant({ navigation }) {
 const BACKEND_ADDRESS = '192.168.10.126:3000';
 //stocker les données utilisateur et les afficher au chargement de la page
 const [userAidant, setUserAidant] = useState(null);
-const [isLoading, setIsLoading] = useState(true);
 
 const user = useSelector((state) => state.user.value);
+const token = useSelector((state) => state.token.value)
 const dispatch = useDispatch();
 
-// console.log('cam', user.searchResult[0].token)
-  useEffect(() => {
-    // console.log('search', user.searchResult[0].token)
-    fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${user.searchResult[0].token}`)
-      .then(response => response.json())
-      .then(data => {
-        // console.log('$$$', data);
-        if (data.result) {
-        setUserAidant(data);
-        setIsLoading(false)
-        }
-      });
-  }, []);
+
+
+useEffect(() => {
+
+  fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${token.token}`)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.result) {
+        setUserAidant(data.Aidantinfos)
+      }
+    });
+}, []);
 
   const handleValidate = () => {
     // console.log('mar', user.searchDate.startingDay)
@@ -46,38 +45,37 @@ const dispatch = useDispatch();
             if(data.result) {
               dispatch(addIdMission({idMission: data._id}))
             //   console.log('hello', dispatch(addIdMission({idMission: data._id})))
-            navigation.navigate('ConversationScreen');
+            navigation.navigate('ChatScreen');
             }
             
           })
           .catch(err => console.log(err))
       };
 
-  if (!isLoading) {
     return (
         <SafeAreaView style={styles.container}>
           <ScrollView>
                 <View style={styles.pictureprofilcontainer}>
                       <View style={{ justifyContent: "center", alignItems: "center"}}>
                       <Image 
-                      source={{ uri: userAidant?.Aidantinfos?.photo }} 
+                      source={{ uri: userAidant?.photo }} 
                       style={styles.imageProfil} />
-                          <Text style={styles.text}>💶 {userAidant?.Aidantinfos?.aidant.rate}€/h</Text>
+                          <Text style={styles.text}>💶 {userAidant?.aidant.rate}€/h</Text>
                       </View>
                     <View style={styles.profilcontainer}>
-                        <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userAidant?.Aidantinfos?.firstName} {userAidant?.Aidantinfos?.name}</Text>
+                        <Text style={{fontFamily:"Recoleta",color: "#785C83", fontSize: 17, marginBottom: 5}}>{userAidant?.firstName} {userAidant?.name}</Text>
   
-                            <Text style={styles.text}>{userAidant?.Aidantinfos?.introBio}</Text>
+                            <Text style={styles.text}>{userAidant?.introBio}</Text>
   
                         <View style={styles.CarandAdress}>
-                            <Text style={styles.text}>🏠 {userAidant?.Aidantinfos?.zip} {userAidant?.Aidantinfos?.city}</Text>
-                            <Text style={styles.text}>🚗 {userAidant?.Aidantinfos?.aidant.car ? 'Permis B' : 'Pas de permis'}</Text>
+                            <Text style={styles.text}>🏠 {userAidant?.zip} {userAidant?.city}</Text>
+                            <Text style={styles.text}>🚗 {userAidant?.aidant.car ? 'Permis B' : 'Pas de permis'}</Text>
                         </View>
                         
                         <Text style={styles.text}>Membre depuis le 01/03/22</Text>
-                        <Text style={styles.text}>Avis : 4,8</Text>
+                        <Text style={styles.text}>Avis : {userAidant?.averageNote}</Text>
                         <View style={styles.averageHearts}>
-                            {showHeart(userAidant?.Aidantinfos?.averageNote)}
+                            {showHeart(userAidant?.averageNote)}
                             <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')}>
                                 <Text style={styles.textAvis}>Lire les avis</Text>
                             </TouchableOpacity>
@@ -90,13 +88,13 @@ const dispatch = useDispatch();
                 <View style={styles.inputcontainer}>
                     <Text style={styles.title}>Profil d’une pépite</Text>
                     <Text style={styles.text}>
-                    {userAidant?.Aidantinfos?.longBio} 
+                    {userAidant?.longBio} 
                     </Text>
                 </View>
                 <View style={styles.inputcontainer}>
                     <Text style={styles.title}>Mes compétences</Text>
                     <Text style={styles.text}>
-                    {userAidant?.Aidantinfos?.aidant.abilities} 
+                    {userAidant?.aidant.abilities} 
                     </Text>
                 </View>
                 <View style={styles.talentscontainer}>
@@ -106,14 +104,14 @@ const dispatch = useDispatch();
                         source={require("../assets/person-cane-solid.png")}
                         style={[
                           styles.imageMobility,
-                          { tintColor: userAidant?.Aidantinfos?.talents.mobility ? '#5ABAB6' : '#868686' }
+                          { tintColor: userAidant?.talents.mobility ? '#5ABAB6' : '#868686' }
                         ]}/>
                         <Text style={styles.textAbilities}>Mobilité</Text>
                         <Image
                         source={require("../assets/carrot-solid.png")}
                         style={[
                           styles.imageAlimentation,
-                          { tintColor: userAidant?.Aidantinfos?.talents.cooking ? '#5ABAB6' : '#868686' }
+                          { tintColor: userAidant?.talents.cooking ? '#5ABAB6' : '#868686' }
                         ]}/>
                         <Text style={styles.textAbilities}>Alimentation</Text>
                     </View>
@@ -122,14 +120,14 @@ const dispatch = useDispatch();
                         source={require("../assets/pump-soap-solid.png")}
                         style={[
                           styles.imageHygiene,
-                          { tintColor: userAidant?.Aidantinfos?.talents.hygiene ? '#5ABAB6' : '#868686' }
+                          { tintColor: userAidant?.talents.hygiene ? '#5ABAB6' : '#868686' }
                         ]}/>
                         <Text style={styles.textAbilities}>Hygiène</Text>
                         <Image
                         source={require("../assets/music-solid.png")}
                         style={[
                           styles.imageDivertissement,
-                          { tintColor: userAidant?.Aidantinfos?.talents.entertainment ? '#5ABAB6' : '#868686' }
+                          { tintColor: userAidant?.talents.entertainment ? '#5ABAB6' : '#868686' }
                         ]}/>
                         <Text style={styles.textAbilities}>Divertissement</Text>
                     </View>
@@ -141,7 +139,7 @@ const dispatch = useDispatch();
         </SafeAreaView>
       )
     }
-  }
+  
   
 
 

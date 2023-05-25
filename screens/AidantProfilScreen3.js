@@ -32,7 +32,7 @@ export default function AidantProfilScreen3({navigation}) {
     const dispatch = useDispatch();
     //récupérer infos du réducer pour user
     const user = useSelector((state) => state.user.value)
-    console.log(user.photo);
+    // console.log(user.photo);
 
     //gérer l'état des toggles - initialisés à false
     const [switchesState, setSwitchesState] = useState(Array(blocks.length).fill(false));    
@@ -73,7 +73,7 @@ export default function AidantProfilScreen3({navigation}) {
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         if(data.result) {
           dispatch(updateUser({token: data.token}))
           navigation.navigate('TabNavigator' , { screen: 'Profil' });
