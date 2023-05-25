@@ -67,7 +67,7 @@ const store = configureStore({
 // définir les variables pour le tab et lav navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const BACKEND_ADDRESS = '192.168.10.146:3000';
+const BACKEND_ADDRESS = '192.168.10.126:3000';
 
 function getHeaderTitle(route) {
   // If the focused route is not found, we need to assume it's the initial screen
@@ -281,9 +281,10 @@ export default function App() {
         <Stack.Screen name="AvisScreen" component={AvisScreen} options={{ title: 'Mes avis' }}/>
         <Stack.Screen name="EvaluationScreen" component={EvaluationScreen} options={{ title: 'Évaluation' }}/>
         <Stack.Screen name="RechercheScreen2" component={RechercheScreen2} options={{ title: 'Ma recherche' }}/>
-        <Stack.Screen name="ConversationScreen" 
-        component={ConversationScreen}
+        <Stack.Screen name="ChatScreen" 
+        component={ChatScreen}
         options={({ navigation }) => ({
+          title: 'Conversation',
           headerRight: () => (
             <TouchableOpacity onPress={() => navigation.navigate('Home')}>
               <View style={styles.button}>

@@ -17,7 +17,7 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function ParentProfilScreen1({ navigation }) {
 
-  const BACKEND_ADDRESS = '192.168.10.146:3000';
+  const BACKEND_ADDRESS = '192.168.10.126:3000';
 
   //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();

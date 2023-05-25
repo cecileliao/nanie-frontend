@@ -13,7 +13,7 @@ export default function AidantDisplayProfilScreen({navigation}) {
     const user = useSelector((state) => state.user.value);
     //console.log({user: user})
 
-    const BACKEND_ADDRESS = '192.168.10.146:3000';
+    const BACKEND_ADDRESS = '192.168.10.126:3000';
 
     useEffect(() => {
       fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${user.token}`)
