@@ -13,7 +13,7 @@ const [isLoading, setIsLoading] = useState(true);
 
 
 
-const BACKEND_ADDRESS = '192.168.1.46:3000';
+const BACKEND_ADDRESS = '192.168.10.161:3000';
 const user = useSelector((state) => state.user.value);
 const dispatch = useDispatch();
 

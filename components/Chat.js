@@ -19,7 +19,7 @@ import { useSelector } from 'react-redux';
 //     // {sender: 'aidant', message: 'Parfait Léa, je reste disponible si vous souhaitez des information complémentaires. A bientôt !'},
 //   ];
 
-const BACKEND_ADDRESS = '192.168.10.128:3000';
+const BACKEND_ADDRESS = '192.168.10.161:3000';
 // {conversation.map((chat, index) => (
 //   // style : determiner si le chat provient de la famille ou de l'aidant
 //   <View key={index} style={chat.sender === 'famille' ? styles.familleChat : styles.aidantChat}>

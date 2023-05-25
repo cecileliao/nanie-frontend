@@ -22,7 +22,7 @@ export default function MissionScreen2() {
     return newDate.format('HH:mm');
   };
 
-  const BACKEND_ADDRESS = '192.168.1.46:3000';
+  const BACKEND_ADDRESS = '192.168.10.161:3000';
   const user = useSelector((state) => state.user.value);
 
   //stocker les données de la mission

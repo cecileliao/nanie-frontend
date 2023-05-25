@@ -9,7 +9,7 @@ import 'moment/locale/fr';
 
 export default function RechercheScreen2({navigation}) {
 
-const BACKEND_ADDRESS = '192.168.10.128:3000';
+const BACKEND_ADDRESS = '192.168.10.161:3000';
 // const dispatch = useDispatch()
 // const handlePress = (token) => {
 //   dispatch(displayProfil(token))
