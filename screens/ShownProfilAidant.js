@@ -7,7 +7,6 @@ import { showHeart } from '../modules/showHeart';
 export default function ShownProfilAidant({ navigation }) {
 
 const BACKEND_ADDRESS = '192.168.10.161:3000';
-const BACKEND_ADDRESS = '192.168.10.128:3000';
 //stocker les données utilisateur et les afficher au chargement de la page
 const [userAidant, setUserAidant] = useState(null);
 
