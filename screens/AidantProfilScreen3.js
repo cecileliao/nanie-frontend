@@ -49,7 +49,7 @@ export default function AidantProfilScreen3({navigation}) {
   };
 
 
-  const BACKEND_ADDRESS = '192.168.10.161:3000';
+  const BACKEND_ADDRESS = '192.168.10.126:3000';
 
   useEffect(() => {
     dispatch(updateUser({
@@ -58,7 +58,9 @@ export default function AidantProfilScreen3({navigation}) {
         hygiene: switchesState[1],
         cooking: switchesState[2],
         entertainment: switchesState[3]
-      }
+      },
+      averageNote: null,
+      averageHeart: null,
     }));
   }, [switchesState]);
 

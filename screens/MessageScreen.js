@@ -11,7 +11,7 @@ export default function MessageScreen() {
 
   const BACKEND_ADDRESS = '192.168.10.126:3000';
 
-  const [conversation, setConversation] = useState([])
+  const [conversation, setConversation] = useState(null)
 
   // afficher avec le useEffect tous les messages déjà postés en base de données pour cette conversation (mission)
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function MessageScreen() {
   return (
 <SafeAreaView style={styles.container}>
   <ScrollView contentContainerStyle={styles.scrollContainer}>
-  {conversation != [] ? (
+  {conversation !== null ? (
       <View>
         {allConversations}
       </View>

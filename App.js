@@ -69,7 +69,7 @@ const store = configureStore({
 // définir les variables pour le tab et lav navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const BACKEND_ADDRESS = '192.168.10.161:3000';
+const BACKEND_ADDRESS = '192.168.10.126:3000';
 
 function getHeaderTitle(route) {
   // If the focused route is not found, we need to assume it's the initial screen
