@@ -4,25 +4,25 @@ import { useSelector } from 'react-redux';
 import { showHeart } from '../modules/showHeart';
 import moment from 'moment';
 import 'moment/locale/fr';
+// import { useDispatch } from 'react-redux';
+// import { displayProfil } from '../reducers/users';
 
 export default function RechercheScreen2({navigation}) {
 
 const BACKEND_ADDRESS = '192.168.10.126:3000';
 
-  
 const user = useSelector((state) => state.user.value);
 // console.log('Coucou', user.searchResult)
 // console.log('test', user)
 
 const searchDispo = user.searchResult.map((data, index) => {
-// const signupDate = moment(data.signup)
-// const availabilitiesStart = moment(data.availabilities.startingDay)
-// const availabilitiesEnd = moment(data.availabilities.endingDay)
+
 
 
  return (
   <View style={styles.container}>
     <TouchableOpacity style={styles.block} key={index} onPress={() => { navigation.navigate('ShownProfilAidant')}}>
+    {/* <TouchableOpacity style={styles.block} key={index} onPress={() => handlePress(data.token)}> */}
           <View style={styles.image}>
             <Image source={{url:data.photo}} style={{ width: 50, height: 50, borderRadius: 50 }} />
           </View>

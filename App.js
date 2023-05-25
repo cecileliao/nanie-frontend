@@ -270,7 +270,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Connexion" component={ConnexionScreen} options={{ title: 'Connexion' }}/>
         <Stack.Screen name="Inscription" component={InscriptionScreen} options={{ title: 'Créer un compte' }}/>
-        <Stack.Screen name="MissionScreen2" component={MissionScreen2} options={{ title: 'Mes missions validées' }} />
+        <Stack.Screen name="MissionScreen2" component={MissionScreen2} options={{ title: 'Détails de la mission' }} />
         <Stack.Screen name="AidantProfilScreen1" component={AidantProfilScreen1} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantProfilScreen2" component={AidantProfilScreen2} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} options={{ title: 'Créer mon Profil' }}/>
@@ -286,9 +286,9 @@ export default function App() {
         options={({ navigation }) => ({
           title: 'Conversation',
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Message')}>
               <View style={styles.button}>
-                <Text style={styles.buttonTxt}>Voir Profil</Text>
+                <Text style={styles.buttonTxt}>Messagerie</Text>
               </View>
             </TouchableOpacity>
           ),
