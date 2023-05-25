@@ -45,7 +45,7 @@ export default function ParentProfilScreen3({navigation}) {
     setSwitchesState(newState);
   };
 
-  const BACKEND_ADDRESS = '192.168.10.128:3000';
+  const BACKEND_ADDRESS = '192.168.10.126:3000';
   
   useEffect(() => {
     dispatch(updateUser({
@@ -67,10 +67,10 @@ export default function ParentProfilScreen3({navigation}) {
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        console.log(data)
+        // console.log(data)
         if(data.result) {
           dispatch(updateUser({token: data.token}))
-          console.log(data)
+          // console.log(data)
           navigation.navigate('TabNavigator', { screen: 'Profil' });
         }
         

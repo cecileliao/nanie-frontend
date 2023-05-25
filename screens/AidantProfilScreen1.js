@@ -10,7 +10,7 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function AidantProfilScreen1({ navigation }) {
 
-  const BACKEND_ADDRESS = '192.168.10.128:3000';
+  const BACKEND_ADDRESS = '192.168.10.126:3000';
 
   //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();
@@ -60,7 +60,7 @@ export default function AidantProfilScreen1({ navigation }) {
       // check if user canceled the image selection // selectedImage state updated with uri
       if (!result.canceled) {
         setphoto(result.uri);
-        console.log(result);
+        // console.log(result);
         const photo = result.assets[0].uri
         // console.log('photo', result.uri);
 
@@ -76,7 +76,7 @@ export default function AidantProfilScreen1({ navigation }) {
           body: formData,
         }).then((response) => response.json())
           .then((data) => {
-            console.log('upload', data)
+            // console.log('upload', data)
             data.result && dispatch(updateUser({photo: data.url}));
           });
       }

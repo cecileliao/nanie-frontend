@@ -57,13 +57,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffff',
+    backgroundColor: 'white',
   },
   buttonText: {
     color: 'white',
   },
   chatContainer: {
     flex: 1,
+    width: windowWidth * 0.95
   },
   familleChat: {
     width: '85%',

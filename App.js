@@ -38,6 +38,7 @@ import { Provider } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/users';
 import messages from './reducers/messages';
+import token from './reducers/token';
 // mise en place des imports de Redux Persist
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { persistStore, persistReducer } from 'redux-persist'
@@ -45,7 +46,7 @@ import messages from './reducers/messages';
 
 // redux sans persist, à supprimer si persist est mis en place
 const store = configureStore({
-  reducer: { user, messages },
+  reducer: { user, messages, token },
 });
 
 // persist store sur React avec AsyncStorage en plus
@@ -67,7 +68,7 @@ const store = configureStore({
 // définir les variables pour le tab et lav navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const BACKEND_ADDRESS = '192.168.10.128:3000';
+const BACKEND_ADDRESS = '192.168.10.126:3000';
 
 function getHeaderTitle(route) {
   // If the focused route is not found, we need to assume it's the initial screen
@@ -270,7 +271,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Connexion" component={ConnexionScreen} options={{ title: 'Connexion' }}/>
         <Stack.Screen name="Inscription" component={InscriptionScreen} options={{ title: 'Créer un compte' }}/>
-        <Stack.Screen name="MissionScreen2" component={MissionScreen2} options={{ title: 'Mes missions validées' }} />
+        <Stack.Screen name="MissionScreen2" component={MissionScreen2} options={{ title: 'Détails de la mission' }} />
         <Stack.Screen name="AidantProfilScreen1" component={AidantProfilScreen1} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantProfilScreen2" component={AidantProfilScreen2} options={{ title: 'Créer mon Profil' }}/>
         <Stack.Screen name="AidantProfilScreen3" component={AidantProfilScreen3} options={{ title: 'Créer mon Profil' }}/>
@@ -287,9 +288,9 @@ export default function App() {
         options={({ navigation }) => ({
           title: 'Conversation',
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <TouchableOpacity onPress={() => navigation.navigate('Message')}>
               <View style={styles.button}>
-                <Text style={styles.buttonTxt}>Voir Profil</Text>
+                <Text style={styles.buttonTxt}>Messagerie</Text>
               </View>
             </TouchableOpacity>
           ),

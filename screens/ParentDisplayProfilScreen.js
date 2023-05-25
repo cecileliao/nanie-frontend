@@ -14,7 +14,7 @@ export default function ParentDisplayProfilScreen({navigation}) {
   const user = useSelector((state) => state.user.value);
   //console.log({user: user})
 
-  const BACKEND_ADDRESS = '192.168.10.128:3000';
+  const BACKEND_ADDRESS = '192.168.10.126:3000';
 
   useEffect(() => {
     fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${user.token}`)
@@ -26,7 +26,7 @@ export default function ParentDisplayProfilScreen({navigation}) {
           //console.log({ infosData: data });
           //Parentinfos vient de la route GET
           //besoin de l'appeler pour afficher données 
-          console.log({ infos: userParent.Parentinfos })
+          // console.log({ infos: userParent.Parentinfos })
           //console.log({ infos: userParent.Parentinfos.photo })
         }
         setIsLoading(false);

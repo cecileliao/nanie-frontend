@@ -19,7 +19,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 // Grabbed from emailregex.com
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const BACKEND_ADDRESS = '192.168.10.128:3000';
+const BACKEND_ADDRESS = '192.168.10.126:3000';
 
 export default function ConnexionScreen({ navigation }) {
   const dispatch = useDispatch();

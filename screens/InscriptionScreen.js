@@ -49,7 +49,7 @@ export default function InscriptionScreen({ navigation }) {
             navigation.navigate('ParentProfilScreen1', { name: 'ParentProfilScreen1' });
           } else {
             dispatch(updateUser({email, password, isParent}))
-            console.log(dispatch(updateUser({email, password, isParent})))
+            // console.log(dispatch(updateUser({email, password, isParent})))
             navigation.navigate('AidantProfilScreen1', { name: 'AidantProfilScreen1' });
           }
         }
