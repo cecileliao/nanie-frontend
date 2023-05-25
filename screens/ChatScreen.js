@@ -17,7 +17,7 @@ import Chat from "../components/Chat";
 
 export default function ChatScreen() {
 
-  const BACKEND_ADDRESS = '192.168.10.161:3000';
+  const BACKEND_ADDRESS = '192.168.10.126:3000';
 
   //récupérer infos du réducer pour user
   const user = useSelector((state) => state.user.value)

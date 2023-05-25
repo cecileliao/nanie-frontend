@@ -3,40 +3,40 @@ import { showHeart } from '../modules/showHeart';
 
 const avisData = [
   {
-    photoUrl: require('../assets/userPicture.png'),
-    nom: 'John Doe',
-    datePublication: '01/03/2023',
-    etoiles: 2.5,
-    texteAvis: "Je suis très satisfait des services à la personne que j'ai reçus. L'aide à domicile qui s'est occupée de moi était extrêmement professionnelle et attentionnée. Elle a fait un excellent travail en prenant soin de mes besoins quotidiens et en m'offrant un soutien moral précieux."
+    photoUrl: require('../assets/LéaMarguerite.png'),
+    nom: 'Léa Colin',
+    datePublication: '15/04/2023',
+    etoiles: 5,
+    texteAvis: "Hervé a été extrèmement patient avec ma mère. Il est responsable, jovial, ponctuel, et cuisine très bien. Je vous le recommende vivement. Merci Hervé!"
   },
   {
-    photoUrl: require('../assets/carrot-solid.png'),
+    photoUrl: require('../assets/Louise.png'),
     datePublication: '15/03/2023',
-    nom: 'Jane Smith',
-    etoiles: 3.3,
-    texteAvis: "J'ai été agréablement surpris par la qualité des services à la personne que j'ai reçus. L'assistant personnel que j'ai engagé était compétent et toujours à l'heure. Il m'a aidé à gérer mes tâches domestiques et m'a apporté un soulagement considérable. Je le recommande vivement."
+    nom: 'Louise Lebon',
+    etoiles: 5,
+    texteAvis: "J'ai été agréablement surpris par la qualité des services d'Hervé. Il a été extrèmement rassurant et cela m'a permis de décompresser pour un week end!"
   },
   {
-    photoUrl: require('../assets/music-solid.png'),
-    datePublication: '02/04/2023',
+    photoUrl: require('../assets/amin.png'),
+    nom: 'Amin Brown',
+    datePublication: '17/01/2023',
+    etoiles: 4,
+    texteAvis: "Hervé nous a permis de partir sereinement en week end. A notre retour, ma mère avait perdu 10 ans, et m'a raconté ses discussions avec Hervé pendant des semaines :)"
+  },
+  {
+    photoUrl: require('../assets/alice.png'),
+    datePublication: '12/03/2023',
     nom: 'Alice Johnson',
-    etoiles: 4.9,
-    texteAvis: "Les services à la personne ont été d'une grande aide pour ma famille. Notre nounou était extrêmement attentionnée et bienveillante envers nos enfants. Elle a créé un environnement sûr et stimulant pour eux, et nous pouvions nous reposer en sachant qu'ils étaient entre de bonnes mains."
+    etoiles: 5,
+    texteAvis: "Grâce à Hervé, j'ai pu partir sereinement fêter l'anniversaire de ma meilleure amie! Avec lui, ma maman s'est sentie très à l'aise et ils ont joué au poker comme dans le bon vieux temps!"
   },
   {
-    photoUrl: require('../assets/person-cane-solid.png'),
-    nom: 'Bob Williams',
-    datePublication: '19/04/2023',
-    etoiles: 4.4,
-    texteAvis: "J'ai eu recours à des services d'aide à domicile après une chirurgie, et cela a été une expérience très positive. L'assistant qui m'a été assigné était compétent et patient. Il m'a aidé avec mes besoins quotidiens, m'a accompagné lors de mes rendez-vous médicaux et m'a permis de me rétablir plus rapidement."
+    photoUrl: require('../assets/julie.png'),
+    nom: 'Julie Duquet',
+    datePublication: '03/03/2023',
+    etoiles: 5,
+    texteAvis: "Mon papa était très sceptique de l'expérience, et au bout de 3 minutes, il m'a pratiquement viré de chez moi pour être tranquille avec Hervé, lol! Nous le recontacterons très vite pour de nouvelles aventures!"
   },
-  {
-    photoUrl: require('../assets/pump-soap-solid.png'),
-    nom: 'Sarah Brown',
-    datePublication: '07/05/2023',
-    etoiles: 4.7,
-    texteAvis: "Les services à la personne ont grandement amélioré la qualité de vie de mon grand-père âgé. L'aide à domicile qui s'occupe de lui est extrêmement bienveillante et lui offre une compagnie précieuse. Elle l'aide avec les tâches ménagères, les courses et les sorties, ce qui lui permet de rester autonome et de rester connecté à la communauté."
-  }
 ];
 
 export default function Avis() {
@@ -45,7 +45,7 @@ export default function Avis() {
       {avisData.map((avis, index) => (
         <View style={styles.block} key={index}>
           <View style={styles.image}>
-            <Image source={avis.photoUrl} style={{ width: 50, height: 50 }} />
+            <Image source={avis.photoUrl} style={{ width: 50, height: 50, borderRadius: 50 }} />
           </View>
           <View style={styles.content}>
             <View style={styles.infosAvis}>
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
   },
   image: {
     marginRight: 8,
+    borderRadius: 50,
   },
   content: {
     flex: 1,

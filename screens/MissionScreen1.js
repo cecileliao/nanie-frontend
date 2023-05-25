@@ -5,10 +5,10 @@ import ValidateMission from '../components/ValidateMission';
 
 
 export default function MissionScreen1() {
-  const BACKEND_ADDRESS = '192.168.10.161:3000';
+  const BACKEND_ADDRESS = '192.168.10.126:3000';
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
-  const [missionsInfos, setMissionsInfo] = useState([]);
+  const [missionsInfos, setMissionsInfo] = useState(null);
 
 
   useEffect(() => {
@@ -47,7 +47,7 @@ let EveryMission = [];
     />
     )})
   } 
-//console.log('user================>',missionsInfos);
+
 if(!user.isParent){
   console.log('aidant',missionsInfos)
  EveryMission = missionsInfos?.map((missionData, i) => {
