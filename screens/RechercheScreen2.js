@@ -11,7 +11,7 @@ import 'moment/locale/fr';
 export default function RechercheScreen2({navigation}) {
   const dispatch = useDispatch()
 
-const BACKEND_ADDRESS = '192.168.10.126:3000';
+const BACKEND_ADDRESS = '192.168.10.128:3000';
 
 const user = useSelector((state) => state.user.value);
 // console.log('Coucou', user.searchResult)
@@ -53,10 +53,10 @@ const searchDispo = user.searchResult.map((data, index) => {
 
 
   return (
-    <SafeAreaView >
-      <ScrollView>
-      {searchDispo}
-      </ScrollView>
+    <SafeAreaView style={styles.safeArea}>
+    <ScrollView>
+    {searchDispo}
+    </ScrollView>
     </SafeAreaView>
   );
 }
@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ffff',
+    paddingTop: 20,
+    backgroundColor: 'white',
   },
    block: {
     flexDirection: 'row',
@@ -123,5 +124,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontFamily: 'Manrope',
     color: 'white',
+  },
+  safeArea: {
+    flex: 1,
+    backgroundColor: 'white',
   },
 });

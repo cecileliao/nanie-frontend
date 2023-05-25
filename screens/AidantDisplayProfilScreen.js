@@ -2,6 +2,7 @@ import { View, Image, Text, SafeAreaView, ScrollView, StyleSheet, Dimensions, To
 import React, { useState, useEffect }  from 'react'
 import { useSelector} from 'react-redux';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
+import { showHeart } from '../modules/showHeart';
 
 export default function AidantDisplayProfilScreen({navigation}) {
 
@@ -13,7 +14,7 @@ export default function AidantDisplayProfilScreen({navigation}) {
     const user = useSelector((state) => state.user.value);
     //console.log({user: user})
 
-    const BACKEND_ADDRESS = '192.168.10.126:3000';
+    const BACKEND_ADDRESS = '192.168.10.128:3000';
 
     useEffect(() => {
       fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${user.token}`)
@@ -32,11 +33,11 @@ export default function AidantDisplayProfilScreen({navigation}) {
     }, []);
     
 
-    //coeurs avec note moyenne
-    const averageHearts = [];
-    for (let i = 0; i < 5; i++) {
-        averageHearts.push(<FontAwesome key={i} name={"heart"} size={15} color={"#868686"}/>)
-    }
+    // //coeurs avec note moyenne
+    // const averageHearts = [];
+    // for (let i = 0; i < 5; i++) {
+    //     averageHearts.push(<FontAwesome key={i} name={"heart"} size={15} color={"#868686"}/>)
+    // }
 
 if (!isLoading) {
     return (
@@ -58,11 +59,13 @@ if (!isLoading) {
                           <Text style={styles.text}>🏠 {userAidant?.Aidantinfos?.zip} {userAidant?.Aidantinfos?.city}</Text>
                           <Text style={styles.text}>🚗 {userAidant?.Aidantinfos?.aidant.car ? 'Permis B' : 'Pas de permis'}</Text>
                       </View>
-                      
-                      <Text style={styles.text}>Membre depuis le 01/03/22</Text>
+                          <Text style={styles.text}>Avis : {userAidant?.Aidantinfos?.averageNote} / 5</Text>
+                      <View style={styles.averageHearts}>
+                                {showHeart(userAidant?.Aidantinfos?.averageNote)}
+                      {/* <Text style={styles.text}>Membre depuis le 01/03/22</Text>
                       <Text style={styles.text}>Avis : 4,8</Text>
                       <View style={styles.averageHearts}>
-                          {averageHearts}
+                          {averageHearts} */}
                           <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')}>
                               <Text style={styles.textAvis}>Lire les avis</Text>
                           </TouchableOpacity>
