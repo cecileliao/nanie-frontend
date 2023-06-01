@@ -6,6 +6,7 @@ import 'moment/locale/fr';
 import { useNavigation } from '@react-navigation/native';
 
 
+
 const ValidateMission = (props) => {
   const navigation = useNavigation();
   const handleValidate = () => {
@@ -34,10 +35,10 @@ const ValidateMission = (props) => {
   const [userAidant, setUserAidant] = useState(null);
   const [userParent, setUserParent] = useState(null);
 
-    const BACKEND_ADDRESS = '192.168.10.126:3000';
+    const BACKEND_ADDRESS = '192.168.1.21:3000';
 
     useEffect(() => {
-      fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/izRJZnp8vwPCJv1e7LwzJKMcUzZtH9K9`)
+      fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${user.token}}`)
         .then(response => response.json())
         .then(data => {
           if (data.result) {
@@ -53,26 +54,26 @@ return (
 <View contentContainerStyle={styles.container}>
     <View style={styles.onGoingChatContainter}>
         <View style={styles.leftContainter}>
-        <Image source={{ uri: props.photo }} style={{ width: 90, height: 90, borderRadius: 50, marginBottom: 15 }} />
+        <Image source={require("../assets/aidant.png")} style={{ width: 90, height: 90, borderRadius: 50, marginBottom: 15 }} />
         <TouchableOpacity style={styles.button} onPress={handleValidate}>
             <Text style={styles.buttonText}>Evaluer</Text>
         </TouchableOpacity>
         </View>
         <View style={styles.textContainer}>
-            <Text style={styles.nameText} >Du {formatDate(props.startingDay)} à {formatTime(props.startingHour)}</Text>
-            <Text style={styles.nameText} >Au {formatDate(props.endingDay)} à {formatTime(props.endingHour)}</Text>
+            <Text style={styles.nameText} >Du 03/06 à 09h</Text>
+            <Text style={styles.nameText} >Au 03/06 à 18h</Text>
             <View style={{flexDirection:"row", marginTop: 5}}>
-              <Text style={styles.nameText}>{props.firstName}</Text>
-              <Text style={styles.nameText}>{props.name}</Text>
+              <Text style={styles.nameText}>Emma</Text>
+              <Text style={styles.nameText}>Lorrain</Text>
             </View>
-            <Text style={styles.nameText}>{props.phone}</Text>
+            <Text style={styles.nameText}>0679751590</Text>
             
             <View style={{flexDirection:"row"}}>
-              <Text style={styles.nameText}>{props.city}</Text>
-              <Text style={styles.nameText}>{props.zip}</Text>
+              <Text style={styles.nameText}>Paris</Text>
+              <Text style={styles.nameText}>75015</Text>
             </View>
             <Text style={styles.nameText}>{props.adress}</Text>
-            <Text style={styles.nameText}>Total: {props.numberOfHour}x{props.rate} = {props.amount}€</Text>
+            <Text style={styles.nameText}>Total: 9 x 28 = 252€</Text>
         </View>
 
     </View>

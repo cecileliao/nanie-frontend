@@ -16,10 +16,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../reducers/users';
 import DropDownPicker from 'react-native-dropdown-picker';
 
+
+
+
 // Grabbed from emailregex.com
 const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-const BACKEND_ADDRESS = '192.168.10.126:3000';
+const BACKEND_ADDRESS = '192.168.1.21:3000';
+
 
 export default function ConnexionScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -52,7 +56,6 @@ export default function ConnexionScreen({ navigation }) {
 
   //mise à jour de l'email au clic sur connexion en vérifiant le regex
   const handleConnexion = () => {
-    console.log("isParent",isParent,"isAidant",isAidant);
     if (isParent) {
       if (EMAIL_REGEX.test(email)) {
         fetch(`http://${BACKEND_ADDRESS}/parentUsers/signin`, {

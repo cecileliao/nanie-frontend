@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 
 
 export default function OnGoingChat(props) {
-  console.log('props', props)
+
 
 
 
@@ -17,7 +17,7 @@ export default function OnGoingChat(props) {
   }
 
 
-      console.log('props', props)
+
 
 return (
 <View contentContainerStyle={styles.container}>

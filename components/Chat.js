@@ -12,6 +12,7 @@ import { moment } from 'moment';
 import 'moment/locale/fr';
 import { useSelector } from 'react-redux';
 
+
 // const conversation = [
 //     {sender: 'famille', message: 'Bonjour Emma, votre profil sérieux a attiré mon attention! J’aurais besoin d’un peu d’aide pour ma maman la semaine prochaine (du mardi 12 au jeudi 14 inclus). Seriez vous disponible ces jours?'},
 //     {sender: 'aidant', message: 'Bonsoir Léa, Oui, bien-sûr, je serais ravie de veiller sur Ginette pendant votre absence ! Je suis disponible ces jours à toute heure. Souhaitez vous discuter par téléphone ? Si votre maman a des envies particulières, n’hésitez pas à m’en faire part.'},
@@ -19,7 +20,9 @@ import { useSelector } from 'react-redux';
 //     // {sender: 'aidant', message: 'Parfait Léa, je reste disponible si vous souhaitez des information complémentaires. A bientôt !'},
 //   ];
 
-const BACKEND_ADDRESS = '192.168.10.126:3000';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
+  
+
 // {conversation.map((chat, index) => (
 //   // style : determiner si le chat provient de la famille ou de l'aidant
 //   <View key={index} style={chat.sender === 'famille' ? styles.familleChat : styles.aidantChat}>

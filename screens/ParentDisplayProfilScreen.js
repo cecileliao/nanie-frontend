@@ -1,6 +1,7 @@
 import { View, Image, Text, SafeAreaView, ScrollView, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect }  from 'react';
-import { useSelector} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
+import { logout } from '../reducers/users';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { showHeart } from '../modules/showHeart';
 
@@ -12,22 +13,17 @@ export default function ParentDisplayProfilScreen({navigation}) {
 
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
-  //console.log({user: user})
+  const dispatch = useDispatch()
 
-  const BACKEND_ADDRESS = '192.168.10.126:3000';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
 
   useEffect(() => {
     fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${user.token}`)
       .then(response => response.json())
       .then(data => {
-        console.log('this', data)
+
         if (data.result) {
           setUserParent(data);
-          //console.log({ infosData: data });
-          //Parentinfos vient de la route GET
-          //besoin de l'appeler pour afficher données 
-          // console.log({ infos: userParent.Parentinfos })
-          //console.log({ infos: userParent.Parentinfos.photo })
         }
         setIsLoading(false);
       })
@@ -38,11 +34,11 @@ export default function ParentDisplayProfilScreen({navigation}) {
   }, []);
   
 
-  // //coeurs avec note moyenne
-  // const averageHearts = [];
-  // for (let i = 0; i < 5; i++) {
-  //     averageHearts.push(<FontAwesome key={i} name={"heart"} size={15} color={"#868686"}/>)
-  // }
+  //Deconnexion
+  const handleLogout = () =>{
+    dispatch(logout());
+    navigation.navigate('Home');
+  }
 
   //date au format DD/MM/YYYY
   const date = new Date(userParent?.Parentinfos?.signup);
@@ -58,6 +54,9 @@ export default function ParentDisplayProfilScreen({navigation}) {
               <Image 
                 source={{ uri: userParent?.Parentinfos?.photo }} 
                 style={styles.imageProfil} />
+                <TouchableOpacity onPress={handleLogout}>
+                    <Text style={styles.textAvis}>Deconnexion</Text>
+                </TouchableOpacity>
             </View>
 
             <View style={styles.profilcontainer}>

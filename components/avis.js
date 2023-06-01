@@ -7,35 +7,35 @@ const avisData = [
     nom: 'Léa Colin',
     datePublication: '15/04/2023',
     etoiles: 5,
-    texteAvis: "Hervé a été extrèmement patient avec ma mère. Il est responsable, jovial, ponctuel, et cuisine très bien. Je vous le recommende vivement. Merci Hervé!"
+    texteAvis: "Emma a été extrèmement patiente avec ma mère. Elle est responsable, joviale, ponctuelle, et cuisine très bien. Je vous la recommende vivement. Merci Emma!"
   },
   {
     photoUrl: require('../assets/Louise.png'),
     datePublication: '15/03/2023',
     nom: 'Louise Lebon',
     etoiles: 5,
-    texteAvis: "J'ai été agréablement surpris par la qualité des services d'Hervé. Il a été extrèmement rassurant et cela m'a permis de décompresser pour un week end!"
+    texteAvis: "J'ai été agréablement surprise par la qualité des services d'Emma. Elle a été extrèmement rassurante et cela m'a permis de décompresser pour un week end!"
   },
   {
     photoUrl: require('../assets/amin.png'),
     nom: 'Amin Brown',
     datePublication: '17/01/2023',
     etoiles: 4,
-    texteAvis: "Hervé nous a permis de partir sereinement en week end. A notre retour, ma mère avait perdu 10 ans, et m'a raconté ses discussions avec Hervé pendant des semaines :)"
+    texteAvis: "Emma nous a permis de partir sereinement en week end. A notre retour, ma mère avait perdu 10 ans, et m'a raconté ses discussions avec Emma pendant des semaines :)"
   },
   {
     photoUrl: require('../assets/alice.png'),
     datePublication: '12/03/2023',
     nom: 'Alice Johnson',
     etoiles: 5,
-    texteAvis: "Grâce à Hervé, j'ai pu partir sereinement fêter l'anniversaire de ma meilleure amie! Avec lui, ma maman s'est sentie très à l'aise et ils ont joué au poker comme dans le bon vieux temps!"
+    texteAvis: "Grâce à Emma, j'ai pu partir sereinement fêter l'anniversaire de ma meilleure amie! Avec elle, ma maman s'est sentie très à l'aise et elles ont joué au poker comme dans le bon vieux temps!"
   },
   {
     photoUrl: require('../assets/julie.png'),
     nom: 'Julie Duquet',
     datePublication: '03/03/2023',
     etoiles: 5,
-    texteAvis: "Mon papa était très sceptique de l'expérience, et au bout de 3 minutes, il m'a pratiquement viré de chez moi pour être tranquille avec Hervé, lol! Nous le recontacterons très vite pour de nouvelles aventures!"
+    texteAvis: "Mon papa était très sceptique de l'expérience, et au bout de 3 minutes, il m'a pratiquement viré de chez moi pour être tranquille avec Emma, lol! Nous la recontacterons très vite pour de nouvelles aventures!"
   },
 ];
 

@@ -4,9 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addIdMission } from '../reducers/users'
 import { showHeart } from '../modules/showHeart';
 
+
 export default function ShownProfilParent({ navigation }) {
 
-const BACKEND_ADDRESS = '192.168.10.161:3000';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
+
 //stocker les données utilisateur et les afficher au chargement de la page
 const [userParent, setUserParent] = useState(null);
 

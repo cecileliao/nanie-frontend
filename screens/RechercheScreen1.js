@@ -12,7 +12,7 @@ import Slider from '@react-native-community/slider';
 
 export default function RechercheScreen1({ navigation }) {
 
-    const BACKEND_ADDRESS = '192.168.10.161:3000';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
 
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch();
@@ -63,16 +63,18 @@ const validateModal = () => {
     setModalVisible(false);
 };
 
-const DispoSearch = () => {
-  return (
-    <Disponibilite
-    startingDay={user.searchDate.startingDay}
-    startingHour={user.searchDate.startingHour}
-    endingDay={user.searchDate.endingDay}
-    endingHour={user.searchDate.endingHour}
-    />
-  );
-}
+//Affichage du composant quand validation de la modal
+  
+  const DispoSearch = () => {
+    return (
+      <Disponibilite
+      startingDay={user.searchDate.startingDay}
+      startingHour={user.searchDate.startingHour}
+      endingDay={user.searchDate.endingDay}
+      endingHour={user.searchDate.endingHour}
+      />
+    );
+  }
 
   //////////////date de début via DatePickerModal
 
@@ -215,28 +217,7 @@ const [sexe, setSexe] = useState(null);
       }));
   
       dispatch(addSearchResult(searchResults));
-      // console.log('###',dispatch(addSearchResult(searchResults)));
-
-      // for (let i=0; i< data.length; i++){
-      //   console.log('coucou')
-      //   console.log('data', data)
-      //   dispatch(addSearchResult({
-      //     name: data.dispos[i].name,
-      //     fistName: data.dispos[i].firstName,
-      //     aidant: {rate: data.dispos[i].aidant.rate},
-      //     averageNote: data.dispos[0].averageNote,
-      //     photo: data.dispos[i].photo,
-      //     availabilities: [{startingDay: data.dispos[i].availabilities.startingDay, endingDay: data.dispos[i].availabilities.endingDay}]
-      //   }))
-      //   console.log('filtre',  dispatch(addSearchResult({
-      //     name: data.dispos[i].name,
-      //     fistName: data.dispos[i].firstName,
-      //     aidant: {rate: data.dispos[i].aidant.rate},
-      //     averageNote: data.dispos[i].averageNote,
-      //     photo: data.dispos[i].photo,
-      //     availabilities: [{startingDay: data.dispos[i].availabilities.startingDay, endingDay: data.dispos[i].availabilities.endingDay}]
-      //   })))
-      //   dispatch(filterDispo({startingDay, endingDay}));
+      dispatch(removeSearchDate())
       })
     
       navigation.navigate('RechercheScreen2');
@@ -422,14 +403,14 @@ const [sexe, setSexe] = useState(null);
           <Slider
             value={sliderValueDistance}
             minimumValue={0}
-            maximumValue={500}
+            maximumValue={50}
             onValueChange={handleSliderChangeDistance}
             minimumTrackTintColor="#5ABAB6"
             thumbTintColor="#5ABAB6"
             style={{ width: 200 }}
           />
         </View>
-        {sliderValueDistance !== 0 ? <Text style={styles.textFilter}>{parseInt(sliderValueDistance)}</Text> : <Text></Text>}
+        {sliderValueDistance !== 0 ? <Text style={styles.textFilter}>{parseInt(sliderValueDistance)} km</Text> : <Text></Text>}
       </View>
 
       {/* filtre sur le sexe */}

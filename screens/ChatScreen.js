@@ -17,7 +17,7 @@ import Chat from "../components/Chat";
 
 export default function ChatScreen() {
 
-  const BACKEND_ADDRESS = '192.168.10.126:3000';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
 
   //récupérer infos du réducer pour user
   const user = useSelector((state) => state.user.value)
@@ -29,7 +29,7 @@ export default function ChatScreen() {
     return;
   }
   //penser à dispatcher l'idMission dans le store lors du clic sur la conversation sur la page de toutes les conversations
-  fetch(`http://${BACKEND_ADDRESS}/messages/allmessages/${user.idMission}`)
+  fetch(`http://${BACKEND_ADDRESS}/messages/allmessages/64706701113410b9cfcee642`)
     .then(response => response.json())
     .then(data => {
       data.result && dispatch(loadMessages(data.messages));
@@ -44,10 +44,10 @@ export default function ChatScreen() {
   // user.idMission
 
   const handleSendMessage = () => {
-    fetch(`http://${BACKEND_ADDRESS}/messages/addMessage/646f7e1da67774e2cdf8d673`, {
+    fetch(`http://${BACKEND_ADDRESS}/messages/addMessage/64706701113410b9cfcee642`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: user.token, idMission: '646f7e1da67774e2cdf8d673', contentMsg: newMessage }),
+      body: JSON.stringify({ token: user.token, idMission: '64706701113410b9cfcee642', contentMsg: newMessage }),
     }).then(response => response.json())
       .then(data => {
         if (data.result) {

@@ -9,7 +9,7 @@ export default function MessageScreen() {
   //récupérer infos du réducer pour user
   const user = useSelector((state) => state.user.value)
 
-  const BACKEND_ADDRESS = '192.168.10.161:3000';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
 
   const [conversation, setConversation] = useState([])
   const token = useSelector((state) => state.token.value)
@@ -24,7 +24,6 @@ export default function MessageScreen() {
     .then(response => response.json())
     .then(data => {
       if(data){
-        console.log('hello', data)
         setConversation(data.lastMessages)
       }
       
@@ -32,7 +31,7 @@ export default function MessageScreen() {
   }, []);
 
   const allConversations = conversation.map((data,i) => {
-    console.log('supernanies', data)
+
     return (
       <OnGoingChat
         key = {i}
@@ -45,7 +44,6 @@ export default function MessageScreen() {
     )
   })
 
-      console.log('conversation', conversation)
 
   return (
 <SafeAreaView style={styles.container}>

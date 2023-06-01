@@ -22,7 +22,8 @@ export default function MissionScreen2({navigation}) {
     return newDate.format('HH:mm');
   };
 
-  const BACKEND_ADDRESS = '192.168.10.126:3000';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
+
   const user = useSelector((state) => state.user.value);
 
   //stocker les données de la mission
@@ -52,7 +53,7 @@ export default function MissionScreen2({navigation}) {
       .then(response => response.json())
       .then(data => {
         // Gérer la réponse JSON retournée par le serveur
-        console.log(data); // Afficher la réponse JSON dans la console
+        //console.log(data); // Afficher la réponse JSON dans la console
       })
       .catch(error => {
         // Gérer les erreurs de requête ou de réponse

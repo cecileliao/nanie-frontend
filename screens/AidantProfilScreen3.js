@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, Switch, TouchableOpacity } from 'react-n
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../reducers/users';
+
     
 const blocks = [
   {
@@ -49,7 +50,7 @@ export default function AidantProfilScreen3({navigation}) {
   };
 
 
-  const BACKEND_ADDRESS = '192.168.10.126:3000';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
 
   useEffect(() => {
     dispatch(updateUser({

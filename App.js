@@ -1,4 +1,6 @@
-import { LogBox } from 'react-native';
+
+//import { LogBox } from 'react-native';
+//LogBox.ignoreAllLogs();//Ignore all log notifications
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native'
 import { NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { Image } from 'react-native';
@@ -46,7 +48,6 @@ import token from './reducers/token';
 // import { persistStore, persistReducer } from 'redux-persist'
 // import { PersistGate } from 'redux-persist/integration/react';
 
-LogBox.ignoreAllLogs();//Ignore all log notifications
 
 // redux sans persist, à supprimer si persist est mis en place
 const store = configureStore({
@@ -72,7 +73,9 @@ const store = configureStore({
 // définir les variables pour le tab et lav navigation stack
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-const BACKEND_ADDRESS = '192.168.10.126:3000';
+
+
+const BACKEND_ADDRESS = '192.168.1.21:3000';
 
 function getHeaderTitle(route) {
   // If the focused route is not found, we need to assume it's the initial screen
@@ -179,13 +182,15 @@ const TabNavigator = () => {
       <Tab.Screen name="Message" component={MessageScreen} options={{title: 'Messages'}}/>
       <Tab.Screen name="Mission" component={MissionScreen1} options={{title: 'Missions'}}/>
 
+
+
+
       {isParent ? ( // si c'est un parent afficher la page profil parent
         <>
           <Tab.Screen name="Profil" component={ParentDisplayProfilScreen}
             options={({ navigation }) => ({
               headerRight: () => (
                 <TouchableOpacity onPress={() => navigation.navigate('ParentProfilScreen1')}>
-                  {/* remplir les champs de la page modif */}
                   <View style={styles.button}>
                     <Text style={styles.buttonTxt}>Editer</Text>
                   </View>

@@ -15,13 +15,13 @@ export default function Mission() {
       <View style={styles.dispocontainer}>
           <View style={styles.debutfincontainer}>
                 <Text style={styles.textDebutFin}>Debut</Text>
-                <Text style={styles.textStart}>12-07-2023</Text>
+                <Text style={styles.textStart}>03-06-2023</Text>
                 <Text style={styles.textStartHour}>09:00</Text>
           </View>
           <View style={styles.debutfincontainer}>
                 <Text style={styles.textDebutFin}>Fin</Text>
-                <Text style={styles.textEndDay}>14-07-2023</Text>
-                <Text style={styles.textEndHour}>21:00</Text>
+                <Text style={styles.textEndDay}>03-06-2023</Text>
+                <Text style={styles.textEndHour}>18:00</Text>
           </View> 
       </View>   
           <View style={styles.right}>

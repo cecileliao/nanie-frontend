@@ -5,7 +5,8 @@ import ValidateMission from '../components/ValidateMission';
 
 
 export default function MissionScreen1() {
-  const BACKEND_ADDRESS = '192.168.10.126:3000';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
+
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
   const [missionsInfos, setMissionsInfo] = useState(null);
@@ -17,8 +18,8 @@ export default function MissionScreen1() {
       .then(response => response.json())
       .then(data => {
         if (data) {
-          console.log("data front ",data)
           setMissionsInfo(data)
+          console.log("jfsflsls", data)
         }
       });
   }, []);
@@ -26,9 +27,9 @@ export default function MissionScreen1() {
   //Création de Dispo en dehors du useEffect pour pouvoir le récupérer via le props dans le composant Disponibilité
 let EveryMission = [];
   if(user.isParent){
-    console.log("ouiiiii je suis parent",user);
+
     EveryMission = missionsInfos?.map((missionData, i) => {
-    console.log('parent',missionData)
+
     return (
     <ValidateMission
       key = {i}
@@ -49,9 +50,9 @@ let EveryMission = [];
   } 
 
 if(!user.isParent){
-  console.log('aidant',missionsInfos)
+console.log("beug",user)
  EveryMission = missionsInfos?.map((missionData, i) => {
-    console.log('aidant',missionData)
+console.log("hello",missionData)
     return (
     <ValidateMission
       key = {i}
@@ -61,8 +62,8 @@ if(!user.isParent){
       rate= {missionData.rateByHour}
       numberOfHour= {missionData.numberOfHour}
 
-      firstName= {missionData.idParent.firstName}
-      name = {missionData.idParent.name}
+      firstName= {missionData.idParent.parent.firstNameParent}
+      name = {missionData.idParent.parent.nameParent}
       phone =  {missionData.idParent.phone}
       photo = {missionData.idParent.photo}
       address =  {missionData.idParent.address}
@@ -78,7 +79,7 @@ if(!user.isParent){
   return (
 <SafeAreaView style={styles.container}>
   <ScrollView contentContainerStyle={styles.scrollContainer}>
-      {missionsInfos ? (
+      {/* {missionsInfos ? (
       <View>
         {EveryMission}
       </View>
@@ -90,7 +91,8 @@ if(!user.isParent){
         />
         <Text style={styles.text}>Vous n’avez pas encore de missions</Text>
       </View>
-    )}
+        )} */}
+    <ValidateMission/>
   </ScrollView>
 </SafeAreaView>
   )
