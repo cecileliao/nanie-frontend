@@ -1,6 +1,5 @@
-import React , { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, KeyboardAvoidingView, Dimensions, Image, TextInput, Button, Platform } from 'react-native';
-// import { moment } from 'moment'; 
+import React from 'react';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 
