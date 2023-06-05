@@ -37,8 +37,10 @@ const ValidateMission = (props) => {
 
     const BACKEND_ADDRESS = '192.168.1.14:3000';
 
+    /// a revoir
+
     useEffect(() => {
-      fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${user.token}}`)
+      fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${user.token}}`) //récupère infos de l'aidant 
         .then(response => response.json())
         .then(data => {
           if (data.result) {
@@ -47,7 +49,7 @@ const ValidateMission = (props) => {
         });
     }, []);
 
-//console.log('props',props)
+
       
 
 return (

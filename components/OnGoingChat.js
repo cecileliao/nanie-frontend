@@ -1,14 +1,9 @@
-import React, { useState, useEffect }  from 'react'
-import { useSelector} from 'react-redux';
+import React from 'react'
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity} from 'react-native';
-// import moment from 'moment-timezone';
-// import 'moment/locale/fr';
 import { useNavigation } from '@react-navigation/native';
 
 
 export default function OnGoingChat(props) {
-
-
 
 
   const navigation = useNavigation();

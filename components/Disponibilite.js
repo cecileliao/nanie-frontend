@@ -27,18 +27,17 @@ const Disponibilite = (props) => {
     return newDate.format('HH:mm');
   };
 
-///////suppression d'une disponibilité
+///////suppression d'une disponibilité/recherche 
+  //au niveau de l'aidant quand il supprime une disponibilité
+  //au niveau de parent quand il supprime une date de recherche
 
-    
-  //fonction de suppression appelée quand je clique sur mon bouton de croix
-  //token et id de la dispo récupéré via le body 
-  // via le store pour le token et via Dispo du CalendarScreen1
     
   const deleteAvailability = () => {
-    //suppression des dates de recherche pour le parent
+
+    //suppression des dates de recherche pour le profil parent (besoin que du store, pas d'enregistrement de la date de recherche dans BDD)
         dispatch(removeSearchDate())
 
-    //suppression de la disponibilité pour l'aidant
+    //suppression de la disponibilité pour l'aidant (car enregistrement dans BDD et store)
         fetch(`http://${BACKEND_ADDRESS}/aidantUsers/deleteDispo`, {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
@@ -47,8 +46,7 @@ const Disponibilite = (props) => {
         .then(res => res.json())
           .then(data => {
             if (data.result) {
-              // La disponibilité a été supprimée avec succès
-     
+              console.log("La disponibilité a été supprimée avec succès"); //suppression dans la BDD
               dispatch(removeDispo(props.availabilityId)) //suppression dans le store
 
             } else {
