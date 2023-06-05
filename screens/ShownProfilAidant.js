@@ -7,8 +7,8 @@ import Config from "react-native-config";
 
 export default function ShownProfilAidant({ navigation }) {
 
-//const BACKEND_ADDRESS = '192.168.10.175:3000';
-const backendAddress = Config.BACKEND_ADDRESS;
+const BACKEND_ADDRESS = '192.168.1.14:3000';
+// const backendAddress = Config.BACKEND_ADDRESS;
 
 //stocker les données utilisateur et les afficher au chargement de la page
 const [userAidant, setUserAidant] = useState(null);
@@ -21,7 +21,7 @@ const dispatch = useDispatch();
 
 useEffect(() => {
 
-  fetch(`http://${backendAddress}/aidantUsers/Infos/${token.token}`)
+  fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${token.token}`)
     .then((response) => response.json())
     .then((data) => {
       if (data.result) {
@@ -32,7 +32,7 @@ useEffect(() => {
 
   const handleValidate = () => {
     // console.log('mar', user.searchDate.startingDay)
-        fetch(`http://${backendAddress}/missions/${user.token}/${user.searchResult[0].token}`, {
+        fetch(`http://${BACKEND_ADDRESS}/missions/${user.token}/${user.searchResult[0].token}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

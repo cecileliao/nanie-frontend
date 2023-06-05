@@ -20,7 +20,7 @@ import { useSelector } from 'react-redux';
 //     // {sender: 'aidant', message: 'Parfait Léa, je reste disponible si vous souhaitez des information complémentaires. A bientôt !'},
 //   ];
 
-  const BACKEND_ADDRESS = '192.168.1.21:3000';
+  const BACKEND_ADDRESS = '192.168.1.14:3000';
   
 
 // {conversation.map((chat, index) => (

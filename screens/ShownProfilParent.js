@@ -7,7 +7,7 @@ import { showHeart } from '../modules/showHeart';
 
 export default function ShownProfilParent({ navigation }) {
 
-  const BACKEND_ADDRESS = '192.168.1.21:3000';
+  const BACKEND_ADDRESS = '192.168.1.14:3000';
 
 //stocker les données utilisateur et les afficher au chargement de la page
 const [userParent, setUserParent] = useState(null);
