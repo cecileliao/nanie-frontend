@@ -28,8 +28,8 @@ export default function ChatScreen() {
   if (!user.token) {
     return;
   }
-  //penser à dispatcher l'idMission dans le store lors du clic sur la conversation sur la page de toutes les conversations
-  fetch(`http://${BACKEND_ADDRESS}/messages/allmessages/64706701113410b9cfcee642`)
+
+  fetch(`http://${BACKEND_ADDRESS}/messages/allmessages/${user.token}/${user.idMission}`)
     .then(response => response.json())
     .then(data => {
       data.result && dispatch(loadMessages(data.messages));
@@ -40,24 +40,25 @@ export default function ChatScreen() {
 
   // set un état pour mettre à jour le nouveau message
   const [newMessage, setNewMessage] = useState('');
-  // ${user.idMission}
-  // user.idMission
 
   const handleSendMessage = () => {
-    fetch(`http://${BACKEND_ADDRESS}/messages/addMessage/64706701113410b9cfcee642`, {
+    fetch(`http://${BACKEND_ADDRESS}/messages/addMessage/${user.idMission}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: user.token, idMission: '64706701113410b9cfcee642', contentMsg: newMessage }),
+      body: JSON.stringify({ token: user.token, idMission: user.idMission, contentMsg: newMessage }),
     }).then(response => response.json())
       .then(data => {
         if (data.result) {
-          const createdMessage = { 
-            ...data.message, 
-            author: {firstName: user.firstName, name: user.name, isParent: user.isParent, photo: user.photo} 
+          const createdMessage = {
+            ...data.message,
+            author: {
+              firstName: user.firstName || '',
+              name: user.name || '',
+              isParent: user.isParent || false,
+              photo: user.photo || '',
+            },
           };
           dispatch(addMessage(createdMessage));
-          // console.log(dispatch(addMessage(createdMessage)))
-          // {"payload": {"author": {"firstName": null, "isParent": false, "name": null, "photo": null}, "contentMsg": "Are you there ?", "dateMsg": "5/24/2023, 5:39:54 PM"}, "type": "messages/addMessage"}
           setNewMessage('');
         }
       });
@@ -66,38 +67,40 @@ export default function ChatScreen() {
 
   // scrollviewRef + KeyboardAwareScrollView pour voir l'input (remplace KeyboardAvoidingView)
   const scrollViewRef = useRef();
-  // scroll automatiquement vers le bas pour afficher le dernier message envoyé
-  useEffect(() => {
-    handleScrollToEnd();
-  }, [messagesData]);
 
   const handleScrollToEnd = () => {
-    scrollViewRef.current.scrollToOffset({ offset: 0, animated: true });
+    scrollViewRef.current.scrollToEnd({ animated: true });
   };
 
   // definir les constantes pour les composants de messages (map de composant remplacée par data de flatlist)
   const messagesData = useSelector((state) => state.messages.value);
   const messages = messagesData || [];
 
-  return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={styles.container}
-      resetScrollToCoords={{ x: 0, y: 0 }}
-      scrollEnabled={true}
-    >
-        <View style={styles.missionContainer}>
-          <Mission/>
-        </View>
 
+  return (
+    <View contentContainerStyle={styles.container}>
+
+      <View style={styles.missionContainer}>
+        <Mission/>
+      </View>
+          
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        scrollEnabled={true}
+        style={styles.bottomContainer}
+      >
         <View style={styles.messageContainer}>
+        {messages.length > 0 && (
           <FlatList
             ref={scrollViewRef} // accéder à la ScrollView à l'intérieur de FlatList + méthode scrollToEnd() = défile auto liste vers le bas après ajout de message, dernier message reste visible sans avoir à scroller manuellement.
             data={messages} // tableau des messages (messageData)
             renderItem={({ item }) => <Chat {...item} />} // renvoi les composants Chat
             keyExtractor={(item, index) => index.toString()} // indice
-            inverted // afficher les messages les plus récents en bas
-            contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }} // ajuste l'espacement entre les messages lorsqu'ils s'ajoute en bas
+            onContentSizeChange={() => handleScrollToEnd()}
+            onLayout={() => handleScrollToEnd()}
+            contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end', backgroundColor: 'green' }} // ajuste l'espacement entre les messages lorsqu'ils s'ajoute en bas
           />
+        )}
         </View>
 
         <View style={styles.inputContainer}>
@@ -112,7 +115,10 @@ export default function ChatScreen() {
             <Text style={styles.buttonText}>Envoyer</Text>
           </TouchableOpacity>
         </View>
-    </KeyboardAwareScrollView>
+
+      </KeyboardAwareScrollView>
+
+    </View>
   )}
 
   const windowWidth = Dimensions.get('window').width;
@@ -122,26 +128,26 @@ export default function ChatScreen() {
     container: {
       flex: 1,
       justifyContent: 'space-between',
-      backgroundColor: '#ffff',
+      backgroundColor: 'white',
     },
     missionContainer:{
-      height: windowHeight * 0.2
+      height: windowHeight * 0.15,
+      backgroundColor: 'white',
+    },
+    bottomContainer:{
+      backgroundColor: 'white',
     },
     messageContainer: {
-      flex: 1,
+      height: windowHeight * 0.60,
       flexDirection: 'column-reverse',
     },
-    messageContent: {
-      flexGrow: 1,
-      justifyContent: 'flex-end',
-    },
     inputContainer: {
+      height: windowHeight * 0.10,
       flexDirection: 'row',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       justifyContent: 'space-between',
       margin: 18,
-      width: windowWidth * 0.9,
-      height: windowHeight * 0.15,
+      backgroundColor: 'white',
     },
     chatInput: {
       flex: 3,

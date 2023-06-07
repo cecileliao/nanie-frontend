@@ -12,7 +12,7 @@ export const messagesSlice = createSlice({
       state.value = action.payload;
     },
     addMessage: (state, action) => {
-      state.value.unshift(action.payload);
+      state.value.push(action.payload);
     },
   },
 });

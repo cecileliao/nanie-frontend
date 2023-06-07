@@ -191,12 +191,12 @@ const [sexe, setSexe] = useState(null);
 
 
       /////Utilisation de l'API moment pour formater les dates correctement dans MongoDB
-  const startdate = moment(startSelectedDate); 
-  const enddate = moment(endSelectedDate);
-  const startingDay = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-  const startingHour = startdate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-  const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
-  const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSSZ');
+  const startdate = moment(startSelectedDate).utcOffset('+00:00');
+  const enddate = moment(endSelectedDate).utcOffset('+00:00');
+  const startingDay = startdate.format('YYYY-MM-DDTHH:mm:ss.SSS');
+  const startingHour = startdate.format('YYYY-MM-DDTHH:mm:ss.SSS');
+  const endingDay = enddate.format('YYYY-MM-DDTHH:mm:ss.SSS');
+  const endingHour = enddate.format('YYYY-MM-DDTHH:mm:ss.SSS');
 
     fetch(`http://${BACKEND_ADDRESS}/aidantUsers/search/${startingDay}/${endingDay}`)
     .then(response => response.json())

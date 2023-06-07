@@ -15,12 +15,12 @@ export default function MessageScreen() {
   const token = useSelector((state) => state.token.value)
   const dispatch = useDispatch();
 
-  // afficher avec le useEffect tous les messages déjà postés en base de données pour cette conversation (mission)
+  // afficher avec le useEffect le dernier message de toutes les conversations déjà postés en base de donnée pour ce user
   useEffect(() => {
   if (!user.token) {
     return;
   }
-  fetch(`http://${BACKEND_ADDRESS}/allmessages/${user.token}`)
+  fetch(`http://${BACKEND_ADDRESS}/messages/allchats/${user.token}`)
     .then(response => response.json())
     .then(data => {
       if(data){
@@ -30,7 +30,7 @@ export default function MessageScreen() {
     });
   }, []);
 
-  const allConversations = conversation.map((data,i) => {
+  const allConversations = conversation?.map((data,i) => {
 
     return (
       <OnGoingChat
@@ -40,6 +40,7 @@ export default function MessageScreen() {
         contentMsg = {data.contentMsg}
         photo = {data.photo}
         dateMsg = {data.dateMsg}
+        idMission = {data.idMission}
       />
     )
   })

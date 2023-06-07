@@ -61,7 +61,6 @@ reducers: {
       state.value.availabilities.push(action.payload)
     },
     removeDispo: (state, action) => {
-      //console.log('state.value.availabilities => ',state.value.availabilities);
       state.value.availabilities = state.value.availabilities.filter(e => e.availabilityId !== action.payload);
     },
     addSearchDate: (state, action) => {
