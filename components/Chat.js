@@ -2,11 +2,9 @@ import React from 'react';
 import { 
   StyleSheet, 
   View, 
-  Text,  
-  KeyboardAvoidingView, 
+  Text, 
   Dimensions, 
   Image, 
-  Platform,
 } from 'react-native';
 import { useSelector } from 'react-redux';
   
@@ -17,17 +15,18 @@ export default function Chat(props) {
   //récupérer infos du réducer pour user
   const user = useSelector((state) => state.user.value)
 
+  console.log('propsChat', props)
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.chatContainer}>
         <View style={user.isParent ? styles.familleChat : styles.aidantChat}>
-          <Image source={{ uri: props.author.photo }} style={{ width: 50, height: 50, borderRadius: 50 }} />
+          <Image source={{ uri: props.photo }} style={{ width: 50, height: 50, borderRadius: 50 }} />
           <Text style={styles.chatText}>{props.contentMsg}</Text>
           <Text style={styles.time}>{props.dateMsg}</Text>
         </View>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

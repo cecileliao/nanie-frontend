@@ -1,22 +1,24 @@
 import React from 'react'
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { addIdMission } from '../reducers/users';
+
 
 
 export default function OnGoingChat(props) {
 
-
+  const dispatch = useDispatch();
   const navigation = useNavigation();
-  const handleValidate = () => {
+  const handlePress = () => {
+    dispatch(addIdMission(props))
     navigation.navigate('ChatScreen')
   }
 
 
-
-
 return (
 <View contentContainerStyle={styles.container}>
-  <TouchableOpacity onPress={()=> handleValidate()}>
+  <TouchableOpacity onPress={()=> handlePress()}>
 
     <View style={styles.onGoingChatContainter}>
     <Image source={{ uri: props.photo }} style={{ width: 60, height: 60, borderRadius: 50, marginLeft: 5 }} />

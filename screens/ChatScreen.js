@@ -28,8 +28,8 @@ export default function ChatScreen() {
   if (!user.token) {
     return;
   }
-  //penser à dispatcher l'idMission dans le store lors du clic sur la conversation sur la page de toutes les conversations
-  fetch(`http://${BACKEND_ADDRESS}/messages/allmessages/64706701113410b9cfcee642`)
+
+  fetch(`http://${BACKEND_ADDRESS}/messages/allmessages/${user.token}/${user.idMission}`)
     .then(response => response.json())
     .then(data => {
       data.result && dispatch(loadMessages(data.messages));
@@ -40,14 +40,12 @@ export default function ChatScreen() {
 
   // set un état pour mettre à jour le nouveau message
   const [newMessage, setNewMessage] = useState('');
-  // ${user.idMission}
-  // user.idMission
 
   const handleSendMessage = () => {
-    fetch(`http://${BACKEND_ADDRESS}/messages/addMessage/64706701113410b9cfcee642`, {
+    fetch(`http://${BACKEND_ADDRESS}/messages/addMessage/${user.idMission}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: user.token, idMission: '64706701113410b9cfcee642', contentMsg: newMessage }),
+      body: JSON.stringify({ token: user.token, idMission: user.idMission, contentMsg: newMessage }),
     }).then(response => response.json())
       .then(data => {
         if (data.result) {
@@ -56,8 +54,6 @@ export default function ChatScreen() {
             author: {firstName: user.firstName, name: user.name, isParent: user.isParent, photo: user.photo} 
           };
           dispatch(addMessage(createdMessage));
-          // console.log(dispatch(addMessage(createdMessage)))
-          // {"payload": {"author": {"firstName": null, "isParent": false, "name": null, "photo": null}, "contentMsg": "Are you there ?", "dateMsg": "5/24/2023, 5:39:54 PM"}, "type": "messages/addMessage"}
           setNewMessage('');
         }
       });
@@ -79,6 +75,7 @@ export default function ChatScreen() {
   const messagesData = useSelector((state) => state.messages.value);
   const messages = messagesData || [];
 
+
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={styles.container}
@@ -96,7 +93,7 @@ export default function ChatScreen() {
             renderItem={({ item }) => <Chat {...item} />} // renvoi les composants Chat
             keyExtractor={(item, index) => index.toString()} // indice
             inverted // afficher les messages les plus récents en bas
-            contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }} // ajuste l'espacement entre les messages lorsqu'ils s'ajoute en bas
+            contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end', backgroundColor: 'green' }} // ajuste l'espacement entre les messages lorsqu'ils s'ajoute en bas
           />
         </View>
 
@@ -122,18 +119,16 @@ export default function ChatScreen() {
     container: {
       flex: 1,
       justifyContent: 'space-between',
-      backgroundColor: '#ffff',
+      backgroundColor: 'yellow',
     },
     missionContainer:{
-      height: windowHeight * 0.2
+      height: windowHeight * 0.15,
+      backgroundColor: 'blue',
     },
     messageContainer: {
-      flex: 1,
+      height: windowHeight * 0.55,
       flexDirection: 'column-reverse',
-    },
-    messageContent: {
-      flexGrow: 1,
-      justifyContent: 'flex-end',
+      backgroundColor: 'red',
     },
     inputContainer: {
       flexDirection: 'row',
@@ -142,6 +137,7 @@ export default function ChatScreen() {
       margin: 18,
       width: windowWidth * 0.9,
       height: windowHeight * 0.15,
+      backgroundColor: 'pink',
     },
     chatInput: {
       flex: 3,
