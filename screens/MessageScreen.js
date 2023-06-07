@@ -9,7 +9,7 @@ export default function MessageScreen() {
   //récupérer infos du réducer pour user
   const user = useSelector((state) => state.user.value)
 
-  const BACKEND_ADDRESS = '192.168.1.14:3000';
+  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
   const [conversation, setConversation] = useState([])
   const token = useSelector((state) => state.token.value)

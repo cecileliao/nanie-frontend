@@ -15,7 +15,7 @@ export default function ParentDisplayProfilScreen({navigation}) {
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch()
 
-  const BACKEND_ADDRESS = '192.168.1.14:3000';
+  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
   useEffect(() => {
     fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${user.token}`)

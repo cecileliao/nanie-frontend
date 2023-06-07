@@ -3,12 +3,12 @@ import { View, Image, Text, SafeAreaView, ScrollView, StyleSheet, Dimensions, To
 import { useSelector, useDispatch } from 'react-redux';
 import { addIdMission } from '../reducers/users'
 import { showHeart } from '../modules/showHeart';
-import Config from "react-native-config";
+
 
 export default function ShownProfilAidant({ navigation }) {
 
-const BACKEND_ADDRESS = '192.168.1.14:3000';
-// const backendAddress = Config.BACKEND_ADDRESS;
+const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+
 
 //stocker les données utilisateur et les afficher au chargement de la page
 const [userAidant, setUserAidant] = useState(null);

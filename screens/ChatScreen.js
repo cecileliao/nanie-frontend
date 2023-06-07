@@ -17,7 +17,7 @@ import Chat from "../components/Chat";
 
 export default function ChatScreen() {
 
-  const BACKEND_ADDRESS = '192.168.1.14:3000';
+  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
   //récupérer infos du réducer pour user
   const user = useSelector((state) => state.user.value)
@@ -49,9 +49,14 @@ export default function ChatScreen() {
     }).then(response => response.json())
       .then(data => {
         if (data.result) {
-          const createdMessage = { 
-            ...data.message, 
-            author: {firstName: user.firstName, name: user.name, isParent: user.isParent, photo: user.photo} 
+          const createdMessage = {
+            ...data.message,
+            author: {
+              firstName: user.firstName || '',
+              name: user.name || '',
+              isParent: user.isParent || false,
+              photo: user.photo || '',
+            },
           };
           dispatch(addMessage(createdMessage));
           setNewMessage('');
@@ -62,13 +67,9 @@ export default function ChatScreen() {
 
   // scrollviewRef + KeyboardAwareScrollView pour voir l'input (remplace KeyboardAvoidingView)
   const scrollViewRef = useRef();
-  // scroll automatiquement vers le bas pour afficher le dernier message envoyé
-  useEffect(() => {
-    handleScrollToEnd();
-  }, [messagesData]);
 
   const handleScrollToEnd = () => {
-    scrollViewRef.current.scrollToOffset({ offset: 0, animated: true });
+    scrollViewRef.current.scrollToEnd({ animated: true });
   };
 
   // definir les constantes pour les composants de messages (map de composant remplacée par data de flatlist)
@@ -77,24 +78,29 @@ export default function ChatScreen() {
 
 
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={styles.container}
-      resetScrollToCoords={{ x: 0, y: 0 }}
-      scrollEnabled={true}
-    >
-        <View style={styles.missionContainer}>
-          <Mission/>
-        </View>
+    <View contentContainerStyle={styles.container}>
 
+      <View style={styles.missionContainer}>
+        <Mission/>
+      </View>
+          
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        scrollEnabled={true}
+        style={styles.bottomContainer}
+      >
         <View style={styles.messageContainer}>
+        {messages.length > 0 && (
           <FlatList
             ref={scrollViewRef} // accéder à la ScrollView à l'intérieur de FlatList + méthode scrollToEnd() = défile auto liste vers le bas après ajout de message, dernier message reste visible sans avoir à scroller manuellement.
             data={messages} // tableau des messages (messageData)
             renderItem={({ item }) => <Chat {...item} />} // renvoi les composants Chat
             keyExtractor={(item, index) => index.toString()} // indice
-            inverted // afficher les messages les plus récents en bas
+            onContentSizeChange={() => handleScrollToEnd()}
+            onLayout={() => handleScrollToEnd()}
             contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end', backgroundColor: 'green' }} // ajuste l'espacement entre les messages lorsqu'ils s'ajoute en bas
           />
+        )}
         </View>
 
         <View style={styles.inputContainer}>
@@ -109,7 +115,10 @@ export default function ChatScreen() {
             <Text style={styles.buttonText}>Envoyer</Text>
           </TouchableOpacity>
         </View>
-    </KeyboardAwareScrollView>
+
+      </KeyboardAwareScrollView>
+
+    </View>
   )}
 
   const windowWidth = Dimensions.get('window').width;
@@ -119,25 +128,26 @@ export default function ChatScreen() {
     container: {
       flex: 1,
       justifyContent: 'space-between',
-      backgroundColor: 'yellow',
+      backgroundColor: 'white',
     },
     missionContainer:{
       height: windowHeight * 0.15,
-      backgroundColor: 'blue',
+      backgroundColor: 'white',
+    },
+    bottomContainer:{
+      backgroundColor: 'white',
     },
     messageContainer: {
-      height: windowHeight * 0.55,
+      height: windowHeight * 0.60,
       flexDirection: 'column-reverse',
-      backgroundColor: 'red',
     },
     inputContainer: {
+      height: windowHeight * 0.10,
       flexDirection: 'row',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       justifyContent: 'space-between',
       margin: 18,
-      width: windowWidth * 0.9,
-      height: windowHeight * 0.15,
-      backgroundColor: 'pink',
+      backgroundColor: 'white',
     },
     chatInput: {
       flex: 3,

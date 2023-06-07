@@ -15,6 +15,7 @@ export default function OnGoingChat(props) {
     navigation.navigate('ChatScreen')
   }
 
+//numberOfLines est une prop (propriété) qui spécifie le nombre de lignes de texte à afficher avant de tronquer le contenu
 
 return (
 <View contentContainerStyle={styles.container}>

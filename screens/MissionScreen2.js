@@ -22,7 +22,7 @@ export default function MissionScreen2({navigation}) {
     return newDate.format('HH:mm');
   };
 
-  const BACKEND_ADDRESS = '192.168.1.14:3000';
+  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
   const user = useSelector((state) => state.user.value);
 
