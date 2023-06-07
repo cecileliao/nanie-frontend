@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "automatic", 
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/Logo.png",
       "resizeMode": "contain",
@@ -25,6 +25,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d7144cad-1c23-46b6-a445-4af9d3558d92"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d7144cad-1c23-46b6-a445-4af9d3558d92"
     }
   }
 }

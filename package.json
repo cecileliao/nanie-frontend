@@ -23,6 +23,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "cd": "^0.3.3",
     "dotenv": "^16.0.3",
+    "eas": "^0.1.0",
     "expo": "^48.0.17",
     "expo-app-loading": "^2.1.1",
     "expo-checkbox": "^2.3.1",
@@ -31,6 +32,7 @@
     "expo-image-picker": "~14.1.1",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
+    "expo-updates": "~0.16.4",
     "install": "^0.13.0",
     "ios": "^0.0.1",
     "link": "^1.5.1",
@@ -53,7 +55,8 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-webview": "^12.1.0",
     "react-redux": "^8.0.5",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "update": "^0.7.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
