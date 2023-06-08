@@ -1,9 +1,9 @@
 import { View, Image, Text, SafeAreaView, ScrollView, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect }  from 'react';
-import { useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../reducers/users';
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { showHeart } from '../modules/showHeart';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function ParentDisplayProfilScreen({navigation}) {
 

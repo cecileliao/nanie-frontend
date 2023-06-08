@@ -23,8 +23,8 @@ export default function MessageScreen() {
   fetch(`http://${BACKEND_ADDRESS}/messages/allchats/${user.token}`)
     .then(response => response.json())
     .then(data => {
-      if(data){
-        setConversation(data.lastMessages)
+      if (data && data.lastMessages) {
+        setConversation(data.lastMessages);
       }
       
     });

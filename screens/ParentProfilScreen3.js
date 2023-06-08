@@ -57,7 +57,7 @@ export default function ParentProfilScreen3({ navigation }) {
       navigation.navigate('ParentProfilScreen4');
   };
 
-  // console.log(user)
+  
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>

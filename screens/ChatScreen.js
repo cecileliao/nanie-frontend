@@ -81,7 +81,7 @@ export default function ChatScreen() {
     <View contentContainerStyle={styles.container}>
 
       <View style={styles.missionContainer}>
-        <Mission/>
+        <Mission idMission={user.idMission}/>
       </View>
           
       <KeyboardAwareScrollView

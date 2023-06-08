@@ -67,16 +67,13 @@ export default function ParentProfilScreen3({navigation}) {
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        // console.log(data)
         if(data.result) {
           dispatch(updateUser({token: data.token}))
-          // console.log(data)
           navigation.navigate('TabNavigator', { screen: 'Profil' });
         }
         
       });
   };
-  // console.log(user)
     
   return (
     <View style={styles.container}>

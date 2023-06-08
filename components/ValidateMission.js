@@ -8,14 +8,16 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const ValidateMission = (props) => {
+
   const navigation = useNavigation();
   const handleValidate = () => {
     navigation.navigate('EvaluationScreen')
   }
-    //récupération du token dans le store de l'utilisateur associé à la mission
-    const user = useSelector((state) => state.user.value);
 
-      ///////////////////////formatage date
+  //récupération du token dans le store de l'utilisateur associé à la mission
+  const user = useSelector((state) => state.user.value);
+
+  ///////////////////////formatage date
   //formatage de la date pour l'afficher sous format DD/MM/YYYYY
   const formatDate = (date) => {
     return moment(date).format('DD/MM/YYYY');
@@ -25,7 +27,6 @@ const ValidateMission = (props) => {
   const formatTime = (date) => {
     // Set l'heure à l'heure de la bonne timezone
     const newDate = moment(date).tz('Europe/Paris');
-  
     // Formater la nouvelle date
     return newDate.format('HH:mm');
   };
@@ -37,10 +38,22 @@ const ValidateMission = (props) => {
 
     const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
-    /// a revoir
-
+  
+  if (user.isParent){
     useEffect(() => {
-      fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${user.token}}`) //récupère infos de l'aidant 
+      fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${user.token}`) //récupère infos de l'aidant 
+        .then(response => response.json())
+        .then(data => {
+          if (data.result) {
+            setUserParent(data);
+          }
+        });
+    }, []);
+
+  }
+  if (!user.isParent){
+    useEffect(() => {
+      fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${user.token}`) //récupère infos de l'aidant 
         .then(response => response.json())
         .then(data => {
           if (data.result) {
@@ -48,39 +61,38 @@ const ValidateMission = (props) => {
           }
         });
     }, []);
-
-
+  }
       
 
-return (
-<View contentContainerStyle={styles.container}>
-    <View style={styles.onGoingChatContainter}>
-        <View style={styles.leftContainter}>
-        <Image source={require("../assets/aidant.png")} style={{ width: 90, height: 90, borderRadius: 50, marginBottom: 15 }} />
-        <TouchableOpacity style={styles.button} onPress={handleValidate}>
-            <Text style={styles.buttonText}>Evaluer</Text>
-        </TouchableOpacity>
-        </View>
-        <View style={styles.textContainer}>
-            <Text style={styles.nameText} >Du 03/06 à 09h</Text>
-            <Text style={styles.nameText} >Au 03/06 à 18h</Text>
-            <View style={{flexDirection:"row", marginTop: 5}}>
-              <Text style={styles.nameText}>Emma</Text>
-              <Text style={styles.nameText}>Lorrain</Text>
+  return (
+    <View contentContainerStyle={styles.container}>
+        <View style={styles.onGoingChatContainter}>
+            <View style={styles.leftContainter}>
+            <Image source={{uri: props.photo}} style={{ width: 90, height: 90, borderRadius: 50, marginBottom: 15 }} />
+            <TouchableOpacity style={styles.button} onPress={handleValidate}>
+                <Text style={styles.buttonText}>Evaluer</Text>
+            </TouchableOpacity>
             </View>
-            <Text style={styles.nameText}>0679751590</Text>
-            
-            <View style={{flexDirection:"row"}}>
-              <Text style={styles.nameText}>Paris</Text>
-              <Text style={styles.nameText}>75015</Text>
+            <View style={styles.textContainer}>
+                <Text style={styles.nameText} >Du {formatDate(props.startingDay)} à {formatTime(props.startingHour)}</Text>
+                <Text style={styles.nameText} >Au {formatDate(props.endingDay)} à {formatTime(props.endingHour)}</Text>
+                <View style={{flexDirection:"row", marginTop: 5}}>
+                  <Text style={styles.nameText}>{props.firstName}</Text>
+                  <Text style={styles.nameText}>{props.name}</Text>
+                </View>
+                <Text style={styles.nameText}>{props.phone}</Text>
+                
+                <View style={{flexDirection:"row"}}>
+                  <Text style={styles.nameText}>{props.city}</Text>
+                  <Text style={styles.nameText}>{props.zip}</Text>
+                </View>
+                <Text style={styles.nameText}>{props.adress}</Text>
+                <Text style={styles.nameText}>Total: {props.numberOfHour} x {props.rate} = {props.amount}€</Text>
             </View>
-            <Text style={styles.nameText}>{props.adress}</Text>
-            <Text style={styles.nameText}>Total: 9 x 28 = 252€</Text>
-        </View>
 
+        </View>
     </View>
-</View>
-    );
+  );
 };
 
 const windowHeight = Dimensions.get('window').height;
