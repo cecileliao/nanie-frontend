@@ -15,24 +15,6 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('Inscription')} style={styles.button} activeOpacity={0.8}>
         <Text style={styles.textButton}>Inscription</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity onPress={() => navigation.navigate('MissionScreen1')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>MissionScreen1</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('MissionScreen2')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>MissionScreen2</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('ParentDisplayProfilScreen')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>ParentDisplayProfilScreen</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('AvisScreen')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>AvisScreen</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('AidantDisplayProfilScreen')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>AidantDisplayProfilScreen</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('ConversationScreen')} style={styles.button} activeOpacity={0.8}>
-        <Text style={styles.textButton}>ConversationScreen</Text>
-      </TouchableOpacity> */}
       </View>
     </View>
   )

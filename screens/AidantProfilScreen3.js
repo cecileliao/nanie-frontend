@@ -50,7 +50,7 @@ export default function AidantProfilScreen3({navigation}) {
   };
 
 
-  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
 
   useEffect(() => {
     dispatch(updateUser({

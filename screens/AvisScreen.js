@@ -1,13 +1,13 @@
-import { StyleSheet, View, Text,  Image, SafeAreaView, ScrollView } from 'react-native'
+import { StyleSheet, SafeAreaView, ScrollView } from 'react-native'
 import React from 'react';
 import Avis from "../components/Avis";
 
 export default function AvisScreen() {
   return (
     <SafeAreaView style={styles.container}>
-    <ScrollView>
-    <Avis/>
-    </ScrollView>
+      <ScrollView>
+        <Avis/>
+      </ScrollView>
     </SafeAreaView>
   )}
 

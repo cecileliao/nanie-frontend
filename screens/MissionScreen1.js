@@ -6,7 +6,7 @@ import ValidateMission from '../components/ValidateMission';
 
 export default function MissionScreen1() {
 
-  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
 
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
@@ -14,14 +14,16 @@ export default function MissionScreen1() {
 
   //récupération des informations des missions validées en BDD à l'aide du token de l'utilisateur
   useEffect(() => {
+    if (user?.token) {
     fetch(`http://${BACKEND_ADDRESS}/missionsValidated/${user.token}`)
       .then(response => response.json())
       .then(data => {
-        if (data) {
-          setMissionsInfos(data);
+        if (data.result) {
+          setMissionsInfos(data.missions);
         }
       });
-  }, []);
+    }
+  }, [user?.token]);
 
 
   //Création de ValidateMission en dehors du useEffect pour pouvoir le récupérer via le props dans le composant Disponibilité
@@ -84,21 +86,19 @@ export default function MissionScreen1() {
 
   return (
     <SafeAreaView style={styles.container}>
+      {missionsInfos && missionsInfos.length > 0 ? (
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-          {missionsInfos ? (
-          <View>
-            {EveryMission}
-          </View>
-            ) : (
-          <View>
-            <Image
-              source={require("../assets/missionsValidees.png")}
-              style={{width: windowWidth * 0.92, height: windowHeight * 0.33}}
-            />
-            <Text style={styles.text}>Vous n’avez pas encore de missions</Text>
-          </View>
-            )}
+        {EveryMission}
       </ScrollView>
+        ) : (
+      <View style={styles.noMissionContainer}>
+        <Image
+          source={require("../assets/missionsValidees.png")}
+          style={{width: windowWidth * 0.92, height: windowHeight * 0.33}}
+        />
+        <Text style={styles.text}>Vous n’avez pas encore de missions</Text>
+      </View>
+        )}
     </SafeAreaView>
   )
 }
@@ -112,9 +112,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   scrollContainer: {
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  noMissionContainer: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    height: windowHeight * 1.5,
   },
   text: {
     color: '#868686',

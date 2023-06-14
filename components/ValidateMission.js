@@ -36,7 +36,7 @@ const ValidateMission = (props) => {
   const [userAidant, setUserAidant] = useState(null);
   const [userParent, setUserParent] = useState(null);
 
-    const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+    const BACKEND_ADDRESS = '192.168.1.21:3000';
 
   
   if (user.isParent){

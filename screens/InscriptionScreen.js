@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Dimensions,
   Image,
@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import Checkbox from 'expo-checkbox';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateUser } from '../reducers/users';
 
 // Grabbed from emailregex.com
@@ -23,7 +23,6 @@ const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"
 
 export default function InscriptionScreen({ navigation }) {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.value);
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);

@@ -7,7 +7,7 @@ import 'moment/locale/fr';
 
 const Disponibilite = (props) => {
 
-  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
   
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch()

@@ -13,7 +13,7 @@ export default function CalendarScreen1() {
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);
 
-  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
   
   //récupération info user du reducer
   const dispatch = useDispatch();
@@ -77,8 +77,7 @@ export default function CalendarScreen1() {
   };
 
 
-  ///////////////Affichage des dates validées
-
+///////////////Affichage des dates validées
 
 useEffect(() => {
   fetch(`http://${BACKEND_ADDRESS}/aidantUsers/dispos/${user.token}`)

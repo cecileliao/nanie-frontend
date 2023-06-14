@@ -74,7 +74,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
-const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+const BACKEND_ADDRESS = '192.168.1.21:3000';
 
 function getHeaderTitle(route) {
   // If the focused route is not found, we need to assume it's the initial screen
@@ -103,7 +103,7 @@ const TabNavigator = () => {
   const userData = useSelector((state) => state.user.value);
   const [isParent, setIsParent] = useState(false);
   useEffect(() => {
-    if (userData.token){
+    if (userData?.token){
       fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${userData.token}`)
         .then(response => response.json())
         .then(data => {
@@ -116,16 +116,16 @@ const TabNavigator = () => {
             fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${userData.token}`)
             .then(response => response.json())
             .then(data => {
-              if (data.result && data.Parentinfos.token) {
+              if (data.result && data.Aidantinfos.token) {
                 setIsParent(false)
-                //Parentinfos vient de la route GET
+                //Aidantinfos vient de la route GET
                 //besoin de l'appeler pour afficher données 
               }
           })
           }
         })
     }
-  }, []);
+  }, [userData?.token]);
 
   return (
     <Tab.Navigator
@@ -253,45 +253,42 @@ export default function App() {
   // fonction Stack pour afficher le header sauf dans la page home
   const HomeStackNavigator = () => {
 
-    const dispatch = useDispatch();
-
     // bloc de code pour obtenir l'état isParent
     const userData = useSelector((state) => state.user.value);
     const [isParent, setIsParent] = useState(false);
+
     useEffect(() => {
       if (userData.token){
         fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${userData.token}`)
-          .then(response => response.json())
-          .then(data => {
-            console.log('isParent', isParent)
-            console.log('dataparent', data)
-            if (data.result && data.Parentinfos.token) {
-              dispatch(addIdMission(userData))
-              setIsParent(true)
-            }         
-            else {
-              fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${userData.token}`)
-              .then(response => response.json())
-              .then(data => {
-                console.log('isParent', isParent)
-                console.log('dataaidant', data)
-                if (data.result && data.Aidantinfos.token) {
-                  dispatch(addIdMission(userData))
-                  setIsParent(false)
-                }
+        .then(response => response.json())
+        .then(data => {
+          // console.log('isParent PARENT STACK', isParent)
+          // console.log('dataparent', data)
+          if (data.result && data.Parentinfos.token) {
+            setIsParent(true)
+          }         
+          else {
+            fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${userData.token}`)
+            .then(response => response.json())
+            .then(data => {
+              // console.log('isParent AIDANT STACK', isParent)
+              // console.log('dataaidant', data)
+              if (data.result && data.Aidantinfos.token) {
+                setIsParent(false)
+              }
             })
             .catch(error => {
               console.log('Erreur lors de la requête pour les informations de l\'aidant:', error);
               // Gérer l'erreur ici, par exemple, afficher un message d'erreur ou effectuer une action spécifique
             });
-        }
-      })
-      .catch(error => {
-        console.log('Erreur lors de la requête pour les informations du parent:', error);
-        // Gérer l'erreur ici, par exemple, afficher un message d'erreur ou effectuer une action spécifique
-      });
-  }
-}, []);
+          }
+        })
+        .catch(error => {
+          console.log('Erreur lors de la requête pour les informations du parent:', error);
+          // Gérer l'erreur ici, par exemple, afficher un message d'erreur ou effectuer une action spécifique
+        });
+      }
+    }, [userData.token]);
 
 
 

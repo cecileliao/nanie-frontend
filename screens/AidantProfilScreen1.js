@@ -10,7 +10,7 @@ import * as ImagePicker from "expo-image-picker";
 
 export default function AidantProfilScreen1({ navigation }) {
 
-  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+  const BACKEND_ADDRESS = '192.168.1.21:3000';
 
   //récupération info user au moment d'appuyer sur le bouton suivant
     const dispatch = useDispatch();

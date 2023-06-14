@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
   },
   chatContainer: {
     flex: 1,
-    width: windowWidth * 0.95
+    width: windowWidth * 0.95,
+    backgroundColor: 'white',
   },
   parentChat: {
     width: '85%',
