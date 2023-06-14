@@ -7,7 +7,7 @@ import { deleteMission } from '../reducers/users';
 
 export default function MessageScreen() {
 
-  const BACKEND_ADDRESS = '192.168.1.21:3000';
+  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
   // récupérer infos du réducer pour user
   const user = useSelector((state) => state.user.value)

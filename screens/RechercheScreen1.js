@@ -13,7 +13,7 @@ import Slider from '@react-native-community/slider';
 
 export default function RechercheScreen1({ navigation }) {
 
-  const BACKEND_ADDRESS = '192.168.1.21:3000';
+  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();

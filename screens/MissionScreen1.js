@@ -6,7 +6,7 @@ import ValidateMission from '../components/ValidateMission';
 
 export default function MissionScreen1() {
 
-  const BACKEND_ADDRESS = '192.168.1.21:3000';
+  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
   //récupération du token dans le store quand l'utilisateur se connecte
   const user = useSelector((state) => state.user.value);

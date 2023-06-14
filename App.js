@@ -74,7 +74,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
-const BACKEND_ADDRESS = '192.168.1.21:3000';
+const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
 function getHeaderTitle(route) {
   // If the focused route is not found, we need to assume it's the initial screen

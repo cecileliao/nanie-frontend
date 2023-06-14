@@ -15,7 +15,7 @@ export default function AidantDisplayProfilScreen({navigation}) {
     const user = useSelector((state) => state.user.value);
     const dispatch = useDispatch()
 
-    const BACKEND_ADDRESS = '192.168.1.21:3000';
+    const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
     useEffect(() => {
       fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${user.token}`)

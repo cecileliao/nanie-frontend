@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 
 export default function OnGoingChat(props) {
 
-  const BACKEND_ADDRESS = '192.168.1.21:3000';
+  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
   const dispatch = useDispatch();
 

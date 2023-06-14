@@ -7,7 +7,7 @@ import 'moment/locale/fr';
 
 export default function Mission(props) {
 
-  const BACKEND_ADDRESS = '192.168.1.21:3000';
+  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
   const [missionInfos, setMissionInfos] = useState(null);
 
