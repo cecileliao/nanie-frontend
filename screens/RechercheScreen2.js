@@ -1,31 +1,25 @@
 import { View, Image, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native'
-import React, { useEffect }  from 'react'
+import React  from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { addToken } from '../reducers/token';
 import { showHeart } from '../modules/showHeart';
-import moment from 'moment';
-import 'moment/locale/fr';
 
 export default function RechercheScreen2({navigation}) {
-  const dispatch = useDispatch()
 
-  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+  const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch();
 
-const user = useSelector((state) => state.user.value);
+  const handleSelect = (token) => {
+    dispatch(addToken(token)) // dispatch le token de l'aidant sur lequel on onPress pour récupérer les infos sur l'écran suivant
+    navigation.navigate('ShownProfilAidant')
+  }
 
-const handleSelect = (token) => {
-  dispatch(addToken(token))
-  navigation.navigate('ShownProfilAidant')
-}
-
-const searchDispo = user.searchResult.map((data, index) => {
-
-
- return (
-  <View style={styles.container}>
-    <TouchableOpacity style={styles.block} key={index} onPress={() => handleSelect(data.token)}>
+  const searchDispo = user.searchResult.map((data, index) => {
+    return (
+      <View style={styles.container} key={index}>
+        <TouchableOpacity style={styles.block} key={index} onPress={() => handleSelect(data.token)}>
           <View style={styles.image}>
-            <Image source={{url:data.photo}} style={{ width: 50, height: 50, borderRadius: 50 }} />
+            <Image source={{uri:data.photo}} style={{ width: 50, height: 50, borderRadius: 50 }} />
           </View>
           <View style={styles.content}>
             <View style={styles.infos}>
@@ -33,28 +27,29 @@ const searchDispo = user.searchResult.map((data, index) => {
               <Text style={styles.text}>{data.missions} missions Nanie</Text>
               <Text style={styles.text}>Avis: {data.averageNote} / 5</Text>
               <View style={styles.heartsContainer}>
-                  {showHeart(data.averageNote)}
+                {showHeart(data.averageNote)}
               </View>
             </View>
-    </View>
-    <View style={styles.contentRight}>
-          <View style={styles.circle}>
-            <Text style={styles.texteRate}>{data.aidant.rate}€/hr</Text>
           </View>
-    </View>
-  </TouchableOpacity>
-  </View> 
-  )
-});
+          <View style={styles.contentRight}>
+            <View style={styles.circle}>
+              <Text style={styles.texteRate}>{data.aidant.rate}€/hr</Text>
+            </View>
+          </View>
+      </TouchableOpacity>
+      </View> 
+    )
+  });
 
 
   return (
     <SafeAreaView style={styles.safeArea}>
-    <ScrollView>
-    {searchDispo}
-    </ScrollView>
+      <ScrollView>
+        {searchDispo}
+      </ScrollView>
     </SafeAreaView>
   );
+
 }
 
 

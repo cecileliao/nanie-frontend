@@ -1,19 +1,44 @@
 import React from 'react'
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
 import { addIdMission } from '../reducers/users';
-
+import { useDispatch } from 'react-redux';
 
 
 export default function OnGoingChat(props) {
 
+  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+
   const dispatch = useDispatch();
+
   const navigation = useNavigation();
   const handlePress = () => {
-    dispatch(addIdMission(props))
-    navigation.navigate('ChatScreen')
+    dispatch(addIdMission({ idMission: props.idMission }))
+    navigation.navigate('ChatScreen', { idMission: props.idMission })
   }
+
+
+  const handleDelete = () => {
+    fetch(`http://${BACKEND_ADDRESS}/missions/${props.idMission}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idMission: props.idMission }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.result) {
+          console.log("La mission a été supprimée avec succès"); // suppression dans la BDD
+          props.onDelete(); // Appeler la fonction onDelete du composant parent
+        } else {
+          // La mission n'a pas été supprimée
+          console.error(data.error);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
 
 //numberOfLines est une prop (propriété) qui spécifie le nombre de lignes de texte à afficher avant de tronquer le contenu
 
@@ -22,19 +47,19 @@ return (
   <TouchableOpacity onPress={()=> handlePress()}>
 
     <View style={styles.onGoingChatContainter}>
-    <Image source={{ uri: props.photo }} style={{ width: 60, height: 60, borderRadius: 50, marginLeft: 5 }} />
-    <View style={styles.textContainer}>
-        <Text>{props.dateMsg}</Text>
-        <Text style={styles.nameText}>{props.firstName} {props.name}</Text>
-        <Text
-        numberOfLines={Math.floor(50 / 16)}
-        style={styles.text}>{props.contentMsg}
-        </Text>
-    </View>
-    <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Supprimer</Text>
-      </TouchableOpacity>
+      <Image source={{ uri: props.photo }} style={{ width: 60, height: 60, borderRadius: 50, marginLeft: 5 }} />
+      <View style={styles.textContainer}>
+          <Text>{props.dateMsg}</Text>
+          <Text style={styles.nameText}>{props.firstName} {props.name}</Text>
+          <Text
+          numberOfLines={Math.floor(50 / 16)}
+          style={styles.text}>{props.contentMsg}
+          </Text>
       </View>
+      <TouchableOpacity style={styles.button} onPress={()=> handleDelete()}>
+          <Text style={styles.buttonText}>Supprimer</Text>
+      </TouchableOpacity>
+    </View>
 
   </TouchableOpacity>
 </View>

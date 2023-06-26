@@ -77,8 +77,7 @@ export default function CalendarScreen1() {
   };
 
 
-  ///////////////Affichage des dates validées
-
+///////////////Affichage des dates validées
 
 useEffect(() => {
   fetch(`http://${BACKEND_ADDRESS}/aidantUsers/dispos/${user.token}`)

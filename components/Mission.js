@@ -12,12 +12,12 @@ export default function Mission(props) {
   const [missionInfos, setMissionInfos] = useState(null);
 
   useEffect(() => {
-    // Effectuez une requête au backend pour récupérer les informations de la mission
+    // Effectue une requête au backend pour récupérer les informations de la mission
     fetch(`http://${BACKEND_ADDRESS}/DetailsMission/${props.idMission}`)
       .then(response => response.json())
       .then(data => {
         if (data.result) {
-          // Mettez à jour l'état local avec les informations de la mission
+          // Met à jour l'état local avec les informations de la mission
           setMissionInfos(data);
         }
       });
@@ -34,7 +34,7 @@ export default function Mission(props) {
     navigation.navigate('TabNavigator', { screen: 'Message' });
   }
 
-  ///////////////////////formatage date
+  // FORMAT DATE
   //formatage de la date pour l'afficher sous format DD/MM/YYYYY
   const formatDate = (date) => {
     return moment(date).format('DD/MM/YYYY');
@@ -54,13 +54,13 @@ export default function Mission(props) {
       <View style={styles.dispocontainer}>
         <View style={styles.debutfincontainer}>
           <Text style={styles.textTitleDebutFin}>Debut</Text>
-          <Text style={styles.textStart}>{formatDate(missionInfos?.Aidantinfos?.startingDay)}</Text>
-          <Text style={styles.textStartHour}>{formatTime(missionInfos?.Aidantinfos?.startingHour)}</Text>
+          <Text style={styles.textStart}>{formatDate(missionInfos?.infos?.startingDay)}</Text>
+          <Text style={styles.textStartHour}>{formatTime(missionInfos?.infos?.startingHour)}</Text>
         </View>
         <View style={styles.debutfincontainer}>
           <Text style={styles.textTitleDebutFin}>Fin</Text>
-          <Text style={styles.textEndDay}>{formatDate(missionInfos?.Aidantinfos?.endingDay)}</Text>
-          <Text style={styles.textEndHour}>{formatTime(missionInfos?.Aidantinfos?.endingHour)}</Text>
+          <Text style={styles.textEndDay}>{formatDate(missionInfos?.infos?.endingDay)}</Text>
+          <Text style={styles.textEndHour}>{formatTime(missionInfos?.infos?.endingHour)}</Text>
         </View>
       </View>   
           <View style={styles.right}>

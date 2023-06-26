@@ -16,36 +16,40 @@ export default function MissionScreen2({navigation}) {
 
   //récupérer infos de la mission
   useEffect(() => {
-    fetch(`http://${BACKEND_ADDRESS}/DetailsMission/${user.idMission}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.result) {
-          setMissionInfos(data);
-        }
-      });
+    if (user.idMission){
+      fetch(`http://${BACKEND_ADDRESS}/DetailsMission/${user.idMission}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.result) {
+            setMissionInfos(data);
+          }
+        });
+    }
   }, []);
 
   //validation de la mission
   handleValidateMission = () => {
-
-    //mise à jour du isValidate dans la collection Mission
-    fetch(`http://${BACKEND_ADDRESS}/missions/validate/${user.idMission}`, {
-      method: 'PUT',
-    })
-      .then(response => response.json())
-      .then(data => {
-        // Gérer la réponse JSON retournée par le serveur
-        //console.log(data); // Afficher la réponse JSON dans la console
+    if (user.idMission) {
+      //mise à jour du isValidate dans la collection Mission
+      fetch(`http://${BACKEND_ADDRESS}/missions/validate/${user.idMission}`, {
+        method: 'PUT',
       })
-      .catch(error => {
-        // Gérer les erreurs de requête ou de réponse
-        console.error(error);
-      });
-      
-      navigation.navigate('TabNavigator' , { screen: 'Mission' });
+        .then(response => response.json())
+        .then(data => {
+          // Gérer la réponse JSON retournée par le serveur
+          //console.log(data); // Afficher la réponse JSON dans la console
+        })
+        .catch(error => {
+          // Gérer les erreurs de requête ou de réponse
+          console.error(error);
+          res.status(500).json({ error: `Une erreur s'est produite lors de la validation de la mission.` })
+        });
+        
+        navigation.navigate('TabNavigator' , { screen: 'Mission' });
+    }
   }
 
-  ///////////////////////formatage date
+  // FORMAT DATE
   //formatage de la date pour l'afficher sous format DD/MM/YYYYY
   const formatDate = (date) => {
     return moment(date).format('DD/MM/YYYY');
@@ -66,13 +70,13 @@ export default function MissionScreen2({navigation}) {
             <Text style={styles.textRappel}>Rappel de la mission</Text>
             <View style={styles.debutfincontainer}>
                 <Text style={styles.textTitleDebutFin}>Debut</Text>
-                <Text style={styles.textStart}>{formatDate(missionInfos?.Aidantinfos?.startingDay)}</Text>
-                <Text style={styles.textStartHour}>{formatTime(missionInfos?.Aidantinfos?.startingDay)}</Text>
+                <Text style={styles.textStart}>{formatDate(missionInfos?.infos?.startingDay)}</Text>
+                <Text style={styles.textStartHour}>{formatTime(missionInfos?.infos?.startingDay)}</Text>
             </View>
             <View style={styles.debutfincontainer}>
                 <Text style={styles.textTitleDebutFin}>Fin</Text>
-                <Text style={styles.textEndDay}>{formatDate(missionInfos?.Aidantinfos?.endingDay)}</Text>
-                <Text style={styles.textEndHour}>{formatTime(missionInfos?.Aidantinfos?.endingDay)}</Text>
+                <Text style={styles.textEndDay}>{formatDate(missionInfos?.infos?.endingDay)}</Text>
+                <Text style={styles.textEndHour}>{formatTime(missionInfos?.infos?.endingDay)}</Text>
             </View>
         </View>
       </View>
@@ -80,37 +84,37 @@ export default function MissionScreen2({navigation}) {
     <View style={styles.parenAidantContainer}>
       <View style={styles.aidant} >
         <Image 
-              source={{ uri: missionInfos?.Aidantinfos?.idAidant.photo }} 
+              source={{ uri: missionInfos?.infos?.idAidant.photo }} 
               style={styles.imageProfil} />
         <View style={{marginTop: 15}}>
           <View style={styles.name}>
-            <Text style={{fontSize: 17, fontFamily: 'Manrope', marginRight: 5}}>{missionInfos?.Aidantinfos?.idAidant.firstName}</Text>
-            <Text style={styles.text}>{missionInfos?.Aidantinfos?.idAidant.name}</Text>
+            <Text style={{fontSize: 17, fontFamily: 'Manrope', marginRight: 5}}>{missionInfos?.infos?.idAidant.firstName}</Text>
+            <Text style={styles.text}>{missionInfos?.infos?.idAidant.name}</Text>
           </View>
           <View style={styles.name}>
-          <Text style={{fontSize: 17, fontFamily: 'Manrope', marginRight: 5}}>{missionInfos?.Aidantinfos?.idAidant.city}</Text>
-          <Text style={styles.text}>{missionInfos?.Aidantinfos?.idAidant.zip}</Text>
+          <Text style={{fontSize: 17, fontFamily: 'Manrope', marginRight: 5}}>{missionInfos?.infos?.idAidant.city}</Text>
+          <Text style={styles.text}>{missionInfos?.infos?.idAidant.zip}</Text>
           </View>
         </View>
       </View>
 
       <View style={styles.parent}>
         <Image 
-              source={{ uri: missionInfos?.Aidantinfos?.idParent.photo }} 
+              source={{ uri: missionInfos?.infos?.idParent.photo }} 
               style={styles.imageProfil} />
         <View style={{marginTop: 15}}>
           <View style={styles.name}>
-            <Text style={{fontSize: 17, fontFamily: 'Manrope', marginRight: 5}}>{missionInfos?.Aidantinfos?.idParent.parent.firstNameParent}</Text>
-            <Text style={styles.text}>{missionInfos?.Aidantinfos?.idParent.parent.nameParent}</Text>
+            <Text style={{fontSize: 17, fontFamily: 'Manrope', marginRight: 5}}>{missionInfos?.infos?.idParent.parent.firstNameParent}</Text>
+            <Text style={styles.text}>{missionInfos?.infos?.idParent.parent.nameParent}</Text>
           </View>
           <View style={styles.name}>
             <Text style={{fontSize: 17, fontFamily: 'Manrope', color:"#868686", marginRight: 5}}>Aîné:</Text>
-            <Text style={{fontSize: 17, fontFamily: 'Manrope', marginRight: 5}}>{missionInfos?.Aidantinfos?.idParent.firstName}</Text>
-            <Text style={styles.text}>{missionInfos?.Aidantinfos?.idParent.name}</Text>
+            <Text style={{fontSize: 17, fontFamily: 'Manrope', marginRight: 5}}>{missionInfos?.infos?.idParent.firstName}</Text>
+            <Text style={styles.text}>{missionInfos?.infos?.idParent.name}</Text>
           </View>
           <View style={styles.name}>
-            <Text style={{fontSize: 17, fontFamily: 'Manrope', marginRight: 5}}>{missionInfos?.Aidantinfos?.idParent.city}</Text>
-            <Text style={styles.text}>{missionInfos?.Aidantinfos?.idParent.zip}</Text>
+            <Text style={{fontSize: 17, fontFamily: 'Manrope', marginRight: 5}}>{missionInfos?.infos?.idParent.city}</Text>
+            <Text style={styles.text}>{missionInfos?.infos?.idParent.zip}</Text>
           </View>
         </View>
       </View>
@@ -119,14 +123,14 @@ export default function MissionScreen2({navigation}) {
     <View style={styles.priceContainer}>
       <View style={styles.price}>
         <Text style={{fontSize: 17, fontFamily: 'Manrope',color: "#868686",marginRight: 25}}>Taux horaire</Text>
-        <Text style={styles.text}>{missionInfos?.Aidantinfos?.rateByHour} €/heure</Text>
+        <Text style={styles.text}>{missionInfos?.infos?.rateByHour} €/heure</Text>
       </View>
       
-      <Text  style={{fontSize: 17, fontFamily: 'Manrope',marginLeft: 135}}>{missionInfos?.Aidantinfos?.numberOfHour} heures x {missionInfos?.Aidantinfos?.rateByHour} €</Text>
+      <Text  style={{fontSize: 17, fontFamily: 'Manrope',marginLeft: 135}}>{missionInfos?.infos?.numberOfHour} heures x {missionInfos?.infos?.rateByHour} €</Text>
       <View style={{borderWidth: 1, borderColor: '#5ABAB6', width: 150, marginTop: 10, marginLeft: 135}}></View>
       <View style={styles.price}>
         <Text style={{fontSize: 17, fontFamily: 'Manrope',color: "#868686",marginRight: 25}}>Total</Text>
-        <Text style={{fontSize: 17, fontFamily: 'Manrope',marginLeft: 58}}>{missionInfos?.Aidantinfos?.amount} €</Text>
+        <Text style={{fontSize: 17, fontFamily: 'Manrope',marginLeft: 58}}>{missionInfos?.infos?.amount} €</Text>
       </View>
     </View>
 

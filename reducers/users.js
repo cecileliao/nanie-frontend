@@ -31,7 +31,7 @@ const initialState = {
       //dans contact: nameParent, firstNameParent, shortBio, gemProfil
       isParent: false,
       idMission: null,
-      
+      missions: [],
     },
   };
   
@@ -77,7 +77,13 @@ reducers: {
     },
     addIdMission: (state, action) => {
       state.value.idMission = action.payload.idMission;
-    }
+    },
+    addMission: (state, action) => {
+      state.value.missions.push(action.payload);
+    },
+    deleteMission: (state, action) => {
+      state.value.missions = state.value.missions.filter(e => e.idMission!== action.payload);
+    },
 
     // filterDispo: (state, action) => {
       // state.value.availabilities = state.value.availabilities.filter(e => (e.startingDay === action.payload.startingDay) && (e.endingDay === action.payload.endingDay));
@@ -91,5 +97,5 @@ reducers: {
 },
 });
 
-export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo, addSearchDate, addSearchResult, removeSearchDate, displayProfil, addIdMission } = userSlice.actions;
+export const { login, logout, updateUser, addPhoto, removePhoto, removeDispo, addDispo , updateDispo, addSearchDate, addSearchResult, removeSearchDate, displayProfil, addIdMission, addMission, deleteMission } = userSlice.actions;
 export default userSlice.reducer;

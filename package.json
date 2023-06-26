@@ -9,6 +9,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.1.6",
+    "@babel/runtime": "^7.20.6",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
@@ -21,6 +23,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "6",
     "@reduxjs/toolkit": "^1.9.5",
+    "braces": "^2.3.1",
     "cd": "^0.3.3",
     "dotenv": "^16.0.3",
     "eas": "^0.1.0",
@@ -30,13 +33,15 @@
     "expo-constants": "^14.2.1",
     "expo-font": "^11.1.1",
     "expo-image-picker": "~14.1.1",
+    "expo-modules-autolinking": "~1.1.0 || ~1.2.0",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
-    "fast-xml-parser": "4.2.4",
     "expo-updates": "~0.16.4",
+    "fast-xml-parser": "^4.2.4",
+    "glob-parent": "^5.1.2",
     "install": "^0.13.0",
     "ios": "^0.0.1",
-    "json5": "1.0.2",
+    "json5": "^1.0.2",
     "link": "^1.5.1",
     "luxon": "^3.3.0",
     "moment": "^2.29.4",
@@ -57,8 +62,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-webview": "11.26.0",
     "react-redux": "^8.0.5",
-    "redux-persist": "^6.0.0",
-    "update": "^0.7.4"
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

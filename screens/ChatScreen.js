@@ -25,16 +25,16 @@ export default function ChatScreen() {
 
   // afficher avec le useEffect tous les messages déjà postés en base de données pour cette conversation (mission)
   useEffect(() => {
-  if (!user.token) {
-    return;
-  }
+    if (!user.token || !user.idMission) {
+      return;
+    }
 
-  fetch(`http://${BACKEND_ADDRESS}/messages/allmessages/${user.token}/${user.idMission}`)
+    fetch(`http://${BACKEND_ADDRESS}/messages/allmessages/${user.token}/${user.idMission}`)
     .then(response => response.json())
     .then(data => {
       data.result && dispatch(loadMessages(data.messages));
     });
-  }, [setNewMessage]);
+  }, [user.token, user.idMission]);
 
   
 
@@ -52,13 +52,13 @@ export default function ChatScreen() {
           const createdMessage = {
             ...data.message,
             author: {
-              firstName: user.firstName || '',
-              name: user.name || '',
-              isParent: user.isParent || false,
-              photo: user.photo || '',
+              firstName: data.message.author.firstName || '',
+              name: data.message.author.name || '',
+              isParent: data.message.author.isParent || false,
+              photo: data.message.author.photo || '',
             },
           };
-          dispatch(addMessage(createdMessage));
+          dispatch(addMessage({ ...createdMessage, isSending: true }));
           setNewMessage('');
         }
       });
@@ -67,15 +67,12 @@ export default function ChatScreen() {
 
   // scrollviewRef + KeyboardAwareScrollView pour voir l'input (remplace KeyboardAvoidingView)
   const scrollViewRef = useRef();
-
   const handleScrollToEnd = () => {
     scrollViewRef.current.scrollToEnd({ animated: true });
   };
 
   // definir les constantes pour les composants de messages (map de composant remplacée par data de flatlist)
-  const messagesData = useSelector((state) => state.messages.value);
-  const messages = messagesData || [];
-
+  const messages = useSelector((state) => state.messages.value) || [];
 
   return (
     <View contentContainerStyle={styles.container}>
@@ -90,17 +87,25 @@ export default function ChatScreen() {
         style={styles.bottomContainer}
       >
         <View style={styles.messageContainer}>
-        {messages.length > 0 && (
-          <FlatList
-            ref={scrollViewRef} // accéder à la ScrollView à l'intérieur de FlatList + méthode scrollToEnd() = défile auto liste vers le bas après ajout de message, dernier message reste visible sans avoir à scroller manuellement.
-            data={messages} // tableau des messages (messageData)
-            renderItem={({ item }) => <Chat {...item} />} // renvoi les composants Chat
-            keyExtractor={(item, index) => index.toString()} // indice
-            onContentSizeChange={() => handleScrollToEnd()}
-            onLayout={() => handleScrollToEnd()}
-            contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end', backgroundColor: 'green' }} // ajuste l'espacement entre les messages lorsqu'ils s'ajoute en bas
-          />
-        )}
+          {messages.length > 0 &&
+            <FlatList
+              ref={scrollViewRef} // accéder à la ScrollView à l'intérieur de FlatList + méthode scrollToEnd() = défile auto liste vers le bas après ajout de message, dernier message reste visible sans avoir à scroller manuellement.
+              data={messages} // tableau des messages (messageData)
+              renderItem={({ item }) => {
+                if (!item) {
+                  return <View style={styles.emptyContainer}></View>
+                } else if (item.isSending) {
+                  return <Chat {...item} author={{ ...item.author }} />;
+                } else {
+                  return <Chat {...item} />;
+                }
+              }} // renvoi les composants Chat
+              keyExtractor={(item, index) => index.toString()} // indice
+              onContentSizeChange={() => handleScrollToEnd()}
+              onLayout={() => handleScrollToEnd()}
+              contentContainerStyle={{ flexGrow: 1, justifyContent: 'flex-end' }} // ajuste l'espacement entre les messages lorsqu'ils s'ajoute en bas
+            />
+          }
         </View>
 
         <View style={styles.inputContainer}>
@@ -140,6 +145,11 @@ export default function ChatScreen() {
     messageContainer: {
       height: windowHeight * 0.60,
       flexDirection: 'column-reverse',
+      backgroundColor: 'white',
+    },
+    emptyContainer: {
+      flex: 1,
+      backgroundColor: 'white',
     },
     inputContainer: {
       height: windowHeight * 0.10,

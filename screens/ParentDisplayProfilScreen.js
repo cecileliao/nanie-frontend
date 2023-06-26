@@ -21,7 +21,6 @@ export default function ParentDisplayProfilScreen({navigation}) {
     fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${user.token}`)
       .then(response => response.json())
       .then(data => {
-
         if (data.result) {
           setUserParent(data);
         }
