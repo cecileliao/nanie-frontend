@@ -68,15 +68,12 @@ export default function AidantProfilScreen3({navigation}) {
 
   const handleValidate = () => {
 
-    // console.log('test',user.isParent)
-
     fetch(`http://${BACKEND_ADDRESS}/aidantUsers/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
     }).then(response => response.json())
       .then(data => {
-        // console.log(data)
         if(data.result) {
           dispatch(updateUser({token: data.token}))
           navigation.navigate('TabNavigator' , { screen: 'Profil' });

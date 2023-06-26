@@ -7,21 +7,6 @@ import 'moment/locale/fr';
 
 export default function MissionScreen2({navigation}) {
 
-  ///////////////////////formatage date
-  //formatage de la date pour l'afficher sous format DD/MM/YYYYY
-  const formatDate = (date) => {
-    return moment(date).format('DD/MM/YYYY');
-  };
-
-  //formatage de l'heure pour ne pas afficher les secondes
-  const formatTime = (date) => {
-    // Set l'heure à l'heure de la bonne timezone
-    const newDate = moment(date).tz('Europe/Paris');
-  
-    // Formater la nouvelle date
-    return newDate.format('HH:mm');
-  };
-
   const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
   const user = useSelector((state) => state.user.value);
@@ -31,11 +16,9 @@ export default function MissionScreen2({navigation}) {
 
   //récupérer infos de la mission
   useEffect(() => {
-    // console.log('search', user.idMission)
     fetch(`http://${BACKEND_ADDRESS}/DetailsMission/${user.idMission}`)
       .then(response => response.json())
       .then(data => {
-        // console.log("missionsinfo", data)
         if (data.result) {
           setMissionInfos(data);
         }
@@ -46,7 +29,6 @@ export default function MissionScreen2({navigation}) {
   handleValidateMission = () => {
 
     //mise à jour du isValidate dans la collection Mission
-    //console.log('search', user.idMission)
     fetch(`http://${BACKEND_ADDRESS}/missions/validate/${user.idMission}`, {
       method: 'PUT',
     })
@@ -63,7 +45,19 @@ export default function MissionScreen2({navigation}) {
       navigation.navigate('TabNavigator' , { screen: 'Mission' });
   }
 
+  ///////////////////////formatage date
+  //formatage de la date pour l'afficher sous format DD/MM/YYYYY
+  const formatDate = (date) => {
+    return moment(date).format('DD/MM/YYYY');
+  };
 
+  //formatage de l'heure pour ne pas afficher les secondes
+  const formatTime = (date) => {
+    // Set l'heure à l'heure de la bonne timezone
+    const newDate = moment(date).tz('Europe/Paris');
+    // Formater la nouvelle date
+    return newDate.format('HH:mm');
+  };
 
   return (
 <SafeAreaView style={styles.container}>

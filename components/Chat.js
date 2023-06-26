@@ -15,8 +15,6 @@ export default function Chat(props) {
   //récupérer infos du réducer pour user
   const user = useSelector((state) => state.user.value)
 
-  // console.log('propsChat', props)
-
   return (
     <View style={styles.container}>
       <View style={styles.chatContainer}>

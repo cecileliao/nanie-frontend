@@ -5,8 +5,6 @@ import { addToken } from '../reducers/token';
 import { showHeart } from '../modules/showHeart';
 import moment from 'moment';
 import 'moment/locale/fr';
-// import { useDispatch } from 'react-redux';
-// import { displayProfil } from '../reducers/users';
 
 export default function RechercheScreen2({navigation}) {
   const dispatch = useDispatch()
@@ -14,8 +12,6 @@ export default function RechercheScreen2({navigation}) {
   const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
 const user = useSelector((state) => state.user.value);
-// console.log('Coucou', user.searchResult)
-// console.log('test', user)
 
 const handleSelect = (token) => {
   dispatch(addToken(token))

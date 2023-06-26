@@ -89,7 +89,6 @@ export default function ParentProfilScreen2({ navigation }) {
       navigation.navigate('ParentProfilScreen3');
     }
   };
-  // console.log(user)
 
 
   return (

@@ -1,4 +1,3 @@
-
 //import { LogBox } from 'react-native';
 //LogBox.ignoreAllLogs();//Ignore all log notifications
 import { StyleSheet, TouchableOpacity, Text, View } from 'react-native'
@@ -34,7 +33,7 @@ import EvaluationScreen from "./screens/EvaluationScreen";
 import CalendarScreen1 from "./screens/CalendarScreen1";
 //ajout des modules pour importer les fonts
 import { useEffect, useState } from "react";
-import { useSelector} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 //mise en place des imports de Redux
@@ -43,6 +42,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import user from './reducers/users';
 import messages from './reducers/messages';
 import token from './reducers/token';
+import { addIdMission } from './reducers/users';
 // mise en place des imports de Redux Persist
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { persistStore, persistReducer } from 'redux-persist'
@@ -67,7 +67,6 @@ const store = configureStore({
 // const persistor = persistStore(store);
 
 
-//Fetch get find data.type; if data.result, setIsParent(true
 
 
 // définir les variables pour le tab et lav navigation stack
@@ -100,41 +99,33 @@ function getHeaderTitle(route) {
 //Tabnavigator
 const TabNavigator = () => {
 
+  //Fetch get find data.type; if data.result, setIsParent(true)
   const userData = useSelector((state) => state.user.value);
-  // console.log("coucou", userData);
   const [isParent, setIsParent] = useState(false);
-
   useEffect(() => {
     if (userData.token){
-      // console.log('token', userData.token)
       fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${userData.token}`)
         .then(response => response.json())
         .then(data => {
-          // console.log('data', data)
           if (data.result && data.Parentinfos.token) {
-            // console.log({ infosDataParent: data });
             setIsParent(true)
             //Parentinfos vient de la route GET
             //besoin de l'appeler pour afficher données 
-            //console.log({ infos: data.Parentinfos.token })
           }         
           else {
             fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${userData.token}`)
             .then(response => response.json())
             .then(data => {
               if (data.result && data.Parentinfos.token) {
-                // console.log({ infosDataAidant: data });
                 setIsParent(false)
                 //Parentinfos vient de la route GET
                 //besoin de l'appeler pour afficher données 
-                //console.log({ infos: userParent.Parentinfos.parent })
               }
           })
           }
         })
     }
   }, []);
-  // console.log('isParent', isParent)
 
   return (
     <Tab.Navigator
@@ -190,11 +181,13 @@ const TabNavigator = () => {
           <Tab.Screen name="Profil" component={ParentDisplayProfilScreen}
             options={({ navigation }) => ({
               headerRight: () => (
-                <TouchableOpacity onPress={() => navigation.navigate('ParentProfilScreen1')}>
-                  <View style={styles.button}>
-                    <Text style={styles.buttonTxt}>Editer</Text>
-                  </View>
-                </TouchableOpacity>
+                <View>
+                  <TouchableOpacity onPress={() => navigation.navigate('ParentProfilScreen1')}>
+                    <View style={styles.button}>
+                      <Text style={styles.buttonTxt}>Editer</Text>
+                    </View>
+                  </TouchableOpacity>
+                </View>
               ),
             })
           }        
@@ -261,6 +254,49 @@ export default function App() {
 
   // fonction Stack pour afficher le header sauf dans la page home
   const HomeStackNavigator = () => {
+
+    const dispatch = useDispatch();
+
+    // bloc de code pour obtenir l'état isParent
+    const userData = useSelector((state) => state.user.value);
+    const [isParent, setIsParent] = useState(false);
+    useEffect(() => {
+      if (userData.token){
+        fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${userData.token}`)
+          .then(response => response.json())
+          .then(data => {
+            console.log('isParent', isParent)
+            console.log('dataparent', data)
+            if (data.result && data.Parentinfos.token) {
+              dispatch(addIdMission(userData))
+              setIsParent(true)
+            }         
+            else {
+              fetch(`http://${BACKEND_ADDRESS}/aidantUsers/Infos/${userData.token}`)
+              .then(response => response.json())
+              .then(data => {
+                console.log('isParent', isParent)
+                console.log('dataaidant', data)
+                if (data.result && data.Aidantinfos.token) {
+                  dispatch(addIdMission(userData))
+                  setIsParent(false)
+                }
+            })
+            .catch(error => {
+              console.log('Erreur lors de la requête pour les informations de l\'aidant:', error);
+              // Gérer l'erreur ici, par exemple, afficher un message d'erreur ou effectuer une action spécifique
+            });
+        }
+      })
+      .catch(error => {
+        console.log('Erreur lors de la requête pour les informations du parent:', error);
+        // Gérer l'erreur ici, par exemple, afficher un message d'erreur ou effectuer une action spécifique
+      });
+  }
+}, []);
+
+
+
     return (
       <Stack.Navigator
       screenOptions={{
@@ -298,7 +334,7 @@ export default function App() {
         options={({ navigation }) => ({
           title: 'Conversation',
           headerRight: () => (
-            <TouchableOpacity onPress={() => navigation.navigate(isParent ? 'ShownProfilParent' : 'ShownProfilAidant')}>
+            <TouchableOpacity onPress={() => navigation.navigate(isParent ? 'ShownProfilAidant' : 'ShownProfilParent')}>
               <View style={styles.button}>
                 <Text style={styles.buttonTxt}>Voir profil</Text>
               </View>

@@ -1,9 +1,9 @@
 import { View, Image, Text, SafeAreaView, ScrollView, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import React, { useState, useEffect }  from 'react';
-import { useSelector, useDispatch} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../reducers/users';
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { showHeart } from '../modules/showHeart';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export default function ParentDisplayProfilScreen({navigation}) {
 
@@ -55,7 +55,7 @@ export default function ParentDisplayProfilScreen({navigation}) {
                 source={{ uri: userParent?.Parentinfos?.photo }} 
                 style={styles.imageProfil} />
                 <TouchableOpacity onPress={handleLogout}>
-                    <Text style={styles.textAvis}>Deconnexion</Text>
+                    <Text style={{fontFamily:"Manrope", color: "#C8716E", fontSize:13}} >Deconnexion</Text>
                 </TouchableOpacity>
             </View>
 
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   profilcontainer: {
     marginLeft: 10,
     marginRight: 10,
-    width: windowWidth * 0.70,
+    width: windowWidth * 0.66,
   },
   inputcontainer: {
     margin: 15,
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     width: windowHeight * 0.12,
     height: windowWidth * 0.26,
     borderRadius: 50,
-    marginBottom: 10
+    marginBottom: 5
     },
   imageAlimentation: {
     height: windowHeight * 0.035,

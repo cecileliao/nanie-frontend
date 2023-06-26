@@ -7,7 +7,7 @@ import { showHeart } from '../modules/showHeart';
 
 export default function ShownProfilParent({ navigation }) {
 
-  const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
+const BACKEND_ADDRESS = 'nanie-backend.vercel.app';
 
 //stocker les données utilisateur et les afficher au chargement de la page
 const [userParent, setUserParent] = useState(null);
@@ -17,9 +17,8 @@ const token = useSelector((state) => state.token.value)
 const dispatch = useDispatch();
 
 
-
+// Chemin 1 : récupère les données du profil pour l'affichage du profil depuis l'icone Profil
 useEffect(() => {
-
   fetch(`http://${BACKEND_ADDRESS}/parentUsers/Infos/${token.token}`)
     .then((response) => response.json())
     .then((data) => {
@@ -29,8 +28,24 @@ useEffect(() => {
     });
 }, []);
 
+
+// Chemin 2: Récupère les informations pour afficher le profil depuis le bouton Voir Profil d'une conversation
+if (user.idMission) {
+  useEffect(() => {
+    // Effectuez une requête au backend pour récupérer les informations de la mission
+    fetch(`http://${BACKEND_ADDRESS}/DetailsMission/${user.idMission}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          // Mettez à jour l'état local avec les informations de la mission
+          setUserParent(data.Aidantinfos.idParent);
+        }
+      });
+  }, []);
+}
+
+// Bouton Contacter
   const handleValidate = () => {
-    // console.log('mar', user.searchDate.startingDay)
         fetch(`http://${BACKEND_ADDRESS}/missions/${user.token}/${user.searchResult[0].token}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -42,10 +57,8 @@ useEffect(() => {
           }),
         }).then(response => response.json())
           .then(data => {
-            //console.log("Camille", data)
             if(data.result) {
               dispatch(addIdMission({idMission: data._id}))
-            //   console.log('hello', dispatch(addIdMission({idMission: data._id})))
             navigation.navigate('ChatScreen');
             }
             

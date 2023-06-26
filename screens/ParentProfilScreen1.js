@@ -100,7 +100,6 @@ export default function ParentProfilScreen1({ navigation }) {
   
   // fonction bouton Suivant 
     const handleNext = () => {
-      // console.log(nameParent)
       if (!validateTel(phone)) {
         setPhoneError(true);
       } else {
@@ -115,83 +114,84 @@ export default function ParentProfilScreen1({ navigation }) {
         navigation.navigate('ParentProfilScreen2');
       }
     };
-// console.log(user)
+    
+
   return (
-  <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : null} style={styles.container}>
 
-      {/* image de profil */}
-      <View style={styles.imageProfil}>
-        <TouchableOpacity onPress={handleImageUpload}>
-        <Image source={photo ? { uri: photo } : require("../assets/userPicture.png")}
-            style={{ width: 96, height: 96, margin: 20, borderRadius: 50 }} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.photoText} onPress={handleImageUpload}>
-          <Text>Ajouter/modifier une photo de famille.</Text>
-          <Text>Vous avec votre Parent</Text>
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.title}>Mon profil de proche {'('}contact{')'}</Text>
-        {/* nom du Parent */}
-        <View style={styles.containerInput}>
-            <Text>Nom</Text>
-            <TextInput 
-              style={styles.input} 
-              value={nameParent}
-              onChangeText={value => setNameParent(value)} 
-              placeholder="Nom"
-              placeholderTextColor="#868686" />
-        </View>
-        {/* prénom du Parent */}
-        <View style={styles.containerInput}>
-            <Text>Prénom</Text>
-            <TextInput 
-              style={styles.input} 
-              value={firstNameParent}
-              onChangeText={value => setFirstNameParent(value)} 
-              placeholder="Prénom"
-              placeholderTextColor="#868686" />
-        </View>
-        {/* téléphone du parent */}
-        <View style={styles.containerInput}>
-            <Text>Téléphone</Text>
-            <TextInput
-              style={styles.input}
-              value={phone}
-              onChangeText={value => setPhone(value)} 
-              placeholder="Téléphone"
-              placeholderTextColor="#868686"/>
-        </View>
-        {phoneError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Téléphone non valide</Text>}
-
-        {/* Présentation courte */}
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.title}>Présentation courte</Text>
-          <TextInput
-              style={styles.longinput}
-              value={shortBio}
-              onChangeText={value => setShortbio(value)}
-              placeholder="Description de mes liens et ma relation avec l’aîné ..."
-              placeholderTextColor="#868686"
-              textAlignVertical="top" //sur android pour center le placeholder en haut
-              multiline={true} //sur ios pour center le placeholder en haut
-              maxLength={300} //taille max de la phrase
-          />
-          <View style={styles.characterCountContainer}>
-            <Text style={styles.characterCountText}>{shortbioRemainingCharacters}</Text>
-          </View>
-        </View>
-      
-        {/* Bouton suivant */}
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={handleNext}>
-            <Text style={styles.buttonText}>Suivant</Text>
+        {/* image de profil */}
+        <View style={styles.imageProfil}>
+          <TouchableOpacity onPress={handleImageUpload}>
+          <Image source={photo ? { uri: photo } : require("../assets/userPicture.png")}
+              style={{ width: 96, height: 96, margin: 20, borderRadius: 50 }} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.photoText} onPress={handleImageUpload}>
+            <Text>Ajouter/modifier une photo de famille.</Text>
+            <Text>Vous avec votre Parent</Text>
           </TouchableOpacity>
         </View>
+
+        <Text style={styles.title}>Mon profil de proche {'('}contact{')'}</Text>
+          {/* nom du Parent */}
+          <View style={styles.containerInput}>
+              <Text>Nom</Text>
+              <TextInput 
+                style={styles.input} 
+                value={nameParent}
+                onChangeText={value => setNameParent(value)} 
+                placeholder="Nom"
+                placeholderTextColor="#868686" />
+          </View>
+          {/* prénom du Parent */}
+          <View style={styles.containerInput}>
+              <Text>Prénom</Text>
+              <TextInput 
+                style={styles.input} 
+                value={firstNameParent}
+                onChangeText={value => setFirstNameParent(value)} 
+                placeholder="Prénom"
+                placeholderTextColor="#868686" />
+          </View>
+          {/* téléphone du parent */}
+          <View style={styles.containerInput}>
+              <Text>Téléphone</Text>
+              <TextInput
+                style={styles.input}
+                value={phone}
+                onChangeText={value => setPhone(value)} 
+                placeholder="Téléphone"
+                placeholderTextColor="#868686"/>
+          </View>
+          {phoneError && <Text style={{color:"red", textAlign: "center", marginBottom: 10}}>Téléphone non valide</Text>}
+
+          {/* Présentation courte */}
+          <View style={styles.descriptionContainer}>
+            <Text style={styles.title}>Présentation courte</Text>
+            <TextInput
+                style={styles.longinput}
+                value={shortBio}
+                onChangeText={value => setShortbio(value)}
+                placeholder="Description de mes liens et ma relation avec l’aîné ..."
+                placeholderTextColor="#868686"
+                textAlignVertical="top" //sur android pour center le placeholder en haut
+                multiline={true} //sur ios pour center le placeholder en haut
+                maxLength={300} //taille max de la phrase
+            />
+            <View style={styles.characterCountContainer}>
+              <Text style={styles.characterCountText}>{shortbioRemainingCharacters}</Text>
+            </View>
+          </View>
         
-    </KeyboardAvoidingView>
-  </TouchableWithoutFeedback>
+          {/* Bouton suivant */}
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={handleNext}>
+              <Text style={styles.buttonText}>Suivant</Text>
+            </TouchableOpacity>
+          </View>
+          
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
     
   )
 }
