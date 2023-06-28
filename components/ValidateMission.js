@@ -11,7 +11,7 @@ const ValidateMission = (props) => {
 
   const navigation = useNavigation();
   const handleValidate = () => {
-    navigation.navigate('EvaluationScreen')
+    navigation.navigate('EvaluationScreen', { photo: props.photo, firstName: props.firstName, lastName: props.name })
   }
 
   //récupération du token dans le store de l'utilisateur associé à la mission
